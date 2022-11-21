@@ -20,13 +20,13 @@ class PointCollection {
    * @return {Promise<HydratedDocument<Point>>} - The newly created Point
    */
   static async addOne(xLocation: number, yLocation: number): Promise<HydratedDocument<Point>> {
-    const Point = new PointModel({
+    const point = new PointModel({
       xLocation,
       yLocation,
       annotations: []
     });
-    await Point.save(); // Saves Point to MongoDB
-    return Point.populate('annotations');
+    await point.save(); // Saves Point to MongoDB
+    return point.populate('annotations');
   }
 
   /**

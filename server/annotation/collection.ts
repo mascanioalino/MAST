@@ -1,8 +1,7 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {Annotation} from './model';
 import AnnotationModel from './model';
-import UserCollection from '../user/collection';
-import CuratorCollection from 'server/curator/collection';
+import CuratorCollection from '../curator/collection';
 
 /**
  * This files contains a class that has the functionality to explore Annotations
