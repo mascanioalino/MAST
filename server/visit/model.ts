@@ -1,6 +1,7 @@
 import type {Types} from 'mongoose';
 import {Schema, model} from 'mongoose';
-import type {User} from '../user/model';
+import type {Curator} from '../curator/model';
+import type {Work} from '../work/model';
 
 /**
  * This file defines the properties stored in a Visit
@@ -10,18 +11,18 @@ import type {User} from '../user/model';
 // Type definition for Visit on the backend
 export type Visit = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  authorId: Types.ObjectId;
-  dateCreated: Date;
-  content: string;
-  dateModified: Date;
+  dateOfVisit: Date;
+  curator: Types.ObjectId;
+  works: Types.ObjectId[];
+  inProgress: Boolean;
 };
 
 export type PopulatedVisit = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  authorId: User;
-  dateCreated: Date;
-  content: string;
-  dateModified: Date;
+  dateOfVisit: Date;
+  curator: Curator;
+  works: Work[];
+  inProgress: Boolean;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -29,25 +30,26 @@ export type PopulatedVisit = {
 // type given by the type property, inside MongoDB
 const VisitSchema = new Schema<Visit>({
   // The author userId
-  authorId: {
+  dateOfVisit: {
     // Use Types.ObjectId outside of the schema
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: 'User'
+    type: Date,
+    required: true
   },
   // The date the Visit was created
-  dateCreated: {
-    type: Date,
-    required: true
+  curator: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'Curator'
   },
   // The content of the Visit
-  content: {
-    type: String,
-    required: true
+  works: {
+    type: [Schema.Types.ObjectId],
+    required: true,
+    ref: 'Work'
   },
   // The date the Visit was modified
-  dateModified: {
-    type: Date,
+  inProgress: {
+    type: Boolean,
     required: true
   }
 });
