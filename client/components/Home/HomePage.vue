@@ -8,7 +8,7 @@
         Welcome to Curator Central, @{{ $store.state.username }}!
       </h1>
       <h1 v-else>
-        Welcome to Curator Central!
+        Welcome to Curator Central.
       </h1>
     </header>
   </main>

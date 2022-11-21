@@ -97,11 +97,12 @@ export default {
         const res = text ? JSON.parse(text) : {user: null};
 
         if (this.setUsername) {
-          this.$store.commit('setUsername', res.user ? res.user.username : null);
+          console.log(res)
+          this.$store.commit('setUsername', res.curator ? res.curator.username : null);
         }
 
         if (this.setDateJoined) {
-          this.$store.commit('setDateJoined', res.user ? res.user.dateJoined : null);
+          this.$store.commit('setDateJoined', res.curator ? res.curator.dateJoined : null);
         }
 
         if (this.callback) {

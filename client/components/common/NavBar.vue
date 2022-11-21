@@ -10,23 +10,9 @@
       </h1>
     </section>
     <section class="actions">
-      <button 
-        @click.native="$router.push('/')"
-      >
-        Home
-      </button>
-      <button 
-        v-if="$store.state.username"
-        @click.native="$router.push('/account')"
-      >
-        Account
-      </button>
-      <button 
-        v-else
-        @click.native="$router.push('/login')"
-      >
-        Login
-      </button>
+      <router-link to="/" class="action">Home</router-link>
+      <router-link to="/account" class="action" v-if="$store.state.username">Account</router-link>
+      <router-link to="/login" class="action" v-else>Login</router-link>
     </section>
     <section class="alerts">
       <article
@@ -45,3 +31,22 @@ export default {
   name: 'NavBar'
 };
 </script>
+
+<style>
+nav {
+  background-color: grey;
+  height: 64px;
+  width: 100%;
+}
+.main {
+  float: left;
+}
+
+.actions {
+  float: right;
+}
+
+.action {
+  margin: 8px;
+}
+</style>
