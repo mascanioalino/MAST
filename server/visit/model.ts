@@ -11,7 +11,7 @@ import type {Work} from '../work/model';
 // Type definition for Visit on the backend
 export type Visit = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  dateOfVisit: Date;
+  dateOfVisit: Date; // Start of visit 
   curator: Types.ObjectId;
   works: Types.ObjectId[];
   inProgress: Boolean;
