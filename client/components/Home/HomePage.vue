@@ -1,0 +1,21 @@
+<!-- Page for account settings and management -->
+<!-- User should be authenticated in order to see this page -->
+
+<template>
+  <main>
+    <header>
+      <h1 v-if="$store.state.username">
+        Welcome to Curator Central, @{{ $store.state.username }}!
+      </h1>
+      <h1 v-else>
+        Welcome to Curator Central!
+      </h1>
+    </header>
+  </main>
+</template>
+
+<script>
+export default {
+  name: 'HomePage',
+};
+</script>

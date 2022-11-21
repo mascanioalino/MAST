@@ -8,8 +8,8 @@ export default {
   mixins: [BlockForm],
   data() {
     return {
-      url: '/api/users',
-      method: 'PATCH',
+      url: '/api/curators',
+      method: 'PUT',
       hasBody: true,
       fields: [
         {id: 'password', label: 'Password', value: ''}

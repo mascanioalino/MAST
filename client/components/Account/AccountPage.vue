@@ -3,20 +3,19 @@
 
 <template>
   <main>
-    <section>
-      <header>
-        <h2>Account settings for @{{ $store.state.username }}</h2>
-      </header>
+    <header>
+      <h1>
+        @{{ $store.state.username }}
+      </h1>
+    </header>
+    <article class="accountSettings">
+      <p><b>Date Joined:</b> {{ $store.state.dateJoined }}</p>
       <ChangeUsernameForm />
       <ChangePasswordForm />
-    </section>
-    <section>
-      <header>
-        <h2>Account management</h2>
-      </header>
+      <h2>Account management</h2>
       <LogoutForm />
       <DeleteAccountForm />
-    </section>
+    </article>
   </main>
 </template>
 
@@ -32,7 +31,7 @@ export default {
     ChangeUsernameForm,
     ChangePasswordForm,
     DeleteAccountForm,
-    LogoutForm
+    LogoutForm,
   }
 };
 </script>

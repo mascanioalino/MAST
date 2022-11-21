@@ -8,10 +8,11 @@ export default {
   mixins: [BlockForm],
   data() {
     return {
-      url: '/api/users',
+      url: '/api/curators',
       method: 'POST',
       hasBody: true,
       setUsername: true,
+      setDateJoined: true,
       fields: [
         {id: 'username', label: 'Username', value: ''},
         {id: 'password', label: 'Password', value: ''}

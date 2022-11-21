@@ -6,9 +6,8 @@ import logger from 'morgan';
 import http from 'http';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import * as userValidator from '../server/user/middleware';
-import {userRouter} from '../server/user/router';
-import {freetRouter} from '../server/freet/router';
+import * as userValidator from '../server/curator/middleware';
+import {curatorRouter} from '../server/curator/router';
 import MongoStore from 'connect-mongo';
 
 // Load environmental variables
@@ -65,11 +64,10 @@ app.use(session({
 }));
 
 // This makes sure that if a user is logged in, they still exist in the database
-app.use(userValidator.isCurrentSessionUserExists);
+app.use(userValidator.isCurrentSessionCuratorExists);
 
 // Add routers from routes folder
-app.use('/api/users', userRouter);
-app.use('/api/freets', freetRouter);
+app.use('/api/curators', curatorRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {

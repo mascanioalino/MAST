@@ -8,7 +8,7 @@ export default {
   mixins: [BlockForm],
   data() {
     return {
-      url: '/api/users/session',
+      url: '/api/curators/session',
       method: 'DELETE',
       setUsername: true,
       title: 'Sign out',
