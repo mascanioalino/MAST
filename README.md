@@ -32,28 +32,6 @@ To incorporate the backend you developed in A5 with our starter frontend, please
 
 We've made some updated to the A5 server starter code that we hope you can incorporate into your backend as well.
 
-> **Please reference the [full diff here](https://gist.github.com/dengzac/a9f592950e947b604798443b5ce71be1) for a complete list of changes.**
-
-A summary of the changes is provided below:
-- `api/index.ts`:
-  - Add mongo store to track sessions
-  - Remove old frontend from express server (**remember to copy over lines importing your `router.ts` files**)
-- `freet/middleware.ts` and `user/middleware.ts`:
-  - change all contents of `error:` to strings to be easily printed out by the frontend
-  - in `isUsernameNotAlreadyInUse()` of `user/middleware.ts`: bug fix related to changing password
-- `freet/collection.ts`:
-  - update finding freets from an author to return in descending order for consistency with finding all freets
-- `freet/router.ts`
-  - updated incorrect documentation for `GET /api/freets`
-  - changed `PUT` to `PATCH /api/freets/:freetid`, to better follow REST API conventions
-- `user/router.ts`
-  - add `GET /api/users/session` so the frontend can fetch info about the logged-in user
-  - changed `PUT` to `PATCH /api/users`, to better follow REST API conventions
-- `user/collection.ts`
-  - add typings to a `updateOne()` parameter to make TypeScript happy
-
-Once you're done, test once more that you can run the project locally. Now you're ready to start developing your frontend interface for Fritter!
-
 ## Running locally
 
 Running locally requires a few extra npm scripts from `package.json` in comparison to A5.
