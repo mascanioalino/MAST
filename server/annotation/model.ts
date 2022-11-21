@@ -14,6 +14,7 @@ export type Annotation = {
   content: String;
   dateCreated: Date;
   isPublic: Boolean;
+  dateModified: Date;
 };
 
 export type PopulatedAnnotation = {
@@ -22,6 +23,7 @@ export type PopulatedAnnotation = {
   content: String;
   dateCreated: Date;
   isPublic: Boolean;
+  dateModified: Date;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -48,6 +50,11 @@ const AnnotationSchema = new Schema<Annotation>({
   // Whether the annotation is public
   isPublic: {
     type: Boolean,
+    required: true,
+  },
+  // The date the Annotation was modified
+  dateModified: {
+    type: Date,
     required: true,
   },
 });
