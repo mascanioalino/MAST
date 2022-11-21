@@ -3,12 +3,12 @@ import {Schema, model} from 'mongoose';
 import type {User} from '../user/model';
 
 /**
- * This file defines the properties stored in a Freet
+ * This file defines the properties stored in a Visit
  * DO NOT implement operations here ---> use collection file
  */
 
-// Type definition for Freet on the backend
-export type Freet = {
+// Type definition for Visit on the backend
+export type Visit = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   authorId: Types.ObjectId;
   dateCreated: Date;
@@ -16,7 +16,7 @@ export type Freet = {
   dateModified: Date;
 };
 
-export type PopulatedFreet = {
+export type PopulatedVisit = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   authorId: User;
   dateCreated: Date;
@@ -25,9 +25,9 @@ export type PopulatedFreet = {
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
-// Freets stored in this table will have these fields, with the
+// Visits stored in this table will have these fields, with the
 // type given by the type property, inside MongoDB
-const FreetSchema = new Schema<Freet>({
+const VisitSchema = new Schema<Visit>({
   // The author userId
   authorId: {
     // Use Types.ObjectId outside of the schema
@@ -35,22 +35,22 @@ const FreetSchema = new Schema<Freet>({
     required: true,
     ref: 'User'
   },
-  // The date the freet was created
+  // The date the Visit was created
   dateCreated: {
     type: Date,
     required: true
   },
-  // The content of the freet
+  // The content of the Visit
   content: {
     type: String,
     required: true
   },
-  // The date the freet was modified
+  // The date the Visit was modified
   dateModified: {
     type: Date,
     required: true
   }
 });
 
-const FreetModel = model<Freet>('Freet', FreetSchema);
-export default FreetModel;
+const VisitModel = model<Visit>('Visit', VisitSchema);
+export default VisitModel;
