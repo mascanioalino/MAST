@@ -3,17 +3,9 @@
 
 <template>
   <main>
-    <section>
-      <header>
-        <h2>New to Curator Central?</h2>
-      </header>
-      <RegisterForm />
-    </section>
-    <section>
-      <header>
-        <h2>Have an account?</h2>
-      </header>
-      <LoginForm />
+    <section class="options">
+      <LoginForm class="form" />
+      <RegisterForm class="form" />
     </section>
   </main>
 </template>
@@ -30,3 +22,25 @@ export default {
   }
 };
 </script>
+
+<style>
+main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 64px;
+  width: 100%;
+}
+
+.form {
+  width: 384px;
+}
+
+</style>

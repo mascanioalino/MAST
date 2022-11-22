@@ -17,7 +17,7 @@ export default {
         {id: 'username', label: 'Username', value: ''},
         {id: 'password', label: 'Password', value: ''}
       ],
-      title: 'Create account',
+      title: 'Sign Up',
       callback: () => {
         const message = 'Successfully created an account!';
         this.$router.push({name: 'Home'});
