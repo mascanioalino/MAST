@@ -116,3 +116,36 @@ export default {
   }
 };
 </script>
+
+<style>
+
+input {
+  width: calc(100% - 16px);
+  height: 64px;
+  border: 4px solid #BBBBBB;
+  outline: none;
+  background-color: white;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 8px 16px;
+  margin: 8px;
+}
+
+input::placeholder {
+   text-align: center; 
+}
+
+button {
+  width: calc(100% - 16px);
+  height: 64px;
+  outline: none;
+  background-color: black;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 8px 16px;
+  margin: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+</style>
