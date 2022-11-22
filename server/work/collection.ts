@@ -15,19 +15,16 @@ class WorkCollection {
   /**
    * Add a Work to the collection
    *
-   * @param {string} name - The x location on the work the Work is in
-   * @param {string} artist - The name of the work's artist
+   * @param {string} harvardId - The object ID to query in the Harvard Art API
    * @param {string} dateCreated - The date the work was created
    * @return {Promise<HydratedDocument<Work>>} - The newly created Work
    */
   static async addOne(
-    name: string,
-    artist: string,
+    harvardId: string,
     dateCreated: Date
   ): Promise<HydratedDocument<Work>> {
     const work = new WorkModel({
-      name,
-      artist,
+      harvardId,
       dateCreated,
       points: [],
     });
@@ -48,6 +45,18 @@ class WorkCollection {
   }
 
   /**
+   * Find a Work by harvardId
+   *
+   * @param {string} harvardId - The harvardId of the Work to find
+   * @return {Promise<HydratedDocument<Work>> | Promise<null> } - The Work with the given workId, if any
+   */
+  static async findByHarvardId(
+    harvardId: Types.ObjectId | string
+  ): Promise<HydratedDocument<Work>> {
+    return WorkModel.findOne({ harvardId: harvardId }).populate("points");
+  }
+
+  /**
    * Update a Work with the new point
    *
    * @param {string} workId - The id of the Work to be updated
@@ -58,9 +67,9 @@ class WorkCollection {
   static async addPoint(
     workId: Types.ObjectId | string,
     xLocation: number,
-    yLocation: number,
+    yLocation: number
   ): Promise<HydratedDocument<Work>> {
-    const point = await PointCollection.addOne(xLocation, yLocation)
+    const point = await PointCollection.addOne(xLocation, yLocation);
     const work = await WorkModel.findOne({ _id: workId });
     work.points.push(point._id);
     await work.save();
