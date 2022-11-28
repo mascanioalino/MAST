@@ -11,18 +11,18 @@ import type { Curator } from "../curator/model";
 export type Annotation = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   curator: Types.ObjectId;
-  content: String;
+  content: string;
   dateCreated: Date;
-  isPublic: Boolean;
+  isPublic: boolean;
   dateModified: Date;
 };
 
 export type PopulatedAnnotation = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   curator: Curator;
-  content: String;
+  content: string;
   dateCreated: Date;
-  isPublic: Boolean;
+  isPublic: boolean;
   dateModified: Date;
 };
 

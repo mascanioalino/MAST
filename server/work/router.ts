@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import express from "express";
 import WorkCollection from "./collection";
-import * as userValidator from "../user/middleware";
+import * as curatorValidator from "../curator/middleware";
 import * as util from "./util";
 
 const router = express.Router();
@@ -50,7 +50,7 @@ router.get(
  */
 router.post(
   "/",
-  [userValidator.isUserLoggedIn],
+  [curatorValidator.isCuratorLoggedIn],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ""; // Will not be an empty string since its validated in isUserLoggedIn
     const work = await WorkCollection.addOne(userId, req.body.content);
@@ -74,7 +74,7 @@ router.post(
  */
 router.delete(
   "/:workId?",
-  [userValidator.isUserLoggedIn],
+  [curatorValidator.isCuratorLoggedIn],
   async (req: Request, res: Response) => {
     await WorkCollection.deleteOne(req.params.workId);
     res.status(200).json({
@@ -99,7 +99,7 @@ router.delete(
 router.patch(
   "/:workId?",
   [
-    userValidator.isUserLoggedIn,
+    curatorValidator.isCuratorLoggedIn,
     // workValidator.isWorkExists,
     // workValidator.isValidWorkModifier,
     // workValidator.isValidWorkContent,

@@ -10,15 +10,15 @@ import type {Annotation} from '../annotation/model';
 // Type definition for Point on the backend
 export type Point = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  xLocation: Number;
-  yLocation: Number;
+  xLocation: number;
+  yLocation: number;
   annotations: Types.ObjectId[];
 };
 
 export type PopulatedPoint = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  xLocation: Number;
-  yLocation: Number;
+  xLocation: number;
+  yLocation: number;
   annotations: [Annotation];
 };
 
