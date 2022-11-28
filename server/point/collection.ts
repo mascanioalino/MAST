@@ -1,7 +1,7 @@
-import type {HydratedDocument, Types} from 'mongoose';
-import AnnotationCollection from 'server/annotation/collection';
-import type {Point} from './model';
-import PointModel from './model';
+import type { HydratedDocument, Types } from "mongoose";
+import AnnotationCollection from "../annotation/collection";
+import type { Point } from "./model";
+import PointModel from "./model";
 
 /**
  * This files contains a class that has the functionality to explore Points
@@ -19,14 +19,17 @@ class PointCollection {
    * @param {string} yLocation - The y location on the work the Point is in
    * @return {Promise<HydratedDocument<Point>>} - The newly created Point
    */
-  static async addOne(xLocation: number, yLocation: number): Promise<HydratedDocument<Point>> {
+  static async addOne(
+    xLocation: number,
+    yLocation: number
+  ): Promise<HydratedDocument<Point>> {
     const point = new PointModel({
       xLocation,
       yLocation,
-      annotations: []
+      annotations: [],
     });
     await point.save(); // Saves Point to MongoDB
-    return point.populate('annotations');
+    return point.populate("annotations");
   }
 
   /**
@@ -35,10 +38,11 @@ class PointCollection {
    * @param {string} pointId - The id of the Point to find
    * @return {Promise<HydratedDocument<Point>> | Promise<null> } - The Point with the given pointId, if any
    */
-  static async findOne(pointId: Types.ObjectId | string): Promise<HydratedDocument<Point>> {
-    return PointModel.findOne({_id: pointId}).populate('annotations');
+  static async findOne(
+    pointId: Types.ObjectId | string
+  ): Promise<HydratedDocument<Point>> {
+    return PointModel.findOne({ _id: pointId }).populate("annotations");
   }
-
 
   /**
    * Update a Point with the new content
@@ -48,12 +52,21 @@ class PointCollection {
    * @param {boolean} isPublic - Whether the added annotation is public
    * @return {Promise<HydratedDocument<Point>>} - The newly updated Point
    */
-  static async addAnnotation(pointId: Types.ObjectId | string, content: string, curator: Types.ObjectId, isPublic: boolean): Promise<HydratedDocument<Point>> {
-    const annotation = await AnnotationCollection.addOne(curator, content, isPublic);
-    const point = await PointModel.findOne({_id: pointId});
+  static async addAnnotation(
+    pointId: Types.ObjectId | string,
+    content: string,
+    curator: Types.ObjectId,
+    isPublic: boolean
+  ): Promise<HydratedDocument<Point>> {
+    const annotation = await AnnotationCollection.addOne(
+      curator,
+      content,
+      isPublic
+    );
+    const point = await PointModel.findOne({ _id: pointId });
     point.annotations.push(annotation._id);
     await point.save();
-    return point.populate('annotations');
+    return point.populate("annotations");
   }
 
   /**
@@ -63,7 +76,7 @@ class PointCollection {
    * @return {Promise<Boolean>} - true if the Point has been deleted, false otherwise
    */
   static async deleteOne(pointId: Types.ObjectId | string): Promise<boolean> {
-    const point = await PointModel.deleteOne({_id: pointId});
+    const point = await PointModel.deleteOne({ _id: pointId });
     return point !== null;
   }
 }
