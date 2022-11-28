@@ -9,14 +9,22 @@ import type { Point } from "../point/model";
 // Type definition for Work on the backend
 export type Work = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  harvardId: String;
+  harvardId: string;
+  title: string;
+  description: string;
+  artist: string;
+  imageUrl: string;
   dateCreated: Date;
   points: Types.ObjectId[];
 };
 
 export type PopulatedWork = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  harvardId: String;
+  harvardId: string;
+  title: string;
+  description: string;
+  artist: string;
+  imageUrl: string;
   dateCreated: Date;
   points: Point[];
 };
@@ -27,6 +35,26 @@ export type PopulatedWork = {
 const WorkSchema = new Schema<Work>({
   // The object id to query in the Harvard Art API
   harvardId: {
+    type: String,
+    required: true,
+  },
+  // The name of the work
+  title: {
+    type: String,
+    required: true,
+  },
+  // A brief description of the work
+  description: {
+    type: String,
+    required: true,
+  },
+  // The artist that created the work
+  artist: {
+    type: String,
+    required: true,
+  },
+  // The image associated with the work
+  imageUrl: {
     type: String,
     required: true,
   },
