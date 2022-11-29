@@ -11,10 +11,7 @@ export type Work = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   harvardId: string;
   title: string;
-  description: string;
-  artist: string;
   imageUrl: string;
-  dateCreated: Date;
   points: Types.ObjectId[];
 };
 
@@ -22,10 +19,7 @@ export type PopulatedWork = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   harvardId: string;
   title: string;
-  description: string;
-  artist: string;
   imageUrl: string;
-  dateCreated: Date;
   points: Point[];
 };
 
@@ -38,29 +32,12 @@ const WorkSchema = new Schema<Work>({
     type: String,
     required: true,
   },
-  // The name of the work
   title: {
     type: String,
     required: true,
   },
-  // A brief description of the work
-  description: {
-    type: String,
-    required: true,
-  },
-  // The artist that created the work
-  artist: {
-    type: String,
-    required: true,
-  },
-  // The image associated with the work
   imageUrl: {
     type: String,
-    required: true,
-  },
-  // The date the Work was created
-  dateCreated: {
-    type: Date,
     required: true,
   },
   // the points associated with the work

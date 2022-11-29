@@ -16,16 +16,21 @@ class WorkCollection {
    * Add a Work to the collection
    *
    * @param {string} harvardId - The object ID to query in the Harvard Art API
-   * @param {string} dateCreated - The date the work was created
    * @return {Promise<HydratedDocument<Work>>} - The newly created Work
    */
   static async addOne(
-    harvardId: string,
-    dateCreated: Date
+    harvardId: string
   ): Promise<HydratedDocument<Work>> {
+    const harvardResponse = await fetch(
+      `https://api.harvardartmuseums.org/object/${harvardId}?apikey=${process.env.HARVARD_KEY}`
+    );
+    const body = await harvardResponse.json();
+    const title = body.title;
+    const imageUrl = body.primaryimageurl;
     const work = new WorkModel({
       harvardId,
-      dateCreated,
+      title,
+      imageUrl,
       points: [],
     });
     await work.save(); // Saves Work to MongoDB
