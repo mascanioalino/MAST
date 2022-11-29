@@ -45,6 +45,20 @@ class PointCollection {
   }
 
   /**
+   * Find a Point by x and y location
+   *
+   * @param {number} xLocation - The x coordinate of the point
+   * @param {number} yLocation - The y coordinate of the point
+   * @return {Promise<Array<HydratedDocument<Point>>> | Promise<null> } - The points with the given (x,y), if any
+   */
+  static async findAllByLocation(
+    xLocation: number,
+    yLocation: number
+  ): Promise<Array<HydratedDocument<Point>>> {
+    return PointModel.find({ xLocation, yLocation });
+  }
+
+  /**
    * Update a Point with the new content
    *
    * @param {string} pointId - The id of the Point to be updated
