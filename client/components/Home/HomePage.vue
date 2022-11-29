@@ -29,6 +29,7 @@ header {
 }
 main {
   display: block;
+  margin-top: 100px;
 }
 div {
   width: 400px;

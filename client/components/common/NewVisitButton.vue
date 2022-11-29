@@ -88,7 +88,7 @@ export default {
 
 <style>
 .new-visit {
-  position: absolute;
+  position: fixed;
   bottom: 16px;
   right: 16px;
   background-color: black;
@@ -107,7 +107,7 @@ export default {
 }
 
 .end-visit {
-  position: absolute;
+  position: fixed;
   bottom: 16px;
   left: 16px;
   background-color: grey;

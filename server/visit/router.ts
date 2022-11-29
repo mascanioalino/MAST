@@ -155,16 +155,13 @@ router.get(
  * @return {VisitReponse} - Visit
  *
  */
-router.get(
-  "/:username",
-  [curatorValidation.isUsernameExists],
-  async (req: Request, res: Response) => {
-    const curatorVisits = await VisitCollection.findAllVisitsByCurator(
-      req.params.username
-    );
-    const response = curatorVisits.map(util.constructVisitResponse);
-    res.status(200).json(response);
-  }
-);
+router.get("/:curatorId", [], async (req: Request, res: Response) => {
+  console.log("🤍", req.params.curatorId);
+  const curatorVisits = await VisitCollection.findAllVisitsByCurator(
+    req.params.curatorId
+  );
+  const response = curatorVisits.map(util.constructVisitResponse);
+  res.status(200).json(response);
+});
 
 export { router as visitRouter };

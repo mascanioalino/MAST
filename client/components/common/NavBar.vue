@@ -12,12 +12,11 @@
     </div>
     <div class="menu-container">
       <section class="main">
-        <h1 class="title">Curator Central</h1>
+        <router-link to="/" class="action">Curator Central</router-link>
       </section>
       <section class="actions">
-        <router-link to="/" class="action">Home</router-link>
-        <router-link to="/account" class="action" v-if="$store.state.username"
-          >Account</router-link
+        <router-link to="/profile" class="action" v-if="$store.state.username"
+          >Profile</router-link
         >
         <router-link to="/login" class="action" v-else>Login</router-link>
       </section>
@@ -48,10 +47,15 @@ export default {
 </script>
 
 <style>
+nav {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+}
 .menu-container {
-  background-color: white;
+  background-color: transparent;
   height: 64px;
-  width: 100%;
+  width: 100vw;
   display: flex;
   justify-content: space-between;
   align-items: center;

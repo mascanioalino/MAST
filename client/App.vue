@@ -25,6 +25,7 @@ export default {
       .then((res) => {
         const curator = res.curator;
         this.$store.commit("setUsername", curator ? curator.username : null);
+        this.$store.commit("setCuratorId", curator ? curator._id : null);
         this.$store.commit(
           "setDateJoined",
           curator ? curator.dateJoined : null
