@@ -9,15 +9,17 @@ import type { Point } from "../point/model";
 // Type definition for Work on the backend
 export type Work = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  harvardId: String;
-  dateCreated: Date;
+  harvardId: string;
+  title: string;
+  imageUrl: string;
   points: Types.ObjectId[];
 };
 
 export type PopulatedWork = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  harvardId: String;
-  dateCreated: Date;
+  harvardId: string;
+  title: string;
+  imageUrl: string;
   points: Point[];
 };
 
@@ -30,9 +32,12 @@ const WorkSchema = new Schema<Work>({
     type: String,
     required: true,
   },
-  // The date the Work was created
-  dateCreated: {
-    type: Date,
+  title: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
     required: true,
   },
   // the points associated with the work

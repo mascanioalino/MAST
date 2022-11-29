@@ -2,38 +2,39 @@ import type { NextFunction, Request, Response } from "express";
 import express from "express";
 import WorkCollection from "./collection";
 import * as userValidator from "../user/middleware";
+import * as workValidator from "./middleware";
 import * as util from "./util";
 
 const router = express.Router();
 
 /**
- * Get works by author.
+ * Get works by harvard ID.
  *
  * @name GET /api/works/harvardId
  *
- * @return {WorkResponse[]} - An array of works created by user with username, author
- * @throws {400} - If author is not given
- * @throws {404} - If no user has given author
+ * @return {WorkResponse} - A work with a given Harvard ID
+ * @throws {404} - If no work exists
  *
  */
 router.get(
   "/:harvardId",
-  //   [workValidator.isHarvardIdExists],
+  [workValidator.isWorkExists],
   async (req: Request, res: Response) => {
-    // const work = await WorkCollection.findByHarvardId(
-    //   req.params.harvardId as string
-    // );
-    // const response = util.constructWorkResponse(work);
-
-    // add the external harvard info
-    const harvardResponse = await fetch(
-      `https://api.harvardartmuseums.org/object/${req.params.harvardId}?apikey=${process.env.HARVARD_KEY}`
+    const work = await WorkCollection.findByHarvardId(
+      req.params.harvardId as string
     );
-    const body = await harvardResponse.json();
-    console.log(body);
-    // response["harvardInfo"] = response;
-
-    res.status(200).json(body);
+    if (!work) {
+      const createdWork = await WorkCollection.addOne(req.params.harvardId);
+      res.status(201).json({
+        message: "Your work was created successfully",
+        work: util.constructWorkResponse(createdWork),
+      });
+      return;
+    }
+    res.status(200).json({
+      message: `Work was found successfully`,
+      work: util.constructWorkResponse(work)
+    });
   }
 );
 
@@ -42,19 +43,15 @@ router.get(
  *
  * @name POST /api/works
  *
- * @param {string} content - The content of the work
+ * @param {string} harvardId - The harvardId of the work
  * @return {WorkResponse} - The created work
- * @throws {403} - If the user is not logged in
  * @throws {400} - If the work content is empty or a stream of empty spaces
  * @throws {413} - If the work content is more than 140 characters long
  */
 router.post(
   "/",
-  [userValidator.isUserLoggedIn],
   async (req: Request, res: Response) => {
-    const userId = (req.session.userId as string) ?? ""; // Will not be an empty string since its validated in isUserLoggedIn
-    const work = await WorkCollection.addOne(userId, req.body.content);
-
+    const work = await WorkCollection.addOne(req.body.harvardId);
     res.status(201).json({
       message: "Your work was created successfully.",
       work: util.constructWorkResponse(work),

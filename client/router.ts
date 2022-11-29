@@ -4,6 +4,8 @@ import VueRouter from 'vue-router';
 import AccountPage from './components/Account/AccountPage.vue';
 import HomePage from './components/Home/HomePage.vue';
 import LoginPage from './components/Login/LoginPage.vue';
+import ScanPage from './components/Scan/ScanPage.vue';
+import AddWorkPage from './components/Scan/AddWorkPage.vue';
 import NotFound from './NotFound.vue';
 
 Vue.use(VueRouter);
@@ -12,6 +14,8 @@ const routes = [
   {path: '/', name: 'Home', component: HomePage},
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},
+  {path: '/scan', name: 'Scan', component: ScanPage},
+  {path: '/work/:harvardId', name: 'Add Work', component: AddWorkPage},
   {path: '*', name: 'Not Found', component: NotFound}
 ];
 
