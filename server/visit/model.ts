@@ -14,7 +14,7 @@ export type Visit = {
   dateOfVisit: Date; // Start of visit 
   curator: Types.ObjectId;
   works: Types.ObjectId[];
-  inProgress: Boolean;
+  inProgress: boolean;
 };
 
 export type PopulatedVisit = {
@@ -22,7 +22,7 @@ export type PopulatedVisit = {
   dateOfVisit: Date;
   curator: Curator;
   works: Work[];
-  inProgress: Boolean;
+  inProgress: boolean;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
