@@ -32,6 +32,14 @@ const store = new Vuex.Store({
        */
       state.dateJoined = dateJoined;
     },
+    setVisitId(state, visitId) {
+      /**
+       * Update the stored visitId to the specified one.
+       * @param visitId - new bio to set
+       */
+      state.visitId = visitId;
+      console.log("VISIT ID SET", visitId);
+    },
   },
   plugins: [createPersistedState()],
 });

@@ -4,6 +4,9 @@
 
 <template>
   <nav>
+    <div v-if="visitInSession" class="progress-container">
+      <div>Visit in Progress</div>
+    </div>
     <div class="menu-container">
       <section class="main">
         <h1 class="title">Curator Central</h1>
@@ -32,6 +35,12 @@
 <script>
 export default {
   name: "NavBar",
+  computed: {
+    visitInSession() {
+      // `this` points to the component instance
+      return this.$store.state.visitId !== null;
+    },
+  },
 };
 </script>
 
@@ -43,6 +52,17 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.progress-container {
+  background-color: grey;
+  font-style: italic;
+  color: white;
+  height: 38px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: space-around;
 }
 .main {
   background-color: white;

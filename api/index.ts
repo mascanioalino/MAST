@@ -9,6 +9,7 @@ import dotenv from "dotenv";
 import * as userValidator from "../server/curator/middleware";
 import { curatorRouter } from "../server/curator/router";
 import { workRouter } from "../server/work/router";
+import { visitRouter } from "../server/visit/router";
 import MongoStore from "connect-mongo";
 
 // Load environmental variables
@@ -72,6 +73,7 @@ app.use(userValidator.isCurrentSessionCuratorExists);
 // Add routers from routes folder
 app.use("/api/curators", curatorRouter);
 app.use("/api/works", workRouter);
+app.use("/api/visits", visitRouter);
 
 // Catch all the other routes and display error message
 app.all("*", (req: Request, res: Response) => {

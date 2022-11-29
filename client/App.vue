@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <header>
+      <VisitProgress />
       <NavBar />
       <NewVisitButton />
     </header>
@@ -28,6 +29,19 @@ export default {
           "setDateJoined",
           curator ? curator.dateJoined : null
         );
+      });
+
+    // Sync visit in progress
+    fetch("/api/visits/session", {
+      credentials: "same-origin", // Sends express-session credentials with request
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log("res from session", res);
+        if (res !== null) {
+          const visit = res._id;
+          this.$store.commit("setVisitId", visit);
+        }
       });
 
     // Clear alerts on page refresh

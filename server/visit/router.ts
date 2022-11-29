@@ -13,8 +13,6 @@ const router = express.Router();
  *
  * @name POST /api/visits
  *
- * @param {string} username - username of visit
- * @param {string} password - visit's password
  * @return {VisitResponse} - The created visit
  * @throws {403} - If there is a visit already logged in
  * @throws {409} - If username or email is already taken
@@ -125,6 +123,29 @@ router.get("/", async (req: Request, res: Response) => {
   const response = allVisits.map(util.constructVisitResponse);
   res.status(200).json(response);
 });
+
+/**
+ * Get visit in session if it exists
+ *
+ * @name GET /api/visits/:username
+ * @return {VisitReponse} - Visit
+ *
+ */
+router.get(
+  "/session",
+  [curatorValidation.isCuratorLoggedIn],
+  async (req: Request, res: Response) => {
+    const inProgress = await VisitCollection.findInProgressVisit(
+      req.session.curatorId
+    );
+    if (inProgress) {
+      const response = util.constructVisitResponse(inProgress);
+      res.status(200).json(response);
+      return;
+    }
+    res.status(200).json(inProgress);
+  }
+);
 
 /**
  * Get visits for curator with `username`

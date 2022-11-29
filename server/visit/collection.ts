@@ -24,7 +24,7 @@ class VisitCollection {
     const date = new Date();
     const visit = new VisitModel({
       dateOfVisit: date,
-      curatorId,
+      curator: curatorId,
       works: [],
       inProgress: true,
     });
