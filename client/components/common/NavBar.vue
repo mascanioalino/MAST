@@ -4,16 +4,19 @@
 
 <template>
   <nav>
-    <section class="main">
-      <h1 class="title">
-        Curator Central
-      </h1>
-    </section>
-    <section class="actions">
-      <router-link to="/" class="action">Home</router-link>
-      <router-link to="/account" class="action" v-if="$store.state.username">Account</router-link>
-      <router-link to="/login" class="action" v-else>Login</router-link>
-    </section>
+    <div class="menu-container">
+      <section class="main">
+        <h1 class="title">Curator Central</h1>
+      </section>
+      <section class="actions">
+        <router-link to="/" class="action">Home</router-link>
+        <router-link to="/account" class="action" v-if="$store.state.username"
+          >Account</router-link
+        >
+        <router-link to="/login" class="action" v-else>Login</router-link>
+      </section>
+    </div>
+
     <section class="alerts">
       <article
         v-for="(status, alert, index) in $store.state.alerts"
@@ -28,22 +31,32 @@
 
 <script>
 export default {
-  name: 'NavBar'
+  name: "NavBar",
 };
 </script>
 
 <style>
-nav {
-  background-color: grey;
+.menu-container {
+  background-color: white;
   height: 64px;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .main {
-  float: left;
+  background-color: white;
+  padding: 0px 16px;
 }
 
 .actions {
-  float: right;
+  background-color: white;
+  padding: 0px 16px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
 }
 
 .action {
