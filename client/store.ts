@@ -7,7 +7,9 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     username: null,
+    curatorId: null,
     dateJoined: null,
+    userVisits: [],
     visitId: null, // id of a visit currently ongoing (null if none)
     alerts: {},
   },
@@ -25,12 +27,34 @@ const store = new Vuex.Store({
        */
       state.username = username;
     },
+    setCuratorId(state, curatorId) {
+      /**
+       * Update the stored username to the specified one.
+       * @param curatorId - new username to set
+       */
+      state.curatorId = curatorId;
+    },
     setDateJoined(state, dateJoined) {
       /**
        * Update the stored username to the specified one.
        * @param bio - new bio to set
        */
       state.dateJoined = dateJoined;
+    },
+    setVisitId(state, visitId) {
+      /**
+       * Update the stored visitId to the specified one.
+       * @param visitId - new bio to set
+       */
+      state.visitId = visitId;
+    },
+    setUserVisits(state, userVisits) {
+      /**
+       * Update the stored visitId to the specified one.
+       * @param visitId - new bio to set
+       */
+      state.userVisits = userVisits;
+      console.log("user VISITs  SET", userVisits);
     },
   },
   plugins: [createPersistedState()],
