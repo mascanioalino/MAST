@@ -2,21 +2,7 @@
 <!-- User should be authenticated in order to see this page -->
 
 <template>
-  <main>
-    <header>
-      <h1>@{{ $store.state.username }}</h1>
-      <p><b>Date Joined:</b> {{ $store.state.dateJoined }}</p>
-    </header>
-    <article class="accountSettings">
-      <h2>Update Account</h2>
-      <ChangeUsernameForm />
-      <ChangePasswordForm />
-
-      <h2>Manage Account</h2>
-      <LogoutForm />
-      <DeleteAccountForm />
-    </article>
-  </main>
+  <main>Visit at: {{ this.visit.dateOfVisit }}</main>
 </template>
 
 <script>
@@ -26,7 +12,12 @@ import DeleteAccountForm from "@/components/Account/DeleteAccountForm.vue";
 import LogoutForm from "@/components/Account/LogoutForm.vue";
 
 export default {
-  name: "AccountPage",
+  name: "Visit",
+  props: {
+    visit: {
+      type: Object,
+    },
+  },
   components: {
     ChangeUsernameForm,
     ChangePasswordForm,
@@ -38,11 +29,8 @@ export default {
 <style scoped>
 main {
   display: block;
-  width: 600px;
-  margin: 120px auto;
-}
-.accountSettings div {
-  width: 100vw;
-  display: flex;
+  margin: 10px 0px;
+  border: 1px solid black;
+  padding: 20px;
 }
 </style>

@@ -13,14 +13,16 @@ const isNoVisitInSession = async (
   const inProgress = await VisitCollection.findInProgressVisit(
     req.session.curatorId
   );
+  console.log("💚 req session", req.session.curatorId);
+  console.log(inProgress);
 
-  if (inProgress) {
+  if (inProgress === null) {
+    next();
+  } else {
     res.status(413).json({
       error: "A Visit is currrently in progress for logged in user.",
     });
     return;
-  } else {
-    next();
   }
 };
 
@@ -36,7 +38,7 @@ const isVisitInSession = async (
     req.session.curatorId
   );
 
-  if (inProgress) {
+  if (inProgress !== null) {
     next();
   } else {
     res.status(413).json({
