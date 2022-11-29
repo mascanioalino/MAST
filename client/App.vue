@@ -3,7 +3,7 @@
     <header>
       <VisitProgress />
       <NavBar />
-      <NewVisitButton />
+      <NewVisitButton v-if="this.$store.state.username !== null" />
     </header>
     <router-view />
   </div>

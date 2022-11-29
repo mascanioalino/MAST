@@ -4,7 +4,10 @@
 
 <template>
   <nav>
-    <div v-if="visitInSession" class="progress-container">
+    <div
+      v-if="visitInSession && this.$store.state.username !== null"
+      class="progress-container"
+    >
       <div>Visit in Progress</div>
     </div>
     <div class="menu-container">
