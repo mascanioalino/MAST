@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
+import Vue from "vue";
+import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
@@ -8,9 +8,8 @@ const store = new Vuex.Store({
   state: {
     username: null,
     dateJoined: null,
-
+    visitId: null, // id of a visit currently ongoing (null if none)
     alerts: {},
-
   },
   mutations: {
     alert(state, payload) {
@@ -33,9 +32,8 @@ const store = new Vuex.Store({
        */
       state.dateJoined = dateJoined;
     },
-
   },
-  plugins: [createPersistedState()]
+  plugins: [createPersistedState()],
 });
 
 export default store;
