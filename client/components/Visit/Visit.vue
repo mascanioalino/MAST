@@ -6,10 +6,7 @@
 </template>
 
 <script>
-import ChangeUsernameForm from "@/components/Account/ChangeUsernameForm.vue";
-import ChangePasswordForm from "@/components/Account/ChangePasswordForm.vue";
-import DeleteAccountForm from "@/components/Account/DeleteAccountForm.vue";
-import LogoutForm from "@/components/Account/LogoutForm.vue";
+
 
 export default {
   name: "Visit",
@@ -17,12 +14,6 @@ export default {
     visit: {
       type: Object,
     },
-  },
-  components: {
-    ChangeUsernameForm,
-    ChangePasswordForm,
-    DeleteAccountForm,
-    LogoutForm,
   },
 };
 </script>

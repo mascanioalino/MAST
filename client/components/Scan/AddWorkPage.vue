@@ -58,7 +58,8 @@ export default {
 
         this.$set(this.alerts, 'Successfully added work to visit!', 'success');
         setTimeout(() => this.$delete(this.alerts, 'Successfully added work to visit!'), 3000);
-        this.$router.push({ name: 'Home' });
+        this.$store.commit('refreshVisitWorks');
+        this.$router.push({ name: 'Visit' });
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -68,7 +69,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 main {
   display: flex;
   flex-direction: column;

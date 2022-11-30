@@ -50,6 +50,7 @@ export default {
         console.log("res from posting new visit", res._id);
 
         this.$store.commit("setVisitId", res.visit ? res.visit._id : null);
+        this.$router.push({name: "Visit"});
       } catch (e) {
         this.$set(this.alerts, e, "error");
         setTimeout(() => this.$delete(this.alerts, e), 3000);

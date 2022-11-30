@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .camera {
     z-index: -1 !important;
     position: fixed !important;

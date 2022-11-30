@@ -5,8 +5,9 @@
 <template>
   <nav>
     <div
-      v-if="visitInSession && this.$store.state.username !== null"
+      v-if="visitInSession && $store.state.username !== null"
       class="progress-container"
+      @click="$router.push({name: 'Visit'})"
     >
       <div>Visit in Progress</div>
     </div>
@@ -70,6 +71,7 @@ nav {
   align-items: center;
   text-align: center;
   justify-content: space-around;
+  cursor: pointer;
 }
 .main {
   background-color: white;

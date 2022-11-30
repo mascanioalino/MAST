@@ -11,6 +11,7 @@ const store = new Vuex.Store({
     dateJoined: null,
     userVisits: [],
     visitId: null, // id of a visit currently ongoing (null if none)
+    visitWorks: [],
     alerts: {},
   },
   mutations: {
@@ -55,6 +56,15 @@ const store = new Vuex.Store({
        */
       state.userVisits = userVisits;
       console.log("user VISITs  SET", userVisits);
+    },
+    async refreshVisitWorks(state) {
+      const url = '/api/visits/session';
+      const res = await fetch(url).then(async r => r.json());
+      if(res !== null) {
+        state.visitWorks = res.works;
+      } else {
+        state.visitWorks = []
+      }
     },
   },
   plugins: [createPersistedState()],
