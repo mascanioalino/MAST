@@ -18,16 +18,16 @@ const router = express.Router();
  *
  * @param {string} content - Text based content of the annotation
  * @param {boolean} isPublic - Whether the annotation is publically visible or not
- * @param {string} pointId - The work the point is associated with
- * @return {AnnotationResponse} - The created point
+ * @param {string} pointId - The point the annotation is associated with
+ * @return {AnnotationResponse} - The created annotation
  * @throws {400} - Missing pointId
  * TODO add @throws
  */
  router.post(
     "/",
     [
-        curatorValidator.isCuratorLoggedIn,
-        annotationValidator.isValidAnnotationContent
+      curatorValidator.isCuratorLoggedIn,
+      annotationValidator.isValidAnnotationContent
     ],
     async (req: Request, res: Response) => {
       const annotation = await AnnotationCollection.addOne(req.session.curatorId, req.body.content, req.body.isPublic); 
@@ -43,20 +43,22 @@ const router = express.Router();
 /**
  * Modify an annotation
  *
- * @name PATCH /api/annotations/:id
+ * @name PATCH /api/annotations/:annotationId
  *
  * @param {string} content - the new content for the annotation
  * @return {AnnotationResponse} - the updated annotation
- * @throws {403} - if the curator is not logged in or not the author of
- *                 of the freet
- * @throws {404} - If the freetId is not valid
- * @throws {400} - If the freet content is empty or a stream of empty spaces
- * @throws {413} - If the freet content is more than 140 characters long
+ * @throws {403} - if the curator is not logged in 
+ * @throws {404} - If the curator is not the author of
+ *                 of the annotation
+ * @throws {400} - If the annotationId is missing
+ * @throws {401} - If the annotation does not exist
+ * @throws {413} - If the annotation content is empty
  */
  router.patch(
     '/:annotationId?',
     [
       curatorValidator.isCuratorLoggedIn,
+      annotationValidator.isValidAnnotationModifier,
       annotationValidator.isAnnotationExists,
       annotationValidator.isValidAnnotationContent,
     ],
@@ -75,15 +77,19 @@ const router = express.Router();
  * @name DELETE /api/annotations/:id
  *
  * @return {string} - A success message
- * @throws {403} - If the curator is not logged in or is not the author of
- *                 the annotation
+ * @throws {403} - If the curator is not logged in 
+ * @throws {404} - If the curator is not the author of
+ *                 of the annotation
  * @throws {404} - If the annotationId is not valid
+ * @throws {400} - If the annotationId is missing
+ * @throws {401} - If the annotation does not exist
  */
  router.delete(
     '/:annotationId?',
     [
       curatorValidator.isCuratorLoggedIn,
-      annotationValidator.isAnnotationExists
+      annotationValidator.isValidAnnotationModifier,
+      annotationValidator.isAnnotationExists,
     ],
     async (req: Request, res: Response) => {
       await AnnotationCollection.deleteOne(req.params.annotationId);

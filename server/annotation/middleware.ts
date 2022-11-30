@@ -36,7 +36,7 @@ const isValidAnnotationContent = (
 ) => {
   const { content } = req.body as { content: string };
   if (!content.trim()) {
-    res.status(400).json({
+    res.status(413).json({
       error: "Annotation content must be at least one character long.",
     });
     return;
