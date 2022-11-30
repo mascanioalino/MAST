@@ -83,7 +83,7 @@ const router = express.Router();
       curatorValidator.isCuratorLoggedIn,
       annotationValidator.isValidAnnotationModifier,
       annotationValidator.isAnnotationExists,
-      annotationValidator.isValidAnnotationContent
+      annotationValidator.isValidAnnotationContent,
     ],
     async (req: Request, res: Response) => {
       const annotation = await AnnotationCollection.updateOne(req.params.annotationId, req.body.content);
