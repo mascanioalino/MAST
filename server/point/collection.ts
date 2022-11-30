@@ -1,6 +1,7 @@
 import type { HydratedDocument, Types } from "mongoose";
 import AnnotationCollection from "../annotation/collection";
 import type { Point } from "./model";
+import type { Annotation } from "../annotation/model"
 import PointModel from "./model";
 
 /**
@@ -67,16 +68,8 @@ class PointCollection {
    * @return {Promise<HydratedDocument<Point>>} - The newly updated Point
    */
   static async addAnnotation(
-    pointId: Types.ObjectId | string,
-    content: string,
-    curator: Types.ObjectId,
-    isPublic: boolean
+    pointId: Types.ObjectId | string, annotation: Annotation
   ): Promise<HydratedDocument<Point>> {
-    const annotation = await AnnotationCollection.addOne(
-      curator,
-      content,
-      isPublic
-    );
     const point = await PointModel.findOne({ _id: pointId });
     point.annotations.push(annotation._id);
     await point.save();
