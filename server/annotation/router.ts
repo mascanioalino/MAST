@@ -58,7 +58,7 @@ const router = express.Router();
     [
       curatorValidator.isCuratorLoggedIn,
       annotationValidator.isAnnotationExists,
-      annotationValidator.isValidAnnotationContent
+      annotationValidator.isValidAnnotationContent,
     ],
     async (req: Request, res: Response) => {
       const annotation = await AnnotationCollection.updateOne(req.params.annotationId, req.body.content);
@@ -83,7 +83,7 @@ const router = express.Router();
     '/:annotationId?',
     [
       curatorValidator.isCuratorLoggedIn,
-      annotationValidator.isAnnotationExists,
+      annotationValidator.isAnnotationExists
     ],
     async (req: Request, res: Response) => {
       await AnnotationCollection.deleteOne(req.params.annotationId);
