@@ -1,11 +1,10 @@
 <template>
   <div id="app">
     <header>
-      <VisitProgress />
       <NavBar />
-      <NewVisitButton v-if="this.$store.state.username !== null" />
+      <NewVisitButton v-if="$store.state.username !== null" />
     </header>
-    <router-view />
+    <router-view :class="{ full: visitInSession && $store.state.username !== null }" />
   </div>
 </template>
 
@@ -16,6 +15,11 @@ import NewVisitButton from "@/components/common/NewVisitButton.vue";
 export default {
   name: "App",
   components: { NavBar, NewVisitButton },
+  computed: {
+    visitInSession() {
+      return this.$store.state.visitId !== null;
+    }
+  },
   beforeCreate() {
     // Sync stored username to current session
     fetch("/api/curators/session", {
@@ -47,7 +51,7 @@ export default {
 
     // Clear alerts on page refresh
     this.$store.state.alerts = {};
-  },
+  }
 };
 </script>
 <style>
@@ -57,5 +61,9 @@ html {
 }
 body {
   margin: 0px;
+}
+.full {
+  height: calc(100vh - 102px);
+  margin-top: 102px;
 }
 </style>

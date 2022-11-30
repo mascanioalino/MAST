@@ -8,7 +8,8 @@
   </div>
   <div v-else>
     <div @click="endVisit" class="end-visit">End Visit</div>
-    <div class="new-visit">Scan Code</div>
+    <div v-if="notOnScanPage" @click="$router.push({name: 'Scan'})" class="new-visit">Scan Code</div>
+    <div v-else @click="$router.go(-1)" class="new-visit">Back</div>
   </div>
 </template>
 
@@ -20,6 +21,9 @@ export default {
       // `this` points to the component instance
       return this.$store.state.visitId === null;
     },
+    notOnScanPage() {
+      return this.$route.name !== "Scan";
+    }
   },
   methods: {
     async submit() {

@@ -3,6 +3,7 @@ import express from "express";
 import VisitCollection from "./collection";
 import WorkCollection from "../work/collection";
 import * as curatorValidation from "../curator/middleware";
+import * as workValidator from "../work/middleware";
 import * as visitValidator from "./middleware";
 import * as util from "./util";
 
@@ -73,10 +74,10 @@ router.put(
   [
     curatorValidation.isCuratorLoggedIn,
     visitValidator.isVisitInSession,
-    // workValidator.isWorkExists, // TODO
+    workValidator.isWorkExists
   ],
   async (req: Request, res: Response) => {
-    const visit = await VisitCollection.findInProgressVisit(req.session.id);
+    const visit = await VisitCollection.findInProgressVisit(req.session.curatorId);
     const workToAdd = await WorkCollection.findByHarvardId(
       req.params.harvardId
     );

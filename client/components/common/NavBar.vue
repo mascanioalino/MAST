@@ -53,7 +53,7 @@ nav {
   left: 0px;
 }
 .menu-container {
-  background-color: transparent;
+  background-color: white;
   height: 64px;
   width: 100vw;
   display: flex;

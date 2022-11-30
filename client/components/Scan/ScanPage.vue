@@ -3,12 +3,10 @@
 
 <template>
   <main>
-    <header>
-      <h1>
-        @{{ $store.state.username }}
-      </h1>
-    </header>
-    <qrcode-stream @decode="onDecode" />
+    <qrcode-stream 
+      class="camera" 
+      @decode="onDecode"
+    />
   </main>
 </template>
 
@@ -28,3 +26,14 @@ export default {
   }
 }
 </script>
+
+<style>
+  .camera {
+    z-index: -1 !important;
+    position: fixed !important;
+    left: 0px;
+    top: 0px;
+  }
+</style>
+
+
