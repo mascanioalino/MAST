@@ -1,6 +1,7 @@
 import type { HydratedDocument, Types } from "mongoose";
 import AnnotationCollection from "../annotation/collection";
 import type { Point } from "./model";
+import type { Annotation } from "../annotation/model";
 import PointModel from "./model";
 
 /**
@@ -41,7 +42,22 @@ class PointCollection {
   static async findOne(
     pointId: Types.ObjectId | string
   ): Promise<HydratedDocument<Point>> {
+    console.log(pointId);
     return PointModel.findOne({ _id: pointId }).populate("annotations");
+  }
+
+  /**
+   * Find a Point by x and y location
+   *
+   * @param {number} xLocation - The x coordinate of the point
+   * @param {number} yLocation - The y coordinate of the point
+   * @return {Promise<Array<HydratedDocument<Point>>> | Promise<null> } - The points with the given (x,y), if any
+   */
+  static async findAllByLocation(
+    xLocation: number,
+    yLocation: number
+  ): Promise<Array<HydratedDocument<Point>>> {
+    return PointModel.find({ xLocation, yLocation });
   }
 
   /**
@@ -54,15 +70,8 @@ class PointCollection {
    */
   static async addAnnotation(
     pointId: Types.ObjectId | string,
-    content: string,
-    curator: Types.ObjectId,
-    isPublic: boolean
+    annotation: Annotation
   ): Promise<HydratedDocument<Point>> {
-    const annotation = await AnnotationCollection.addOne(
-      curator,
-      content,
-      isPublic
-    );
     const point = await PointModel.findOne({ _id: pointId });
     point.annotations.push(annotation._id);
     await point.save();

@@ -10,6 +10,8 @@ import * as userValidator from "../server/curator/middleware";
 import { curatorRouter } from "../server/curator/router";
 import { workRouter } from "../server/work/router";
 import { visitRouter } from "../server/visit/router";
+import { pointRouter } from "../server/point/router";
+import { annotationRouter } from "../server/annotation/router";
 import MongoStore from "connect-mongo";
 
 // Load environmental variables
@@ -74,6 +76,8 @@ app.use(userValidator.isCurrentSessionCuratorExists);
 app.use("/api/curators", curatorRouter);
 app.use("/api/works", workRouter);
 app.use("/api/visits", visitRouter);
+app.use("/api/points", pointRouter);
+app.use("/api/annotations", annotationRouter);
 
 // Catch all the other routes and display error message
 app.all("*", (req: Request, res: Response) => {

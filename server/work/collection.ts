@@ -1,6 +1,7 @@
 import type { HydratedDocument, Types } from "mongoose";
 import PointCollection from "../point/collection";
 import type { Work } from "./model";
+import type { Point } from "../point/model";
 import WorkModel from "./model";
 
 /**
@@ -65,16 +66,12 @@ class WorkCollection {
    * Update a Work with the new point
    *
    * @param {string} workId - The id of the Work to be updated
-   * @param {number} xLocation - The x coordinate of the point on work
-   * @param {number} yLocation - The y coordinate of the point on work
+   * @param {Point} point - The point to add to the work
    * @return {Promise<HydratedDocument<Work>>} - The newly updated Work
    */
   static async addPoint(
-    workId: Types.ObjectId | string,
-    xLocation: number,
-    yLocation: number
+    workId: Types.ObjectId | string, point: Point
   ): Promise<HydratedDocument<Work>> {
-    const point = await PointCollection.addOne(xLocation, yLocation);
     const work = await WorkModel.findOne({ _id: workId });
     work.points.push(point._id);
     await work.save();
