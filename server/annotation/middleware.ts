@@ -9,7 +9,8 @@ const isAnnotationExists = async (
   res: Response,
   next: NextFunction
 ) => {
-  const annotationId = req.body.annotationId as string;
+  const annotationId =
+    (req.body.annotationId as string) || (req.params.annotationId as string);
 
   if (!annotationId) {
     res.status(400).json({ error: `Missing 'annotationId'` });
@@ -47,17 +48,27 @@ const isValidAnnotationContent = (
 /**
  * Checks if the current user is the author of the annotation whose annotationId is in req.params
  */
- const isValidAnnotationModifier = async (req: Request, res: Response, next: NextFunction) => {
-    const annotation = await AnnotationCollection.findOne(req.params.annotation);
-    const authorId = annotation.curator._id;
-    if (req.session.curatorId !== authorId.toString()) {
-      res.status(404).json({
-        error: 'Cannot modify other users\' annotations.'
-      });
-      return;
-    }
-  
-    next();
-  };
+const isValidAnnotationModifier = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const annotation = await AnnotationCollection.findOne(
+    req.params.annotationId
+  );
+  const authorId = annotation.curator._id;
+  if (req.session.curatorId !== authorId.toString()) {
+    res.status(404).json({
+      error: "Cannot modify other users' annotations.",
+    });
+    return;
+  }
 
-export { isAnnotationExists, isValidAnnotationContent, isValidAnnotationModifier };
+  next();
+};
+
+export {
+  isAnnotationExists,
+  isValidAnnotationContent,
+  isValidAnnotationModifier,
+};

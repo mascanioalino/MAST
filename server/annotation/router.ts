@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
 import express from "express";
 import PointCollection from "../point/collection";
-import WorkCollection from "../work/collection";
 import AnnotationCollection from "./collection";
 import * as curatorValidator from "../curator/middleware";
 import * as annotationValidator from './middleware';
@@ -39,6 +38,30 @@ const router = express.Router();
     }
   );
 
+  /**
+ * Get annotations by point ID.
+ *
+ * @name GET /api/annotations/:pointId
+ *
+ * @return {AnnotationResponse[]} - All annotations in a point
+ * TODO: @throws
+ *
+ */
+ router.get(
+  "/:pointId?",
+  // [workValidator.isWorkExists],
+  async (req: Request, res: Response) => {
+    const point = await PointCollection.findOne(
+      req.params.pointId as string
+    );
+    const allAnnotations =[];
+    for(var annotation of point.annotations) {
+      allAnnotations.push(await AnnotationCollection.findOne(annotation._id))
+    }
+    const response = allAnnotations.map(util.constructAnnotationResponse);
+    res.status(200).json(response);
+  }
+);
 
 /**
  * Modify an annotation

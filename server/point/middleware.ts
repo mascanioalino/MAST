@@ -10,7 +10,7 @@ const isPointExists = async (
   res: Response,
   next: NextFunction
 ) => {
-  const pointId = req.body.pointId as string;
+  const pointId = req.body.pointId as string || req.params.pointId as string;
 
   if (!pointId) {
     res.status(400).json({ error: `Missing 'pointId'` });

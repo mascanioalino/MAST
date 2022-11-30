@@ -44,15 +44,16 @@ router.post(
  *
  */
  router.get(
-  "/:workId",
+  "/:workId?",
   // [workValidator.isWorkExists],
   async (req: Request, res: Response) => {
     const work = await WorkCollection.findOne(
       req.params.workId as string
     );
     const allPoints =[];
-    for(var x in work.points) {
-      allPoints.push(await PointCollection.findOne(x))
+    console.log(work.points);
+    for(var point of work.points) {
+      allPoints.push(await PointCollection.findOne(point._id))
     }
     const response = allPoints.map(util.constructPointResponse);
     res.status(200).json(response);
@@ -69,8 +70,9 @@ router.post(
  * @throws {401} - If the annotations are not empty
  */
 router.delete(
-  "/",
-  [pointValidator.noAnnotations],
+  "/:pointId?",
+  [pointValidator.isPointExists,
+    pointValidator.noAnnotations],
   async (req: Request, res: Response) => {
     await PointCollection.deleteOne(req.params.pointId);
     res.status(200).json({
