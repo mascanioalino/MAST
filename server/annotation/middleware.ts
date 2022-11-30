@@ -44,4 +44,20 @@ const isValidAnnotationContent = (
   next();
 };
 
-export { isAnnotationExists, isValidAnnotationContent };
+/**
+ * Checks if the current user is the author of the annotation whose annotationId is in req.params
+ */
+ const isValidAnnotationModifier = async (req: Request, res: Response, next: NextFunction) => {
+    const annotation = await AnnotationCollection.findOne(req.params.annotation);
+    const authorId = annotation.curator._id;
+    if (req.session.curatorId !== authorId.toString()) {
+      res.status(404).json({
+        error: 'Cannot modify other users\' annotations.'
+      });
+      return;
+    }
+  
+    next();
+  };
+
+export { isAnnotationExists, isValidAnnotationContent, isValidAnnotationModifier };
