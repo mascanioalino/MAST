@@ -5,9 +5,8 @@
   <main>
     <section class="gallery-list">
       <masonry
-        :cols="4"
-        :gutter="40"
-        class
+        :cols="{default: 4, 1320: 3, 980: 2, 640: 1}"
+        :gutter="{default: '40px'}"
       >
         <GalleryWork 
           v-for="work in $store.state.visitWorks" 
@@ -32,10 +31,32 @@ export default {
 </script>
 
 <style scoped>
-  .gallery-list {
-    margin-top: 100px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+.gallery-list {
+    width: 1320px;
+    margin-left: calc(50% - 660px);
   }
+@media screen and (max-width: 1320px) {
+  .gallery-list {
+    width: 980px;
+    margin-left: calc(50% - 490px);
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .gallery-list {
+    width: 640px;
+    margin-left: calc(50% - 320px);
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .gallery-list {
+    width: 300px;
+    margin-left: calc(50% - 150px);
+  }
+}
+
+
+
+  
 </style>

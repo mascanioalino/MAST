@@ -11,8 +11,17 @@
     </section>
     <footer class="workInfo">
       <h1>{{ work.title }}</h1>
-      <button @click="() => addWork(work.harvardId)">
+      <button 
+        v-if="!visitedWorks.includes(work.harvardId)"
+        @click="() => addWork(work.harvardId)"
+      >
         Collect Work
+      </button>
+      <button 
+        v-else
+        disabled
+      >
+        Work is Already Collected
       </button>
     </footer>
   </main>
@@ -28,11 +37,13 @@ export default {
   data() {
     return {
       work: {},
-      alerts: {}
+      alerts: {},
+      visitedWorks: []
     };
   },
   mounted() {
     this.getWork(this.$route.params.harvardId);
+    this.visitedWorks = this.$store.state.visitWorks.map(work => work.harvardId);
   },
   methods: {
     async getWork(harvardId) {
@@ -87,5 +98,10 @@ footer {
 }
 h1{
   text-align: center;
+}
+button:disabled,
+button[disabled]{
+  cursor: auto;
+  background-color: #b5b5b5;
 }
 </style>

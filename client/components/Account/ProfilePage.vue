@@ -48,12 +48,9 @@ export default {
 };
 </script>
 <style scoped>
-main {
-  display: block;
-}
 header {
+  margin: auto;
   width: 600px;
-  margin: 100px auto;
   display: flex;
   align-items: center;
   justify-content: space-between;

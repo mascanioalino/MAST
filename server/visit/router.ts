@@ -74,7 +74,8 @@ router.put(
   [
     curatorValidation.isCuratorLoggedIn,
     visitValidator.isVisitInSession,
-    workValidator.isWorkExists
+    workValidator.isWorkExists,
+    visitValidator.isWorkNotInCurrentVisit
   ],
   async (req: Request, res: Response) => {
     const visit = await VisitCollection.findInProgressVisit(req.session.curatorId);
@@ -101,12 +102,31 @@ router.put(
  * @throws {403} - If the user is not logged in
  */
 router.delete(
-  "/",
+  "/:visitId",
   [visitValidator.loggedInUserOwnsVisit],
   async (req: Request, res: Response) => {
-    await VisitCollection.deleteVisit(req.params.freetId);
+    await VisitCollection.deleteVisit(req.params.visitId);
     res.status(200).json({
-      message: "Your account has been deleted successfully.",
+      message: "Your visit has been deleted successfully.",
+    });
+  }
+);
+
+/**
+ * Remove a work in a visit.
+ *
+ * @name DELETE /api/visits/:visitId/works/:harvardId
+ *
+ * @return {string} - A success message
+ * @throws {403} - If the user is not logged in
+ */
+ router.delete(
+  "/:visitId/works/:harvardId",
+  [visitValidator.loggedInUserOwnsVisit],
+  async (req: Request, res: Response) => {
+    await VisitCollection.removeWork(req.params.visitId, req.params.harvardId);
+    res.status(200).json({
+      message: "Work has been removed successfully.",
     });
   }
 );

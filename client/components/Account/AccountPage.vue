@@ -3,19 +3,21 @@
 
 <template>
   <main>
-    <header>
-      <h1>@{{ $store.state.username }}</h1>
-      <p><b>Date Joined:</b> {{ $store.state.dateJoined }}</p>
-    </header>
-    <article class="accountSettings">
-      <h2>Update Account</h2>
-      <ChangeUsernameForm />
-      <ChangePasswordForm />
+    <section>
+      <header>
+        <h1>@{{ $store.state.username }}</h1>
+        <p><b>Date Joined:</b> {{ $store.state.dateJoined }}</p>
+      </header>
+      <article class="accountSettings">
+        <h2>Update Account</h2>
+        <ChangeUsernameForm />
+        <ChangePasswordForm />
 
-      <h2>Manage Account</h2>
-      <LogoutForm />
-      <DeleteAccountForm />
-    </article>
+        <h2>Manage Account</h2>
+        <LogoutForm />
+        <DeleteAccountForm />
+      </article>
+   </section>
   </main>
 </template>
 
@@ -36,10 +38,10 @@ export default {
 };
 </script>
 <style scoped>
-main {
+section {
   display: block;
   width: 600px;
-  margin: 120px auto;
+  margin: auto;
 }
 .accountSettings div {
   width: 100vw;

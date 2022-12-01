@@ -79,6 +79,7 @@ export default {
         const res = text ? JSON.parse(text) : { curator: null };
         console.log("res from ending visit", res);
         this.$store.commit("setVisitId", null);
+        this.$store.commit('refreshVisitWorks');
 
         this.$set(this.alerts, "Ended Visit", "success");
         setTimeout(() => this.$delete(this.alerts, "Ended Visit"), 3000);

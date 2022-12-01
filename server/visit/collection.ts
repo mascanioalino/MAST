@@ -1,7 +1,8 @@
 import type { HydratedDocument, Types } from "mongoose";
-import CuratorCollection from "..//curator/collection";
+import CuratorCollection from "../curator/collection";
 import type { Visit } from "./model";
 import VisitModel from "./model";
+import WorkCollection from "../work/collection";
 
 /**
  * This files contains a class that has the functionality to explore freets
@@ -51,15 +52,33 @@ class VisitCollection {
    * Add a Work to a Visit in progress
    *
    * @param {Types.ObjectId | string} visitId
-   * @param {Types.ObjectId} workId
+   * @param {Types.ObjectId} harvardId
    * @returns {Promise<HydratedDocument<Visit>>}
    */
   static async addWork(
     visitId: Types.ObjectId | string,
-    workId: Types.ObjectId
+    harvardId: Types.ObjectId
   ): Promise<HydratedDocument<Visit>> {
     const visit = await VisitModel.findOne({ _id: visitId });
-    visit.works.push(workId);
+    visit.works.push(harvardId);
+    await visit.save();
+    return visit.populate("curator works");
+  }
+
+  /**
+   * Remove a Work to a Visit in progress
+   *
+   * @param {Types.ObjectId | string} visitId
+   * @param {Types.ObjectId | string} harvardId
+   * @returns {Promise<HydratedDocument<Visit>>}
+   */
+  static async removeWork(
+    visitId: Types.ObjectId | string,
+    harvardId: Types.ObjectId | string
+  ): Promise<HydratedDocument<Visit>> {
+    const visit = await VisitModel.findOne({ _id: visitId });
+    const work = await WorkCollection.findByHarvardId(harvardId);
+    visit.works = visit.works.filter(workId => workId.toString() !== work._id.toString());
     await visit.save();
     return visit.populate("curator works");
   }

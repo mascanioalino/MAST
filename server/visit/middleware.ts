@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import { Types } from "mongoose";
 import VisitCollection from "./collection";
+import * as util from "./util";
 
 /**
  * Checks if there is no session active for a user that is currently logged in.
@@ -49,6 +50,33 @@ const isVisitInSession = async (
 };
 
 /**
+ * Checks if the work is not already in the visit
+ */
+ const isWorkNotInCurrentVisit = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const inProgress = await VisitCollection.findVisit(
+    req.session.visitId
+  );
+
+  console.log(inProgress);
+
+  const workIds = util.constructVisitResponse(inProgress).works.map((work: { harvardId: string; }) => work.harvardId)
+  console.log(workIds);
+
+  if (workIds.includes(req.params.harvardId)) {
+    res.status(409).json({
+      error: "Work has already been added to visit.",
+    });
+    return;
+  } else {
+    next();
+  }
+};
+
+/**
  * Checks if there is no session active for a user that is currently logged in.
  */
 const loggedInUserOwnsVisit = async (
@@ -68,4 +96,4 @@ const loggedInUserOwnsVisit = async (
   }
 };
 
-export { isNoVisitInSession, loggedInUserOwnsVisit, isVisitInSession };
+export { isNoVisitInSession, loggedInUserOwnsVisit, isVisitInSession, isWorkNotInCurrentVisit };
