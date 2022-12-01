@@ -5,7 +5,13 @@
   <main class="mainPage">
     <section class="work">
       <section class="image">
-        <WorkCanvas />
+        <p class="add" v-on:click="this.toggleAnnotating">
+          {{ this.annotating ? "[back]" : "[+]" }}
+        </p>
+        <WorkCanvas
+          :annotating="this.annotating"
+          v-on:pointSelected="(f) => (this.pointSelected = f)"
+        />
         <footer class="workInfo">
           <h1>{{ work.title }}</h1>
         </footer>
@@ -31,12 +37,22 @@ export default {
     return {
       work: {},
       alerts: {},
+      annotating: false,
+      annotationEntered: null,
+      pointSelected: null,
     };
   },
   mounted() {
     this.getWork(this.$route.params.harvardId);
   },
   methods: {
+    toggleAnnotating() {
+      this.annotating = !this.annotating;
+      if (!this.annotating) {
+        this.pointSelected = null;
+        this.annotationEntered = null;
+      }
+    },
     async getWork(harvardId) {
       const url = `/api/works/${harvardId}`;
       const res = await fetch(url).then(async (r) => r.json());
@@ -83,5 +99,9 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.add {
+  align-self: flex-end;
+  cursor: pointer;
 }
 </style>

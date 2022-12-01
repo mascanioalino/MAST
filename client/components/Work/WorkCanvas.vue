@@ -6,7 +6,12 @@
     <div class="outsideWrapper">
       <div class="insideWrapper">
         <img class="img" :src="work.imageUrl" :alt="work.title" id="image" />
-        <canvas class="coveringCanvas" id="canvas"></canvas>
+        <canvas
+          class="coveringCanvas"
+          :class="{ hover: this.annotating }"
+          v-on="this.annotating ? { click: checkPoint } : {}"
+          id="canvas"
+        ></canvas>
       </div>
     </div>
   </section>
@@ -19,11 +24,17 @@ export default {
     return {
       work: {},
       alerts: {},
-      points: [],
+      points: [], // [{Point: Path2D}]
+      paths: [],
       canvas: {},
       height: {},
       width: {},
     };
+  },
+  props: {
+    annotating: {
+      type: Boolean,
+    },
   },
   created() {
     this.getWork(this.$route.params.harvardId);
@@ -44,6 +55,62 @@ export default {
     this.drawPoints();
   },
   methods: {
+    checkPoint(e) {
+      var rect = e.target.getBoundingClientRect();
+      var x = e.clientX - rect.left; //x position within the element.
+      var y = e.clientY - rect.top; //y position within the element.
+      const xPercent = x / rect.width;
+      const yPercent = y / rect.height;
+      var existingPoint = null;
+      var ctx = this.canvas.getContext("2d");
+
+      //Check if point is already on canvas
+      for (var path of this.paths) {
+        if (
+          ctx.isPointInPath(path, xPercent * this.width, yPercent * this.height)
+        ) {
+          existingPoint = this.points[this.paths.indexOf(path)]; //Get the corresponding point
+          this.$emit("pointSelected", existingPoint);
+        }
+      }
+
+      if (!existingPoint) {
+        this.addPoint(Math.round(xPercent * 100), Math.round(yPercent * 100));
+      }
+    },
+    async addPoint(xPercent, yPercent) {
+      const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          xLocation: xPercent,
+          yLocation: yPercent,
+          workId: this.work._id,
+        }),
+      };
+
+      try {
+        const url = `/api/points`;
+        const r = await fetch(url, options);
+
+        if (!r.ok) {
+          const res = await r.json;
+          throw new Error(res.error);
+        }
+
+        this.$set(this.alerts, "Successfully added point to work!", "success");
+        setTimeout(
+          () => this.$delete(this.alerts, "Successfully added point to work!"),
+          3000
+        );
+      } catch (e) {
+        this.$set(this.alerts, e, "error");
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+      this.getPoints(this.work);
+      this.drawPoints();
+    },
     getCanvas() {
       this.canvas = document.getElementById("canvas");
     },
@@ -52,14 +119,15 @@ export default {
       this.canvas.height = this.height;
     },
     drawPoints() {
+      this.paths = [];
       var ctx = this.canvas.getContext("2d");
       this.fitToContainer();
       ctx.fillStyle = "#FFCD29";
       for (var p of this.points) {
         var xPercent = p.xLocation / 100;
         var yPercent = p.yLocation / 100;
-        ctx.beginPath();
-        ctx.arc(
+        const path = new Path2D();
+        path.arc(
           xPercent * this.width,
           yPercent * this.height,
           10, //radius
@@ -67,8 +135,9 @@ export default {
           2 * Math.PI, //end angle
           true
         );
-        ctx.fill();
-        ctx.stroke();
+        ctx.fill(path);
+        ctx.stroke(path);
+        this.paths.push(path);
       }
     },
     async getWork(harvardId) {
@@ -97,7 +166,6 @@ export default {
 
       try {
         const r = await fetch(`/api/visits/${harvardId}`, options);
-        console.log(r);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
@@ -169,5 +237,8 @@ canvas {
   left: 0;
   width: 100%;
   height: 100%;
+}
+.hover {
+  cursor: pointer;
 }
 </style>
