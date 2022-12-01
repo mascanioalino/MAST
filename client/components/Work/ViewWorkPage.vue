@@ -3,16 +3,21 @@
 
 <template>
   <main class="mainPage">
-    <section class="image">
-      <div id="container">
-        <img class="img" :src="work.imageUrl" :alt="work.title" />
-        <canvas id="gameCanvas" width="320" height="480"></canvas>
-      </div>
+    <section class="work">
+      <section class="image">
+        <div class="outsideWrapper">
+          <div class="insideWrapper">
+            <img class="img" :src="work.imageUrl" :alt="work.title" />
+            <canvas class="coveringCanvas"></canvas>
+          </div>
+        </div>
+        <footer class="workInfo">
+          <h1>{{ work.title }}</h1>
+          <button @click="() => addWork(work.harvardId)">Collect Work</button>
+        </footer>
+      </section>
+      <!-- TODO ANNOTATIONS -->
     </section>
-    <footer class="workInfo">
-      <h1>{{ work.title }}</h1>
-      <button @click="() => addWork(work.harvardId)">Collect Work</button>
-    </footer>
   </main>
 </template>
 
@@ -21,6 +26,7 @@ export default {
   name: "ViewWorkPage",
   beforeRouteUpdate(to, from, next) {
     this.getWork(to.params.harvardId);
+    this.getPoints()
     next();
   },
   data() {
@@ -79,11 +85,11 @@ main {
   justify-content: center;
 }
 img {
-  box-sizing: border-box;
-  max-width: 600px;
-  border: 16px solid #222222;
-  padding: 32px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 0px;
+  left: 0px;
 }
 footer {
   max-width: 600px;
@@ -95,25 +101,44 @@ body {
   text-align: center;
   background: #f2f6f8;
 }
-.img {
+
+.work {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.outsideWrapper {
+  box-sizing: border-box;
+  max-width: 600px;
+  padding: 32px;
+  /* border: 1px solid blue; */
+  border: 16px solid #222222;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.insideWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.coveredImage {
+  width: 100%;
+  height: 100%;
   position: absolute;
-  z-index: 1;
+  top: 0px;
+  left: 0px;
 }
-
-#container {
-  display: inline-block;
-  width: 320px;
-  height: 480px;
-  margin: 0 auto;
-  background: black;
-  position: relative;
-  border: 5px solid black;
-  border-radius: 10px;
-  box-shadow: 0 5px 50px #333;
-}
-
-#gameCanvas {
-  position: relative;
-  z-index: 20;
+.coveringCanvas {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(255, 0, 0, 0.3);
 }
 </style>
