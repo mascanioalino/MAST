@@ -10,7 +10,8 @@ const isPointExists = async (
   res: Response,
   next: NextFunction
 ) => {
-  const pointId = req.body.pointId as string || req.params.pointId as string;
+  const pointId =
+    (req.body.pointId as string) || (req.params.pointId as string);
 
   if (!pointId) {
     res.status(400).json({ error: `Missing 'pointId'` });
@@ -43,20 +44,20 @@ const isPointDoesNotExist = async (
 
   const work = await WorkCollection.findOne(workId);
 
-  const points = work.points;
+  const points = work.points.map((p) => p._id.toString());
   const pointsInCoordinate = await PointCollection.findAllByLocation(
     req.body.xLocation,
     req.body.yLocation
   );
-  const found = pointsInCoordinate.some((p) => points.includes(p._id));
+  const found = pointsInCoordinate.some(
+    (p) => points.indexOf(p._id.toString()) !== -1
+  );
   if (!found) {
     next();
   } else {
-    res
-      .status(401)
-      .json({
-        error: `Point at coordinate (${req.body.xLocation},${req.body.yLocation}) already exists`,
-      });
+    res.status(401).json({
+      error: `Point at coordinate (${req.body.xLocation},${req.body.yLocation}) already exists`,
+    });
   }
 };
 

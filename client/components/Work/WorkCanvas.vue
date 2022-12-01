@@ -33,10 +33,12 @@ export default {
     this.getCanvas();
     this.width = this.$el.clientWidth;
     this.height = this.$el.clientHeight;
-    // this.drawPoints();
+  },
+  beforeMount() {
+    this.getWork(this.$route.params.harvardId);
+    this.getCanvas();
   },
   updated() {
-    // this.getWork(this.$route.params.harvardId);
     this.width = this.$el.clientWidth;
     this.height = this.$el.clientHeight;
     this.drawPoints();

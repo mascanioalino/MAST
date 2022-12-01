@@ -3,12 +3,11 @@
 
 <template>
   <section>
-    <section class="image">
-      <img 
-        :src="work.imageUrl"
-        :alt="work.title"
-      >
-    </section>
+    <router-link :to="`/work/view/${work.harvardId}`" class="action">
+      <section class="image">
+        <img :src="work.imageUrl" :alt="work.title" />
+      </section>
+    </router-link>
     <footer class="workInfo">
       <h1>{{ work.title }}</h1>
     </footer>
@@ -16,16 +15,14 @@
 </template>
 
 <script>
-
-
 export default {
   name: "GalleryWork",
   props: {
     work: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 <style scoped>
