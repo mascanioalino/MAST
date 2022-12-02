@@ -3,7 +3,7 @@
 
 <template>
   <main>
-    <Gallery :works="this.works" :showRemoveWork="false" />
+    <Gallery :works="this.works" :showRemoveWork="false" :visitDate="this.visitDate" :visitCurator="this.visitCurator"/>
   </main>
 </template>
 
@@ -20,6 +20,8 @@ export default {
   data() {
     return {
       works: [],
+      visitDate: null,
+      visitCurator: null
     };
   },
   mounted() {
@@ -34,6 +36,8 @@ export default {
         this.$router.push({name: "Not Found"});
       }
       this.works = res.works;
+      this.visitDate = res.dateOfVisit;
+      this.visitCurator = res.curator.username;
     }
   }
 };

@@ -3,7 +3,15 @@
 
 <template>
   <section class="gallery-list">
+    <header>
+      <h1 v-if="this.visitDate !== 'Current Visit'">Visit on <span>{{ this.visitDate }}</span> by <span>{{this.visitCurator}}</span></h1>
+      <h1 v-else>{{ this.visitDate }}</h1>
+      <div>
+        {{  }}
+      </div>
+    </header>
     <masonry
+      v-if="(this.works.length > 0)"
       :cols="{default: 4, 1320: 3, 980: 2, 640: 1}"
       :gutter="{default: '40px'}"
     >
@@ -14,6 +22,9 @@
         :showRemoveWork="showRemoveWork"
       />
     </masonry>
+    <section v-else>
+      <h1>No Works in Visit</h1>
+      </section>
   </section>
 </template>
 
@@ -28,10 +39,17 @@ export default {
   props: {
     works: {
       type: Array,
+      required: true
     },
     showRemoveWork: {
       type: Boolean,
       required: true
+    },
+    visitDate: {
+      type: String,
+    },
+    visitCurator: {
+      type: String,
     }
   },
 };
@@ -63,7 +81,23 @@ export default {
   }
 }
 
+h1 {
+  margin: auto;
+  text-align: center;
+}
 
+header {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgb(100, 100, 100);
+  margin-bottom: 32px;
+}
 
+span {
+  color: black;
+}
   
 </style>

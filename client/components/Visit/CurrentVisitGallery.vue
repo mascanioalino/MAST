@@ -3,7 +3,11 @@
 
 <template>
   <main>
-    <Gallery :works="$store.state.visitWorks" :showRemoveWork="true" />
+    <Gallery 
+      :works="$store.state.visitWorks"
+      :showRemoveWork="true" 
+      visitDate="Current Visit"
+    />
   </main>
 </template>
 
