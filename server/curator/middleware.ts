@@ -31,6 +31,26 @@ const isCurrentSessionCuratorExists = async (
   next();
 };
 
+
+const isQueryCuratorExists = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.query.curatorId) {
+    const curator = await CuratorCollection.findOneByCuratorId(req.query.curatorId as string);
+    if (!curator) {
+      res.status(404).json({
+        error: {
+          curatorNotFound: "Curator does not exist.",
+        },
+      });
+      return;
+    }
+  }
+  next();
+};
+
 /**
  * Checks if a username in req.body is valid, that is, it matches the username regex
  */
@@ -195,4 +215,5 @@ export {
   isCuratorLoggedIn,
   isCuratorLoggedOut,
   isUsernameExists,
+  isQueryCuratorExists,
 };

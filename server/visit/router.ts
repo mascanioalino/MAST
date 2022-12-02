@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 import express from "express";
 import VisitCollection from "./collection";
 import WorkCollection from "../work/collection";
@@ -44,7 +44,7 @@ router.post(
  * @throws {400} - If username or password are not of the correct format
  */
 router.put(
-  "/endCurrentVisit",
+  "/current",
   [curatorValidation.isCuratorLoggedIn, visitValidator.isVisitInSession],
   async (req: Request, res: Response) => {
     const visitInProgress = await VisitCollection.findInProgressVisit(
@@ -61,7 +61,7 @@ router.put(
 /**
  * Update a current visit with work
  *
- * @name PUT /api/visits/:harvardId
+ * @name PUT /api/visits/current/works/:harvardId
  *
  * @param {string} harvardId - harvardId of work object
  * @return {VisitResponse} - The updated visit
@@ -69,8 +69,8 @@ router.put(
  * @throws {409} - If username or email already taken
  * @throws {400} - If username or password are not of the correct format
  */
-router.put(
-  "/:harvardId",
+router.patch(
+  "/current/works/:harvardId",
   [
     curatorValidation.isCuratorLoggedIn,
     visitValidator.isVisitInSession,
@@ -131,19 +131,24 @@ router.delete(
   }
 );
 
+
 /**
- * Get all visits
+ * Get a visits
  *
- * @name GET /api/visits
+ * @name GET /api/visits/:visitId
  *
- * @return {VisitResponse[]} - An array of all visits
+ * @return {VisitResponse} - A visit
  *
  */
-router.get("/", async (req: Request, res: Response) => {
-  const allVisits = await VisitCollection.findAll();
-  const response = allVisits.map(util.constructVisitResponse);
-  res.status(200).json(response);
-});
+ router.get(
+  "/:visitId",
+  [visitValidator.isVisitExists],
+  async (req: Request, res: Response) => {
+    const visit = await VisitCollection.findVisit(req.params.visitId);
+    const response = util.constructVisitResponse(visit);
+    res.status(200).json(response);
+  }
+)
 
 /**
  * Get visit in session if it exists
@@ -153,7 +158,7 @@ router.get("/", async (req: Request, res: Response) => {
  *
  */
 router.get(
-  "/session",
+  "/current/session",
   [curatorValidation.isCuratorLoggedIn],
   async (req: Request, res: Response) => {
     const inProgress = await VisitCollection.findInProgressVisit(
@@ -168,6 +173,23 @@ router.get(
   }
 );
 
+
+
+
+////////
+
+
+
+
+/**
+ * Get all visits
+ *
+ * @name GET /api/visits
+ *
+ * @return {VisitResponse[]} - An array of all visits
+ *
+ */
+
 /**
  * Get visits for curator with `username`
  *
@@ -176,13 +198,34 @@ router.get(
  * @return {VisitReponse} - Visit
  *
  */
-router.get("/:curatorId", [], async (req: Request, res: Response) => {
-  console.log("🤍", req.params.curatorId);
-  const curatorVisits = await VisitCollection.findAllVisitsByCurator(
-    req.params.curatorId
-  );
-  const response = curatorVisits.map(util.constructVisitResponse);
-  res.status(200).json(response);
-});
+
+router.get(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    // Check if authorId query parameter was supplied
+    if (req.query.curatorId !== undefined) {
+      next();
+      return;
+    }
+
+    const allVisits = await VisitCollection.findAll();
+    const response = allVisits.map(util.constructVisitResponse);
+    res.status(200).json(response);
+    return;
+  },
+  [
+    curatorValidation.isQueryCuratorExists
+  ],
+  async (req: Request, res: Response, next: NextFunction) => {
+    const curatorVisits = await VisitCollection.findAllVisitsByCurator(req.query.curatorId as string);
+    const response = curatorVisits.map(util.constructVisitResponse);
+    res.status(200).json(response);
+  }
+);
+
+
+
+
+//////////
 
 export { router as visitRouter };

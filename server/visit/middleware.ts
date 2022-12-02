@@ -21,7 +21,7 @@ const isNoVisitInSession = async (
     next();
   } else {
     res.status(413).json({
-      error: "A Visit is currrently in progress for logged in user.",
+      error: "A Visit is currently in progress for logged in user.",
     });
     return;
   }
@@ -44,6 +44,28 @@ const isVisitInSession = async (
   } else {
     res.status(413).json({
       error: "No Visit currently in session for logged in user.",
+    });
+    return;
+  }
+};
+
+/**
+ * Checks if there is no session active for a user that is currently logged in.
+ */
+const isVisitExists = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const visit = await VisitCollection.findVisit(
+    req.params.visitId
+  );
+
+  if (visit !== null) {
+    next();
+  } else {
+    res.status(404).json({
+      error: "Visit does not exist.",
     });
     return;
   }
@@ -86,7 +108,7 @@ const loggedInUserOwnsVisit = async (
 ) => {
   const visit = await VisitCollection.findVisit(req.params.visitId);
 
-  if (visit.curator._id.toString() === req.session.curatorId.toString()) {
+  if (visit.curator._id.toString() === req.session.curatorId) {
     next();
   } else {
     res.status(403).json({
@@ -96,4 +118,4 @@ const loggedInUserOwnsVisit = async (
   }
 };
 
-export { isNoVisitInSession, loggedInUserOwnsVisit, isVisitInSession, isWorkNotInCurrentVisit };
+export { isNoVisitInSession, loggedInUserOwnsVisit, isVisitInSession, isWorkNotInCurrentVisit, isVisitExists };

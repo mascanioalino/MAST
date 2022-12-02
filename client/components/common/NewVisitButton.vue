@@ -38,7 +38,7 @@ export default {
       };
 
       try {
-        const r = await fetch("/api/visits/", options);
+        const r = await fetch("/api/visits", options);
         if (!r.ok) {
           // If response is not okay, we throw an error and enter the catch block
           const res = await r.json();
@@ -50,7 +50,7 @@ export default {
         console.log("res from posting new visit", res._id);
 
         this.$store.commit("setVisitId", res.visit ? res.visit._id : null);
-        this.$router.push({name: "Visit"});
+        this.$router.push({name: "Current Visit"});
       } catch (e) {
         this.$set(this.alerts, e, "error");
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -68,7 +68,7 @@ export default {
       };
 
       try {
-        const r = await fetch("/api/visits/endCurrentVisit", options);
+        const r = await fetch("/api/visits/current", options);
         if (!r.ok) {
           // If response is not okay, we throw an error and enter the catch block
           const res = await r.json();

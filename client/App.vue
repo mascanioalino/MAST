@@ -37,7 +37,7 @@ export default {
       });
 
     // Sync visit in progress
-    fetch("/api/visits/session", {
+    fetch("/api/visits/current/session", {
       credentials: "same-origin", // Sends express-session credentials with request
     })
       .then((res) => res.json())

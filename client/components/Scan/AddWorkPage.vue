@@ -56,11 +56,11 @@ export default {
     },
     async addWork(harvardId) {
       const options = {
-        method: 'PUT', headers: {'Content-Type': 'application/json'}, credentials: 'same-origin'
+        method: 'PATCH', headers: {'Content-Type': 'application/json'}, credentials: 'same-origin'
       };
 
       try {
-        const r = await fetch(`/api/visits/${harvardId}`, options);
+        const r = await fetch(`/api/visits/current/works/${harvardId}`, options);
         console.log(r);
         if (!r.ok) {
           const res = await r.json();
@@ -70,7 +70,7 @@ export default {
         this.$set(this.alerts, 'Successfully added work to visit!', 'success');
         setTimeout(() => this.$delete(this.alerts, 'Successfully added work to visit!'), 3000);
         this.$store.commit('refreshVisitWorks');
-        this.$router.push({ name: 'Visit' });
+        this.$router.push({ name: 'Current Visit' });
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
