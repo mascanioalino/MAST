@@ -8,6 +8,16 @@
         <p class="add" v-on:click="this.toggleAnnotating">
           {{ this.annotating ? "[back]" : "[+]" }}
         </p>
+        <p class="guidance">
+          {{
+            this.annotating && this.pointSelected ? "You selected a point" : ""
+          }}
+          {{
+            this.annotating && !this.pointSelected
+              ? "Select an existing point or create a new one"
+              : ""
+          }}
+        </p>
         <WorkCanvas
           :annotating="this.annotating"
           v-on:pointSelected="(f) => (this.pointSelected = f)"
@@ -128,5 +138,9 @@ body {
 .add {
   align-self: flex-end;
   cursor: pointer;
+}
+.guidance {
+  align-self: center;
+  margin: 0px;
 }
 </style>

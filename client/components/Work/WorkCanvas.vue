@@ -18,6 +18,8 @@
 </template>
 
 <script>
+const unselected = "#FFCD29";
+const selected = "#0D99FF";
 export default {
   name: "WorkCanvas",
   data() {
@@ -70,12 +72,21 @@ export default {
           ctx.isPointInPath(path, xPercent * this.width, yPercent * this.height)
         ) {
           existingPoint = this.points[this.paths.indexOf(path)]; //Get the corresponding point
+          this.drawPoints();
+          ctx.fillStyle = selected;
+          ctx.fill(path);
           this.$emit("pointSelected", existingPoint);
         }
       }
 
       if (!existingPoint) {
-        const pointToCreate = {xLocation: Math.round(xPercent * 100), yLocation: Math.round(yPercent * 100)}
+        const pointToCreate = {
+          xLocation: Math.round(xPercent * 100),
+          yLocation: Math.round(yPercent * 100),
+        };
+        this.drawPoints();
+        this.drawPoint(xPercent, yPercent, ctx, selected);
+
         this.$emit("pointSelected", pointToCreate);
       }
     },
@@ -90,23 +101,26 @@ export default {
       this.paths = [];
       var ctx = this.canvas.getContext("2d");
       this.fitToContainer();
-      ctx.fillStyle = "#FFCD29";
       for (var p of this.points) {
         var xPercent = p.xLocation / 100;
         var yPercent = p.yLocation / 100;
-        const path = new Path2D();
-        path.arc(
-          xPercent * this.width,
-          yPercent * this.height,
-          10, //radius
-          0, //start angle
-          2 * Math.PI, //end angle
-          true
-        );
-        ctx.fill(path);
-        ctx.stroke(path);
-        this.paths.push(path);
+        this.drawPoint(xPercent, yPercent, ctx, unselected);
       }
+    },
+    drawPoint(x, y, ctx, color) {
+      ctx.fillStyle = color;
+      const path = new Path2D();
+      path.arc(
+        x * this.width,
+        y * this.height,
+        10, //radius
+        0, //start angle
+        2 * Math.PI, //end angle
+        true
+      );
+      ctx.fill(path);
+      ctx.stroke(path);
+      this.paths.push(path);
     },
     async getWork(harvardId) {
       const url = `/api/works/${harvardId}`;
