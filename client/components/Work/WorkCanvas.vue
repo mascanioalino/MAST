@@ -8,7 +8,7 @@
         <img class="img" :src="work.imageUrl" :alt="work.title" id="image" />
         <canvas
           class="coveringCanvas"
-          :class="{ hover: this.annotating }"
+          :class="{ hover: this.annotating, hide: !this.showPoints }"
           v-on="this.annotating ? { click: checkPoint } : {}"
           id="canvas"
         ></canvas>
@@ -35,6 +35,9 @@ export default {
   },
   props: {
     annotating: {
+      type: Boolean,
+    },
+    showPoints: {
       type: Boolean,
     },
   },
@@ -222,5 +225,9 @@ canvas {
 }
 .hover {
   cursor: pointer;
+}
+
+.hide {
+  display: none;
 }
 </style>

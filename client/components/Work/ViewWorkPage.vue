@@ -5,9 +5,15 @@
   <main class="mainPage">
     <section class="work">
       <section class="image">
-        <p class="add" v-on:click="this.toggleAnnotating">
-          {{ this.annotating ? "[back]" : "[+]" }}
-        </p>
+        <div class="details">
+          <p class="button" v-on:click="this.toggleShow">
+            {{ this.showPoints ? "[hide all points]" : "[show all points]" }}
+          </p>
+          <p class="button" v-on:click="this.toggleAnnotating">
+            {{ this.annotating ? "[back]" : "[+]" }}
+          </p>
+        </div>
+
         <p class="guidance">
           {{
             this.annotating && this.pointSelected ? "You selected a point" : ""
@@ -21,6 +27,7 @@
         <WorkCanvas
           :annotating="this.annotating"
           v-on:pointSelected="(f) => (this.pointSelected = f)"
+          :showPoints="this.showPoints"
         />
         <footer class="workInfo">
           <h1>{{ work.title }}</h1>
@@ -50,6 +57,7 @@ export default {
       annotating: false,
       annotationEntered: null,
       pointSelected: null,
+      showPoints: false,
     };
   },
   mounted() {
@@ -61,7 +69,12 @@ export default {
       if (!this.annotating) {
         this.pointSelected = null;
         this.annotationEntered = null;
+      } else {
+        this.showPoints = true;
       }
+    },
+    toggleShow() {
+      this.showPoints = !this.showPoints;
     },
     async getWork(harvardId) {
       const url = `/api/works/${harvardId}`;
@@ -135,12 +148,15 @@ body {
   flex-direction: column;
   justify-content: center;
 }
-.add {
-  align-self: flex-end;
+.button {
   cursor: pointer;
 }
 .guidance {
   align-self: center;
   margin: 0px;
+}
+.details {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
