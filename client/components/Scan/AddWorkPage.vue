@@ -81,19 +81,18 @@ export default {
 </script>
 
 <style scoped>
-main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
 img {
+  display: block;
   box-sizing: border-box;
   max-width: 600px;
   border: 16px solid #222222;
   padding: 32px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin: auto;
 }
 footer {
+  display: block;
+  margin: auto;
   max-width: 600px;
 }
 h1{

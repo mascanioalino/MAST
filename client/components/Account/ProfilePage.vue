@@ -36,7 +36,7 @@ export default {
   beforeCreate() {
     console.log(`/api/visits?curatorId${this.$store.state.curatorId}`);
     // Sync stored username to current session
-    fetch(`/api/visits?curatorId${this.$store.state.curatorId}`, {
+    fetch(`/api/visits?curatorId=${this.$store.state.curatorId}`, {
       credentials: "same-origin", // Sends express-session credentials with request
     })
       .then((res) => res.json())

@@ -3,7 +3,7 @@
 
 <template>
   <main>
-    <Gallery :works="$store.state.visitWorks" />
+    <Gallery :works="$store.state.visitWorks" :showRemoveWork="true" />
   </main>
 </template>
 

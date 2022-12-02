@@ -11,6 +11,7 @@
         v-for="work in this.works" 
         :key="work.harvardId"
         :work="work" 
+        :showRemoveWork="showRemoveWork"
       />
     </masonry>
   </section>
@@ -28,6 +29,10 @@ export default {
     works: {
       type: Array,
     },
+    showRemoveWork: {
+      type: Boolean,
+      required: true
+    }
   },
 };
 </script>

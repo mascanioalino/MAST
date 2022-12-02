@@ -3,7 +3,7 @@
 
 <template>
   <main>
-    <Gallery :works="this.works" />
+    <Gallery :works="this.works" :showRemoveWork="false" />
   </main>
 </template>
 
@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      works: Array,
+      works: [],
     };
   },
   mounted() {

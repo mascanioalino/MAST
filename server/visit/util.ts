@@ -17,7 +17,7 @@ type VisitResponse = {
  * @returns {string} - formatted date as string
  */
 const formatDate = (date: Date): string =>
-  moment(date).format("MMMM Do YYYY, h:mm:ss a");
+  moment(date).format("MMMM Do YYYY [at] h:mm:ss a");
 
 /**
  * Transform a raw User object from the database into an object

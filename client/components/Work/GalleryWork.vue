@@ -8,7 +8,10 @@
         <img :src="work.imageUrl" :alt="work.title" />
       </section>
     </router-link>
-    <footer class="workInfo">
+    <footer 
+      class="workInfo"
+      v-if="this.showRemoveWork"
+    >
       <h1>{{ work.title }}</h1>
       <button
       @click="() => removeWork(work.harvardId)"
@@ -25,6 +28,10 @@ export default {
   props: {
     work: {
       type: Object,
+      required: true
+    },
+    showRemoveWork: {
+      type: Boolean,
       required: true
     }
   },

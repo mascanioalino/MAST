@@ -80,6 +80,7 @@ export default {
         console.log("res from ending visit", res);
         this.$store.commit("setVisitId", null);
         this.$store.commit('refreshVisitWorks');
+        this.$router.push({name: 'Home'});
 
         this.$set(this.alerts, "Ended Visit", "success");
         setTimeout(() => this.$delete(this.alerts, "Ended Visit"), 3000);

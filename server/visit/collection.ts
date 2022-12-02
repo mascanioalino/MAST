@@ -114,7 +114,7 @@ class VisitCollection {
     curatorId: string
   ): Promise<Array<HydratedDocument<Visit>>> {
     const curator = await CuratorCollection.findOneByCuratorId(curatorId);
-    return VisitModel.find({ curator: curator._id }).populate("curator works");
+    return VisitModel.find({ curator: curator._id }).sort({dateOfVisit: -1}).populate("curator works");
   }
 
   /**
