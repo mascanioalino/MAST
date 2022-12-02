@@ -4,7 +4,12 @@
       <NavBar />
       <NewVisitButton v-if="$store.state.username !== null" />
     </header>
-    <router-view :class="[{ visitInProgress: visitInSession && $store.state.username !== null}, 'view']" />
+    <router-view
+      :class="{
+        visitInProgress: visitInSession && $store.state.username !== null,
+        view: !visitInSession || $store.state.username === null,
+      }"
+    />
   </div>
 </template>
 
@@ -18,7 +23,7 @@ export default {
   computed: {
     visitInSession() {
       return this.$store.state.visitId !== null;
-    }
+    },
   },
   beforeCreate() {
     // Sync stored username to current session
@@ -53,8 +58,8 @@ export default {
 
     // Clear alerts on page refresh
     this.$store.state.alerts = {};
-    this.$store.commit('refreshVisitWorks');
-  }
+    this.$store.commit("refreshVisitWorks");
+  },
 };
 </script>
 <style>
@@ -66,12 +71,11 @@ body {
   margin: 0px;
 }
 .view {
-  height: calc(100vh - 96px);
   margin-top: 96px;
+  align-items: center ;
 }
 .visitInProgress {
-  height: calc(100vh - 134px);
   margin-top: 134px;
+  align-items: center ;
 }
-
 </style>

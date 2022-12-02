@@ -61,6 +61,31 @@ export default {
       }
       this.work = res.work;
     },
+    async addPoint(xPercent, yPercent) {
+      const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          xLocation: xPercent,
+          yLocation: yPercent,
+          workId: this.work._id,
+        }),
+      };
+
+      try {
+        const url = `/api/points`;
+        const r = await fetch(url, options);
+
+        if (!r.ok) {
+          const res = await r.json;
+          throw new Error(res.error);
+        }
+      } catch (e) {
+        this.$set(this.alerts, e, "error");
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
   },
 };
 </script>

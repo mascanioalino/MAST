@@ -75,41 +75,9 @@ export default {
       }
 
       if (!existingPoint) {
-        this.addPoint(Math.round(xPercent * 100), Math.round(yPercent * 100));
+        const pointToCreate = {xLocation: Math.round(xPercent * 100), yLocation: Math.round(yPercent * 100)}
+        this.$emit("pointSelected", pointToCreate);
       }
-    },
-    async addPoint(xPercent, yPercent) {
-      const options = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
-        body: JSON.stringify({
-          xLocation: xPercent,
-          yLocation: yPercent,
-          workId: this.work._id,
-        }),
-      };
-
-      try {
-        const url = `/api/points`;
-        const r = await fetch(url, options);
-
-        if (!r.ok) {
-          const res = await r.json;
-          throw new Error(res.error);
-        }
-
-        this.$set(this.alerts, "Successfully added point to work!", "success");
-        setTimeout(
-          () => this.$delete(this.alerts, "Successfully added point to work!"),
-          3000
-        );
-      } catch (e) {
-        this.$set(this.alerts, e, "error");
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
-      }
-      this.getPoints(this.work);
-      this.drawPoints();
     },
     getCanvas() {
       this.canvas = document.getElementById("canvas");
