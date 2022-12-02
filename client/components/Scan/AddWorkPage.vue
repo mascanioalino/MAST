@@ -11,8 +11,17 @@
     </section>
     <footer class="workInfo">
       <h1>{{ work.title }}</h1>
-      <button @click="() => addWork(work.harvardId)">
+      <button 
+        v-if="!visitedWorks.includes(work.harvardId)"
+        @click="() => addWork(work.harvardId)"
+      >
         Collect Work
+      </button>
+      <button 
+        v-else
+        disabled
+      >
+        Work is Already Collected
       </button>
     </footer>
   </main>
@@ -28,11 +37,13 @@ export default {
   data() {
     return {
       work: {},
-      alerts: {}
+      alerts: {},
+      visitedWorks: []
     };
   },
   mounted() {
     this.getWork(this.$route.params.harvardId);
+    this.visitedWorks = this.$store.state.visitWorks.map(work => work.harvardId);
   },
   methods: {
     async getWork(harvardId) {
@@ -45,11 +56,11 @@ export default {
     },
     async addWork(harvardId) {
       const options = {
-        method: 'PUT', headers: {'Content-Type': 'application/json'}, credentials: 'same-origin'
+        method: 'PATCH', headers: {'Content-Type': 'application/json'}, credentials: 'same-origin'
       };
 
       try {
-        const r = await fetch(`/api/visits/${harvardId}`, options);
+        const r = await fetch(`/api/visits/current/works/${harvardId}`, options);
         console.log(r);
         if (!r.ok) {
           const res = await r.json();
@@ -59,7 +70,7 @@ export default {
         this.$set(this.alerts, 'Successfully added work to visit!', 'success');
         setTimeout(() => this.$delete(this.alerts, 'Successfully added work to visit!'), 3000);
         this.$store.commit('refreshVisitWorks');
-        this.$router.push({ name: 'Visit' });
+        this.$router.push({ name: 'Current Visit' });
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -87,5 +98,10 @@ footer {
 }
 h1{
   text-align: center;
+}
+button:disabled,
+button[disabled]{
+  cursor: auto;
+  background-color: #b5b5b5;
 }
 </style>

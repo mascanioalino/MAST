@@ -7,7 +7,7 @@
     <div
       v-if="visitInSession && $store.state.username !== null"
       class="progress-container"
-      @click="$router.push({name: 'Visit'})"
+      @click="$router.push({name: 'Current Visit'})"
     >
       <div>Visit in Progress</div>
     </div>

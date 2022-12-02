@@ -58,7 +58,7 @@ const store = new Vuex.Store({
       console.log("user VISITs  SET", userVisits);
     },
     async refreshVisitWorks(state) {
-      const url = '/api/visits/session';
+      const url = '/api/visits/current/session';
       const res = await fetch(url).then(async r => r.json());
       if(res !== null) {
         state.visitWorks = res.works;

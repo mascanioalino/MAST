@@ -12,7 +12,7 @@
       </div>
     </header>
     <div class="visit-list">
-      <Visit v-for="visit in this.$store.state.userVisits" :visit="visit" />
+      <Visit v-for="visit in this.$store.state.userVisits" :key="visit._id" :visit="visit" />
     </div>
   </main>
 </template>
@@ -34,9 +34,9 @@ export default {
     Visit,
   },
   beforeCreate() {
-    console.log(`/api/visits/${this.$store.state.curatorId}`);
+    console.log(`/api/visits?curatorId${this.$store.state.curatorId}`);
     // Sync stored username to current session
-    fetch(`/api/visits/${this.$store.state.curatorId}`, {
+    fetch(`/api/visits?curatorId${this.$store.state.curatorId}`, {
       credentials: "same-origin", // Sends express-session credentials with request
     })
       .then((res) => res.json())
@@ -48,12 +48,9 @@ export default {
 };
 </script>
 <style scoped>
-main {
-  display: block;
-}
 header {
+  margin: auto;
   width: 600px;
-  margin: 100px auto;
   display: flex;
   align-items: center;
   justify-content: space-between;

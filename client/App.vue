@@ -4,7 +4,7 @@
       <NavBar />
       <NewVisitButton v-if="$store.state.username !== null" />
     </header>
-    <router-view :class="{ full: visitInSession && $store.state.username !== null }" />
+    <router-view :class="[{ visitInProgress: visitInSession && $store.state.username !== null}, 'view']" />
   </div>
 </template>
 
@@ -37,7 +37,7 @@ export default {
       });
 
     // Sync visit in progress
-    fetch("/api/visits/session", {
+    fetch("/api/visits/current/session", {
       credentials: "same-origin", // Sends express-session credentials with request
     })
       .then((res) => res.json())
@@ -46,6 +46,8 @@ export default {
         if (res !== null) {
           const visit = res._id;
           this.$store.commit("setVisitId", visit);
+        } else {
+          this.$store.commit("setVisitId", null);
         }
       });
 
@@ -63,8 +65,13 @@ html {
 body {
   margin: 0px;
 }
-.full {
-  height: calc(100vh - 102px);
-  margin-top: 102px;
+.view {
+  height: calc(100vh - 96px);
+  margin-top: 96px;
 }
+.visitInProgress {
+  height: calc(100vh - 134px);
+  margin-top: 134px;
+}
+
 </style>

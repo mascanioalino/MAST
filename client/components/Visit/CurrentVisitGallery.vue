@@ -3,39 +3,17 @@
 
 <template>
   <main>
-    <section class="gallery-list">
-      <masonry
-        :cols="4"
-        :gutter="40"
-        class
-      >
-        <GalleryWork 
-          v-for="work in $store.state.visitWorks" 
-          :key="work.harvardId"
-          :work="work" 
-        />
-      </masonry>
-
-    </section>
+    <Gallery :works="$store.state.visitWorks" />
   </main>
 </template>
 
 <script>
-import GalleryWork from "@/components/Work/GalleryWork.vue";
+import Gallery from "@/components/Visit/Gallery.vue";
 
 export default {
   name: "CurrentVisitGallery",
   components: {
-    GalleryWork
+    Gallery
   }
 };
 </script>
-
-<style scoped>
-  .gallery-list {
-    margin-top: 100px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-</style>

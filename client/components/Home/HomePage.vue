@@ -27,10 +27,6 @@ header {
   margin: auto;
   text-align: center;
 }
-main {
-  display: block;
-  margin-top: 100px;
-}
 div {
   width: 400px;
   margin: 80px auto;

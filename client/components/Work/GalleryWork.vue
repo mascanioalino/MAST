@@ -10,6 +10,11 @@
     </router-link>
     <footer class="workInfo">
       <h1>{{ work.title }}</h1>
+      <button
+      @click="() => removeWork(work.harvardId)"
+      >
+        Remove Work
+      </button>
     </footer>
   </section>
 </template>
@@ -20,9 +25,31 @@ export default {
   props: {
     work: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
+  methods: {
+    async removeWork(harvardId) {
+      const options = {
+        method: 'DELETE', headers: {'Content-Type': 'application/json'}, credentials: 'same-origin'
+      };
+
+      try {
+        const r = await fetch(`/api/visits/${this.$store.state.visitId}/works/${this.work.harvardId}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        this.$set(this.alerts, 'Successfully removed work from visit!', 'success');
+        setTimeout(() => this.$delete(this.alerts, 'Successfully removed work from visit!'), 3000);
+        this.$store.commit('refreshVisitWorks');
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
+  }
 };
 </script>
 <style scoped>
