@@ -6,6 +6,7 @@ import HomePage from "./components/Home/HomePage.vue";
 import LoginPage from "./components/Login/LoginPage.vue";
 import ScanPage from "./components/Scan/ScanPage.vue";
 import AddWorkPage from "./components/Scan/AddWorkPage.vue";
+import ViewWorkPage from "./components/Work/ViewWorkPage.vue";
 import CurrentVisitGallery from "./components/Visit/CurrentVisitGallery.vue";
 import VisitPage from "./components/Visit/VisitPage.vue";
 import NotFound from "./NotFound.vue";
@@ -22,6 +23,7 @@ const routes = [
   { path: "/visit", name: "Current Visit", component: CurrentVisitGallery },
   { path: "/visit/:visitId", name: "Visit", component: VisitPage },
   { path: "/work/:harvardId", name: "Add Work", component: AddWorkPage },
+  { path: "/work/view/:harvardId", name: "View Work", component: ViewWorkPage },
   { path: "*", name: "Not Found", component: NotFound },
 ];
 

@@ -7,7 +7,7 @@
     <div
       v-if="visitInSession && $store.state.username !== null"
       class="progress-container"
-      @click="$router.push({name: 'Current Visit'})"
+      @click="$router.push({ name: 'Current Visit' })"
     >
       <div>Visit in Progress</div>
     </div>
@@ -52,6 +52,7 @@ nav {
   position: fixed;
   top: 0px;
   left: 0px;
+  z-index: 1;
 }
 .menu-container {
   background-color: white;

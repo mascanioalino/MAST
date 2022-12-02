@@ -42,7 +42,6 @@ class PointCollection {
   static async findOne(
     pointId: Types.ObjectId | string
   ): Promise<HydratedDocument<Point>> {
-    console.log(pointId);
     return PointModel.findOne({ _id: pointId }).populate("annotations");
   }
 

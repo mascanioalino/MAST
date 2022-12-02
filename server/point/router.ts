@@ -18,14 +18,17 @@ const router = express.Router();
  * @param {string} workId - The work the point is associated with
  * @return {PointResponse} - The created point
  * @throws {400} - Missing work Id
- * @throws {401} - There is already a point at that location 
+ * @throws {401} - There is already a point at that location
  * TODO add @throws
  */
 router.post(
   "/",
   [curatorValidation.isCuratorLoggedIn, pointValidator.isPointDoesNotExist],
   async (req: Request, res: Response) => {
-    const point = await PointCollection.addOne(req.body.xLocation, req.body.yLocation);
+    const point = await PointCollection.addOne(
+      req.body.xLocation,
+      req.body.yLocation
+    );
     const work = await WorkCollection.addPoint(req.body.workId, point);
     res.status(201).json({
       message: `You created a new point for ${work._id.toString()}`,
@@ -43,20 +46,20 @@ router.post(
  * TODO: @throws
  *
  */
- router.get(
+router.get(
   "/:workId?",
   // [workValidator.isWorkExists],
   async (req: Request, res: Response) => {
-    const work = await WorkCollection.findOne(
-      req.params.workId as string
-    );
-    const allPoints =[];
+    const work = await WorkCollection.findOne(req.params.workId as string);
+    const allPoints = [];
     console.log(work.points);
-    for(var point of work.points) {
-      allPoints.push(await PointCollection.findOne(point._id))
+    for (var point of work.points) {
+      allPoints.push(await PointCollection.findOne(point._id));
     }
     const response = allPoints.map(util.constructPointResponse);
-    res.status(200).json(response);
+    res.status(200).json({
+      points: response,
+    });
   }
 );
 
@@ -71,8 +74,7 @@ router.post(
  */
 router.delete(
   "/:pointId?",
-  [pointValidator.isPointExists,
-    pointValidator.noAnnotations],
+  [pointValidator.isPointExists, pointValidator.noAnnotations],
   async (req: Request, res: Response) => {
     await PointCollection.deleteOne(req.params.pointId);
     res.status(200).json({
