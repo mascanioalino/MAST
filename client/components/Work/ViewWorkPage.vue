@@ -26,20 +26,41 @@
         </p>
         <WorkCanvas
           :annotating="this.annotating"
-          v-on:pointSelected="(f) => (this.pointSelected = f)"
-          :showPoints="this.showPoints"
+          ref="canvas"
+          v-on:pointSelected="(f) => reload(f)"
         />
         <footer class="workInfo">
           <h1>{{ work.title }}</h1>
         </footer>
       </section>
       <!-- TODO ANNOTATIONS -->
+      <div class="annotations">
+        <div class="contents">
+          <AnnotationComponent
+            v-for="annotation in displayedAnnotations"
+            :key="annotation.id"
+            :annotation="annotation"
+          />
+        </div>
+
+        <footer>
+          <CreateNewAnnotationForm
+            v-if="this.annotating"
+            @submit="loadAnnotations"
+            :pointSelected="this.pointSelected"
+            :annotationEntered="this.annotationEntered"
+            :work="this.work"
+          />
+        </footer>
+      </div>
     </section>
   </main>
 </template>
 
 <script>
 import WorkCanvas from "@/components/Work/WorkCanvas.vue";
+import AnnotationComponent from "@/components/Annotation/AnnotationComponent.vue";
+import CreateNewAnnotationForm from "@/components/Annotation/CreateNewAnnotationForm.vue";
 
 export default {
   name: "ViewWorkPage",
@@ -47,30 +68,67 @@ export default {
     this.getWork(to.params.harvardId);
     next();
   },
+  created() {
+        this.$root.$refs.ViewWorkPage = this;
+    },
   components: {
     WorkCanvas,
+    AnnotationComponent,
+    CreateNewAnnotationForm,
   },
   data() {
     return {
       work: {},
       alerts: {},
       annotating: false,
-      annotationEntered: null,
+      annotationEntered: "",
       pointSelected: null,
-      showPoints: false,
+      displayedAnnotations: {},
     };
   },
   mounted() {
     this.getWork(this.$route.params.harvardId);
   },
   methods: {
+    reload(f) {
+      this.pointSelected = f;
+      this.loadAnnotations();
+    },
     toggleAnnotating() {
       this.annotating = !this.annotating;
       if (!this.annotating) {
         this.pointSelected = null;
         this.annotationEntered = null;
-      } else {
-        this.showPoints = true;
+        this.$refs.canvas.drawPoints();
+      }
+    },
+    async loadAnnotations() {
+      if (!this.annotating && this.pointSelected == null) {
+        // Load all annotations
+        var allAnnotations = [];
+        for (var point of this.work.points) {
+          const url = `/api/annotations/${point._id}`;
+          const res = await fetch(url).then(async (r) => r.json());
+          if (res.error) {
+            this.$router.push({ name: "Not Found" });
+          }
+          if (res.length > 0) {
+            // Some points don't have annotations right now
+            // console.log(res);
+            for (var ann of res) {
+              allAnnotations.push(ann);
+            }
+          }
+        }
+        this.displayedAnnotations = allAnnotations;
+      } else if (this.pointSelected && this.pointSelected._id) {
+        // Loads annotations from that point only
+        const url = `/api/annotations/${this.pointSelected._id}`;
+        const res = await fetch(url).then(async (r) => r.json());
+        if (res.error) {
+          this.$router.push({ name: "Not Found" });
+        }
+        this.displayedAnnotations = res;
       }
     },
     toggleShow() {
@@ -83,31 +141,7 @@ export default {
         this.$router.push({ name: "Not Found" });
       }
       this.work = res.work;
-    },
-    async addPoint(xPercent, yPercent) {
-      const options = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
-        body: JSON.stringify({
-          xLocation: xPercent,
-          yLocation: yPercent,
-          workId: this.work._id,
-        }),
-      };
-
-      try {
-        const url = `/api/points`;
-        const r = await fetch(url, options);
-
-        if (!r.ok) {
-          const res = await r.json;
-          throw new Error(res.error);
-        }
-      } catch (e) {
-        this.$set(this.alerts, e, "error");
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
-      }
+      this.loadAnnotations();
     },
   },
 };
@@ -140,13 +174,28 @@ body {
 .work {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .image {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  width: 50%;
+}
+.annotations {
+  display: flex;
+  flex-direction: column;
+  margin-left: 24px;
+  background-color: #bde3ff;
+  border-radius: 10px;
+  width: 50%;
+  height: 80vh;
+}
+
+.contents {
+  padding: 8px;
+  overflow-y: scroll;
 }
 .button {
   cursor: pointer;

@@ -61,7 +61,6 @@ export default {
 
       try {
         const r = await fetch(`/api/visits/current/works/${harvardId}`, options);
-        console.log(r);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);

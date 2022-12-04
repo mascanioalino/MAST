@@ -1,5 +1,5 @@
 import type { HydratedDocument } from "mongoose";
-import type { Annotation } from "./model";
+import type { Annotation, PopulatedAnnotation } from "./model";
 import moment from "moment";
 
 type AnnotationResponse = {
@@ -31,7 +31,7 @@ const formatDate = (date: Date): string =>
 const constructAnnotationResponse = (
   annotation: HydratedDocument<Annotation>
 ): AnnotationResponse => {
-  const annotationCopy: Annotation = {
+  const annotationCopy: PopulatedAnnotation = {
     ...annotation.toObject({
       versionKey: false, // Cosmetics; prevents returning of __v property
     }),
@@ -40,7 +40,7 @@ const constructAnnotationResponse = (
   return {
     ...annotationCopy,
     _id: annotationCopy._id.toString(),
-    curator: annotationCopy.curator._id.toString(),
+    curator: annotationCopy.curator.username,
     dateCreated: formatDate(annotationCopy.dateCreated),
     dateModified: formatDate(annotationCopy.dateModified),
   };

@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import express from "express";
 import PointCollection from "./collection";
 import WorkCollection from "../work/collection";
+import AnnotationCollection from "../annotation/collection";
 import * as curatorValidation from "../curator/middleware";
 import * as pointValidator from "./middleware";
 import * as util from "./util";
@@ -29,10 +30,19 @@ router.post(
       req.body.xLocation,
       req.body.yLocation
     );
-    const work = await WorkCollection.addPoint(req.body.workId, point);
+    const annotation = await AnnotationCollection.addOne(
+      req.session.curatorId,
+      req.body.content,
+      req.body.isPublic
+    );
+    const annotatedPoint = await PointCollection.addAnnotation(
+      point._id,
+      annotation
+    );
+    const work = await WorkCollection.addPoint(req.body.workId, annotatedPoint);
     res.status(201).json({
       message: `You created a new point for ${work._id.toString()}`,
-      point: util.constructPointResponse(point),
+      point: util.constructPointResponse(annotatedPoint),
     });
   }
 );
@@ -52,7 +62,6 @@ router.get(
   async (req: Request, res: Response) => {
     const work = await WorkCollection.findOne(req.params.workId as string);
     const allPoints = [];
-    console.log(work.points);
     for (var point of work.points) {
       allPoints.push(await PointCollection.findOne(point._id));
     }

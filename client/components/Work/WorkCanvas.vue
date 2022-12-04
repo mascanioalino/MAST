@@ -7,9 +7,8 @@
       <div class="insideWrapper">
         <img class="img" :src="work.imageUrl" :alt="work.title" id="image" />
         <canvas
-          class="coveringCanvas"
-          :class="{ hover: this.annotating, hide: !this.showPoints }"
-          v-on="this.annotating ? { click: checkPoint } : {}"
+          class="coveringCanvas hover"
+          v-on:click="checkPoint"
           id="canvas"
         ></canvas>
       </div>
@@ -83,14 +82,20 @@ export default {
       }
 
       if (!existingPoint) {
-        const pointToCreate = {
-          xLocation: Math.round(xPercent * 100),
-          yLocation: Math.round(yPercent * 100),
-        };
-        this.drawPoints();
-        this.drawPoint(xPercent, yPercent, ctx, selected);
+        if (this.annotating) {
+          const pointToCreate = {
+            xLocation: Math.round(xPercent * 100),
+            yLocation: Math.round(yPercent * 100),
+          };
+          this.drawPoints();
+          this.drawPoint(xPercent, yPercent, ctx, selected);
 
-        this.$emit("pointSelected", pointToCreate);
+          this.$emit("pointSelected", pointToCreate);
+          console.log("New Point:", pointToCreate);
+        } else {
+          this.drawPoints();
+          this.$emit("pointSelected", null);
+        }
       }
     },
     getCanvas() {
