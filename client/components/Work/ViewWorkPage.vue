@@ -27,20 +27,20 @@
         </footer>
       </section>
       <!-- TODO ANNOTATIONS -->
-      <AnnotationComponent
-        v-for="annotation in displayedAnnotations"
-        :key="annotation.id"
-        :annotation="annotation"
-      />
-      <footer>
-        <CreateNewAnnotationForm
-          :pointSelected="this.pointSelected"
-          :annotationEntered="this.annotationEntered"
+      <section class="annotations">
+        <AnnotationComponent
+          v-for="annotation in displayedAnnotations"
+          :key="annotation.id"
+          :annotation="annotation"
         />
-
-      </footer>
-      <section>
-        
+        <footer>
+          <CreateNewAnnotationForm
+            v-if="this.annotating"
+            :pointSelected="this.pointSelected"
+            :annotationEntered="this.annotationEntered"
+            :work="this.work"
+          />
+        </footer>
       </section>
     </section>
   </main>
@@ -48,8 +48,8 @@
 
 <script>
 import WorkCanvas from "@/components/Work/WorkCanvas.vue";
-import AnnotationComponent from '@/components/Annotation/AnnotationComponent.vue';
-import CreateNewAnnotationForm from '@/components/Annotation/CreateNewAnnotationForm.vue';
+import AnnotationComponent from "@/components/Annotation/AnnotationComponent.vue";
+import CreateNewAnnotationForm from "@/components/Annotation/CreateNewAnnotationForm.vue";
 
 export default {
   name: "ViewWorkPage",
@@ -58,21 +58,23 @@ export default {
     next();
   },
   components: {
-    WorkCanvas, AnnotationComponent, CreateNewAnnotationForm
+    WorkCanvas,
+    AnnotationComponent,
+    CreateNewAnnotationForm,
   },
   data() {
     return {
       work: {},
       alerts: {},
       annotating: false,
-      annotationEntered: null,
+      annotationEntered: "",
       pointSelected: null,
-      displayedAnnotations: {}
+      displayedAnnotations: {},
     };
   },
   mounted() {
     this.getWork(this.$route.params.harvardId);
-    // this.loadAnnotations(); 
+    // this.loadAnnotations();
   },
   methods: {
     toggleAnnotating() {
@@ -83,7 +85,8 @@ export default {
       }
     },
     async loadAnnotations() {
-      if (!this.annotating && this.pointSelected == null) { // Load all annotations 
+      if (!this.annotating && this.pointSelected == null) {
+        // Load all annotations
         var allAnnotations = [];
         // console.log(this.work.points)
         for (var point of this.work.points) {
@@ -92,24 +95,24 @@ export default {
           if (res.error) {
             this.$router.push({ name: "Not Found" });
           }
-          if (res.length > 0) { // Some points don't have annotations right now 
+          if (res.length > 0) {
+            // Some points don't have annotations right now
             // console.log(res);
-            for (var ann of res){
-              allAnnotations.push(ann); 
+            for (var ann of res) {
+              allAnnotations.push(ann);
             }
           }
         }
         this.displayedAnnotations = allAnnotations;
-      }
-      else if (this.pointSelected._id) { // Loads annotations from that point only 
+      } else if (this.pointSelected && this.pointSelected._id) {
+        // Loads annotations from that point only
         const url = `/api/${this.pointSelected._id}`;
         const res = await fetch(url).then(async (r) => r.json());
         if (res.error) {
           this.$router.push({ name: "Not Found" });
         }
-        this.displayedAnnotations = res
+        this.displayedAnnotations = res;
       }
-
     },
     async getWork(harvardId) {
       const url = `/api/works/${harvardId}`;
@@ -118,32 +121,7 @@ export default {
         this.$router.push({ name: "Not Found" });
       }
       this.work = res.work;
-      this.loadAnnotations(); 
-    },
-    async addPoint(xPercent, yPercent) {
-      const options = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
-        body: JSON.stringify({
-          xLocation: xPercent,
-          yLocation: yPercent,
-          workId: this.work._id,
-        }),
-      };
-
-      try {
-        const url = `/api/points`;
-        const r = await fetch(url, options);
-
-        if (!r.ok) {
-          const res = await r.json;
-          throw new Error(res.error);
-        }
-      } catch (e) {
-        this.$set(this.alerts, e, "error");
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
-      }
+      this.loadAnnotations();
     },
   },
 };
@@ -183,6 +161,10 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.annotations {
+  display: flex;
+  flex-direction: column;
 }
 .add {
   align-self: flex-end;
