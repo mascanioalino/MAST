@@ -5,9 +5,15 @@
   <main class="mainPage">
     <section class="work">
       <section class="image">
-        <p class="add" v-on:click="this.toggleAnnotating">
-          {{ this.annotating ? "[back]" : "[+]" }}
-        </p>
+        <div class="details">
+          <p class="button" v-on:click="this.toggleShow">
+            {{ this.showPoints ? "[hide all points]" : "[show all points]" }}
+          </p>
+          <p class="button" v-on:click="this.toggleAnnotating">
+            {{ this.annotating ? "[back]" : "[+]" }}
+          </p>
+        </div>
+
         <p class="guidance">
           {{
             this.annotating && this.pointSelected ? "You selected a point" : ""
@@ -125,6 +131,9 @@ export default {
         this.displayedAnnotations = res;
       }
     },
+    toggleShow() {
+      this.showPoints = !this.showPoints;
+    },
     async getWork(harvardId) {
       const url = `/api/works/${harvardId}`;
       const res = await fetch(url).then(async (r) => r.json());
@@ -188,12 +197,15 @@ body {
   padding: 8px;
   overflow-y: scroll;
 }
-.add {
-  align-self: flex-end;
+.button {
   cursor: pointer;
 }
 .guidance {
   align-self: center;
   margin: 0px;
+}
+.details {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

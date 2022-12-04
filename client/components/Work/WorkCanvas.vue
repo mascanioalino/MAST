@@ -36,6 +36,9 @@ export default {
     annotating: {
       type: Boolean,
     },
+    showPoints: {
+      type: Boolean,
+    },
   },
   created() {
     this.getWork(this.$route.params.harvardId);
@@ -227,5 +230,9 @@ canvas {
 }
 .hover {
   cursor: pointer;
+}
+
+.hide {
+  display: none;
 }
 </style>
