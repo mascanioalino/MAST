@@ -52,6 +52,9 @@ export default {
     };
   },
   methods: {
+    reload: function() {
+            this.$root.$refs.ViewWorkPage.loadAnnotations();
+    },
     async addAnnotation() {
       const options = {
         method: "POST",
@@ -63,7 +66,6 @@ export default {
           isPublic: true, // TODO: Need to change isPublic
         }),
       };
-      console.log(options.body);
       try {
         const url = `/api/annotations`;
         const r = await fetch(url, options);
@@ -76,6 +78,9 @@ export default {
         this.$set(this.alerts, e, "error");
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
+      this.fields[0].value = ''
+      this.$root.$refs.ViewWorkPage.loadAnnotations();
+
     },
     async createPoint() {
       const options = {
@@ -102,6 +107,8 @@ export default {
         this.$set(this.alerts, e, "error");
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
+      this.fields[0].value = ''
+      this.$root.$refs.ViewWorkPage.loadAnnotations();
     },
     async submit() {
       if (this.pointSelected && this.fields[0].value !== "") {

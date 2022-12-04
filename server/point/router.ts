@@ -62,7 +62,6 @@ router.get(
   async (req: Request, res: Response) => {
     const work = await WorkCollection.findOne(req.params.workId as string);
     const allPoints = [];
-    console.log(work.points);
     for (var point of work.points) {
       allPoints.push(await PointCollection.findOne(point._id));
     }

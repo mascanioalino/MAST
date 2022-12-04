@@ -62,6 +62,9 @@ export default {
     this.getWork(to.params.harvardId);
     next();
   },
+  created() {
+        this.$root.$refs.ViewWorkPage = this;
+    },
   components: {
     WorkCanvas,
     AnnotationComponent,
@@ -94,11 +97,9 @@ export default {
       }
     },
     async loadAnnotations() {
-      console.log("load Annotation")
       if (!this.annotating && this.pointSelected == null) {
         // Load all annotations
         var allAnnotations = [];
-        // console.log(this.work.points)
         for (var point of this.work.points) {
           const url = `/api/annotations/${point._id}`;
           const res = await fetch(url).then(async (r) => r.json());

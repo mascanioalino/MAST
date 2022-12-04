@@ -30,7 +30,6 @@ class AnnotationCollection {
       dateModified: date
     });
     await annotation.save(); // Saves annotation to MongoDB
-    console.log("annotation:", annotation)
     return annotation.populate('curator');
   }
 

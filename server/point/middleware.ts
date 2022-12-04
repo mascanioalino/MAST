@@ -35,7 +35,6 @@ const isPointDoesNotExist = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("middleware")
   const workId = req.body.workId as string;
 
   if (!workId) {

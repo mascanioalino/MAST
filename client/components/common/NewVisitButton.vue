@@ -47,7 +47,6 @@ export default {
 
         const text = await r.text();
         const res = text ? JSON.parse(text) : { curator: null };
-        console.log("res from posting new visit", res._id);
 
         this.$store.commit("setVisitId", res.visit ? res.visit._id : null);
         this.$router.push({name: "Current Visit"});
@@ -77,7 +76,6 @@ export default {
 
         const text = await r.text();
         const res = text ? JSON.parse(text) : { curator: null };
-        console.log("res from ending visit", res);
         this.$store.commit("setVisitId", null);
         this.$store.commit('refreshVisitWorks');
         this.$router.push({name: 'Home'});
