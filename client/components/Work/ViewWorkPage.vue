@@ -27,12 +27,29 @@
         </footer>
       </section>
       <!-- TODO ANNOTATIONS -->
+      <AnnotationComponent
+        v-for="annotation in displayedAnnotations"
+        :key="annotation.id"
+        :annotation="annotation"
+      />
+      <footer>
+        <CreateNewAnnotationForm
+          :pointSelected="this.pointSelected"
+          :annotationEntered="this.annotationEntered"
+        />
+
+      </footer>
+      <section>
+        
+      </section>
     </section>
   </main>
 </template>
 
 <script>
 import WorkCanvas from "@/components/Work/WorkCanvas.vue";
+import AnnotationComponent from '@/components/Annotation/AnnotationComponent.vue';
+import CreateNewAnnotationForm from '@/components/Annotation/CreateNewAnnotationForm.vue';
 
 export default {
   name: "ViewWorkPage",
@@ -41,7 +58,7 @@ export default {
     next();
   },
   components: {
-    WorkCanvas,
+    WorkCanvas, AnnotationComponent, CreateNewAnnotationForm
   },
   data() {
     return {
@@ -50,10 +67,12 @@ export default {
       annotating: false,
       annotationEntered: null,
       pointSelected: null,
+      displayedAnnotations: {}
     };
   },
   mounted() {
     this.getWork(this.$route.params.harvardId);
+    // this.loadAnnotations(); 
   },
   methods: {
     toggleAnnotating() {
@@ -63,6 +82,35 @@ export default {
         this.annotationEntered = null;
       }
     },
+    async loadAnnotations() {
+      if (!this.annotating && this.pointSelected == null) { // Load all annotations 
+        var allAnnotations = [];
+        // console.log(this.work.points)
+        for (var point of this.work.points) {
+          const url = `/api/annotations/${point._id}`;
+          const res = await fetch(url).then(async (r) => r.json());
+          if (res.error) {
+            this.$router.push({ name: "Not Found" });
+          }
+          if (res.length > 0) { // Some points don't have annotations right now 
+            // console.log(res);
+            for (var ann of res){
+              allAnnotations.push(ann); 
+            }
+          }
+        }
+        this.displayedAnnotations = allAnnotations;
+      }
+      else if (this.pointSelected._id) { // Loads annotations from that point only 
+        const url = `/api/${this.pointSelected._id}`;
+        const res = await fetch(url).then(async (r) => r.json());
+        if (res.error) {
+          this.$router.push({ name: "Not Found" });
+        }
+        this.displayedAnnotations = res
+      }
+
+    },
     async getWork(harvardId) {
       const url = `/api/works/${harvardId}`;
       const res = await fetch(url).then(async (r) => r.json());
@@ -70,6 +118,7 @@ export default {
         this.$router.push({ name: "Not Found" });
       }
       this.work = res.work;
+      this.loadAnnotations(); 
     },
     async addPoint(xPercent, yPercent) {
       const options = {
