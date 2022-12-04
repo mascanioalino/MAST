@@ -18,8 +18,9 @@
       select point for annotation
     </button>
 
-    <button v-else-if="pointSelected !== null && fields[0].value !== ''" 
-      type="submit" @click="addAnnotation"
+    <button
+      v-else-if="pointSelected !== null && fields[0].value !== ''"
+      type="submit"
     >
       Submit
     </button>
@@ -34,11 +35,11 @@ export default {
   props: {
     pointSelected: {
       type: Object | Map,
-      required: true
+      required: true,
     },
     annotationEntered: {
       type: String,
-      default: null
+      default: null,
     },
     work: {
       type: Object,
@@ -77,7 +78,6 @@ export default {
       }
     },
     async createPoint() {
-
       const options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -104,52 +104,15 @@ export default {
       }
     },
     async submit() {
-      if (this.pointSelected && this.fields[0].value !== '') { // this is kind of hack instead of doing this.annotationEntered
+      if (this.pointSelected && this.fields[0].value !== "") {
+        // this is kind of hack instead of doing this.annotationEntered
         if (this.pointSelected._id) {
           this.addAnnotation();
         } else {
-          console.log("creating point")
+          console.log("creating point");
           this.createPoint();
         }
       }
-      //     const params = {
-      //       method: "POST",
-      //       message: "Successfully added annotation.",
-      //       body: JSON.stringify({
-      //         content: this.value,
-      //         isPublic: true,
-      //         pointId: null,
-      //       }), // LOOK HERE NEED POINT ID
-      //       callback: () => {
-      //         this.$set(this.alerts, params.message, "success");
-      //         setTimeout(() => this.$delete(this.alerts, params.message), 3000);
-      //       },
-      //     };
-      //     this.request(params);
-      //   },
-      //   async request(params) {
-      //     /**
-      //      * sends request to profile endpoint
-      //      */
-      //     const options = {
-      //       method: params.method,
-      //       headers: { "Content-Type": "application/json" },
-      //     };
-      //     if (params.body) {
-      //       options.body = params.body;
-      //     }
-      //     try {
-      //       const r = await fetch(`/api/annotations`, options);
-      //       if (!r.ok) {
-      //         const res = await r.json();
-      //         throw new Error(res.error);
-      //       }
-      //     } catch (e) {
-      //       this.$set(this.alerts, e, "error");
-      //       setTimeout(() => this.$delete(this.alerts, e), 3000);
-      //     }
-      //   },
-      // },
     },
   },
 };
