@@ -19,7 +19,7 @@
     </button>
 
     <button v-else-if="pointSelected !== null && fields[0].value !== ''" 
-      type="submit"
+      type="submit" @click="addAnnotation"
     >
       Submit
     </button>
@@ -33,7 +33,7 @@ export default {
   name: "CreateNewAnnotationForm",
   props: {
     pointSelected: {
-      type: Object,
+      type: Object | Map,
       required: true
     },
     annotationEntered: {
@@ -58,7 +58,7 @@ export default {
         credentials: "same-origin",
         body: JSON.stringify({
           pointId: this.pointSelected._id,
-          content: this.annotationEntered,
+          content: this.fields[0].value,
           isPublic: true, // TODO: Need to change isPublic
         }),
       };
@@ -77,6 +77,7 @@ export default {
       }
     },
     async createPoint() {
+
       const options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -85,7 +86,7 @@ export default {
           xLocation: this.pointSelected.xLocation,
           yLocation: this.pointSelected.yLocation,
           workId: this.work._id,
-          content: this.annotationEntered,
+          content: this.fields[0].value, // work on this.annotationEntered
           isPublic: true, // TODO: Need to change isPublic
         }),
       };
@@ -93,7 +94,6 @@ export default {
       try {
         const url = `/api/points`;
         const r = await fetch(url, options);
-
         if (!r.ok) {
           const res = await r.json;
           throw new Error(res.error);
@@ -104,10 +104,11 @@ export default {
       }
     },
     async submit() {
-      if (this.pointSelected && this.annotationEntered) {
+      if (this.pointSelected && this.fields[0].value !== '') { // this is kind of hack instead of doing this.annotationEntered
         if (this.pointSelected._id) {
           this.addAnnotation();
         } else {
+          console.log("creating point")
           this.createPoint();
         }
       }

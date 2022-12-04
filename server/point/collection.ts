@@ -24,12 +24,15 @@ class PointCollection {
     xLocation: number,
     yLocation: number
   ): Promise<HydratedDocument<Point>> {
+    console.log("adding point")
     const point = new PointModel({
       xLocation,
       yLocation,
       annotations: [],
     });
     await point.save(); // Saves Point to MongoDB
+    console.log(point)
+    console.log("id1:", point._id)
     return point.populate("annotations");
   }
 
@@ -71,7 +74,10 @@ class PointCollection {
     pointId: Types.ObjectId | string,
     annotation: Annotation
   ): Promise<HydratedDocument<Point>> {
+    console.log("id:", pointId)
+    console.log("ann:", annotation)
     const point = await PointModel.findOne({ _id: pointId });
+    console.log("point with null ann:", point)
     point.annotations.push(annotation._id);
     await point.save();
     return point.populate("annotations");

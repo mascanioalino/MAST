@@ -88,6 +88,7 @@ export default {
         this.drawPoint(xPercent, yPercent, ctx, selected);
 
         this.$emit("pointSelected", pointToCreate);
+        console.log("New Point:", pointToCreate)
       }
     },
     getCanvas() {
