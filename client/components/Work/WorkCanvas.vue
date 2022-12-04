@@ -78,16 +78,21 @@ export default {
         }
       }
 
-      if (!existingPoint && this.annotating) {
-        const pointToCreate = {
-          xLocation: Math.round(xPercent * 100),
-          yLocation: Math.round(yPercent * 100),
-        };
-        this.drawPoints();
-        this.drawPoint(xPercent, yPercent, ctx, selected);
+      if (!existingPoint) {
+        if (this.annotating) {
+          const pointToCreate = {
+            xLocation: Math.round(xPercent * 100),
+            yLocation: Math.round(yPercent * 100),
+          };
+          this.drawPoints();
+          this.drawPoint(xPercent, yPercent, ctx, selected);
 
-        this.$emit("pointSelected", pointToCreate);
-        console.log("New Point:", pointToCreate);
+          this.$emit("pointSelected", pointToCreate);
+          console.log("New Point:", pointToCreate);
+        } else {
+          this.drawPoints();
+          this.$emit("pointSelected", null);
+        }
       }
     },
     getCanvas() {

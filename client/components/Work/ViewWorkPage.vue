@@ -21,7 +21,7 @@
         <WorkCanvas
           :annotating="this.annotating"
           ref="canvas"
-          v-on:pointSelected="(f) => (this.pointSelected = f)"
+          v-on:pointSelected="(f) => reload(f)"
         />
         <footer class="workInfo">
           <h1>{{ work.title }}</h1>
@@ -75,9 +75,12 @@ export default {
   },
   mounted() {
     this.getWork(this.$route.params.harvardId);
-    // this.loadAnnotations();
   },
   methods: {
+    reload(f) {
+      this.pointSelected = f;
+      this.loadAnnotations();
+    },
     toggleAnnotating() {
       this.annotating = !this.annotating;
       if (!this.annotating) {
@@ -108,7 +111,7 @@ export default {
         this.displayedAnnotations = allAnnotations;
       } else if (this.pointSelected && this.pointSelected._id) {
         // Loads annotations from that point only
-        const url = `/api/${this.pointSelected._id}`;
+        const url = `/api/annotations/${this.pointSelected._id}`;
         const res = await fetch(url).then(async (r) => r.json());
         if (res.error) {
           this.$router.push({ name: "Not Found" });
