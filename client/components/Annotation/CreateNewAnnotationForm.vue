@@ -118,9 +118,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+input {
+  border-color: transparent;
+}
 button {
   background: green;
+  margin-top: 0;
 }
 
 button:disabled {
