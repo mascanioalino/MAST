@@ -37,6 +37,7 @@
         <footer>
           <CreateNewAnnotationForm
             v-if="this.annotating"
+            @submit="loadAnnotations"
             :pointSelected="this.pointSelected"
             :annotationEntered="this.annotationEntered"
             :work="this.work"
@@ -90,6 +91,7 @@ export default {
       }
     },
     async loadAnnotations() {
+      console.log("load Annotation")
       if (!this.annotating && this.pointSelected == null) {
         // Load all annotations
         var allAnnotations = [];

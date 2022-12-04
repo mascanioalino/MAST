@@ -109,7 +109,6 @@ export default {
         if (this.pointSelected._id) {
           this.addAnnotation();
         } else {
-          console.log("creating point");
           this.createPoint();
         }
       }
