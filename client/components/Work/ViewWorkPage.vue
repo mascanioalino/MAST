@@ -20,6 +20,7 @@
         </p>
         <WorkCanvas
           :annotating="this.annotating"
+          ref="canvas"
           v-on:pointSelected="(f) => (this.pointSelected = f)"
         />
         <footer class="workInfo">
@@ -82,6 +83,7 @@ export default {
       if (!this.annotating) {
         this.pointSelected = null;
         this.annotationEntered = null;
+        this.$refs.canvas.drawPoints();
       }
     },
     async loadAnnotations() {
