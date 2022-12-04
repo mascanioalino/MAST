@@ -28,12 +28,15 @@
         </footer>
       </section>
       <!-- TODO ANNOTATIONS -->
-      <section class="annotations">
-        <AnnotationComponent
-          v-for="annotation in displayedAnnotations"
-          :key="annotation.id"
-          :annotation="annotation"
-        />
+      <div class="annotations">
+        <div class="contents">
+          <AnnotationComponent
+            v-for="annotation in displayedAnnotations"
+            :key="annotation.id"
+            :annotation="annotation"
+          />
+        </div>
+
         <footer>
           <CreateNewAnnotationForm
             v-if="this.annotating"
@@ -43,7 +46,7 @@
             :work="this.work"
           />
         </footer>
-      </section>
+      </div>
     </section>
   </main>
 </template>
@@ -161,17 +164,28 @@ body {
 .work {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .image {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  width: 50%;
 }
 .annotations {
   display: flex;
   flex-direction: column;
+  margin-left: 24px;
+  background-color: #bde3ff;
+  border-radius: 10px;
+  width: 50%;
+  height: 80vh;
+}
+
+.contents {
+  padding: 8px;
+  overflow-y: scroll;
 }
 .add {
   align-self: flex-end;
