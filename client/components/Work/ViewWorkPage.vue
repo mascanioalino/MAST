@@ -6,9 +6,14 @@
     <section class="work">
       <section class="image">
         <div class="details">
-          <p class="button" v-on:click="this.toggleShow">
+          <p
+            class="button"
+            v-on:click="this.toggleShow"
+            v-if="!this.annotating"
+          >
             {{ this.showPoints ? "[hide all points]" : "[show all points]" }}
           </p>
+          <p class="button" v-on:click="this.toggleShow" v-else></p>
           <p class="button" v-on:click="this.toggleAnnotating">
             {{ this.annotating ? "[back]" : "[+]" }}
           </p>
@@ -112,6 +117,8 @@ export default {
         this.annotationEntered = null;
         this.$refs.canvas.drawPoints();
         this.loadAnnotations();
+      } else {
+        this.showPoints = true;
       }
     },
     async loadAnnotations() {
