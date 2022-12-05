@@ -26,7 +26,7 @@ export default {
     return {
       work: {},
       alerts: {},
-      points: [], // [{Point: Path2D}]
+      points: [],
       paths: [],
       canvas: {},
       height: {},
@@ -192,6 +192,8 @@ img {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
+  align-self: center;
 }
 
 .image {
