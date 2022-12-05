@@ -28,6 +28,7 @@
           :annotating="this.annotating"
           ref="canvas"
           v-on:pointSelected="(f) => reload(f)"
+          :showPoints="this.showPoints"
         />
         <footer class="workInfo">
           <h1>{{ work.title }}</h1>
@@ -69,8 +70,8 @@ export default {
     next();
   },
   created() {
-        this.$root.$refs.ViewWorkPage = this;
-    },
+    this.$root.$refs.ViewWorkPage = this;
+  },
   components: {
     WorkCanvas,
     AnnotationComponent,
@@ -84,6 +85,7 @@ export default {
       annotationEntered: "",
       pointSelected: null,
       displayedAnnotations: {},
+      showPoints: true,
     };
   },
   mounted() {

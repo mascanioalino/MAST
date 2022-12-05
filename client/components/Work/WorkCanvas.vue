@@ -38,6 +38,7 @@ export default {
     },
     showPoints: {
       type: Boolean,
+      default: true,
     },
   },
   created() {

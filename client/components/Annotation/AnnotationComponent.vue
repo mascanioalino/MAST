@@ -7,12 +7,12 @@
       {{ annotation.content }}
     </p>
     <footer>
-    <button @click="deleteAnnotation">
-      <b-icon 
-        icon="trash"
-        aria-hidden="true"
-      />
-    </button>
+      <button
+        v-if="annotation.curator === this.$store.state.username"
+        @click="deleteAnnotation"
+      >
+        <b-icon icon="trash" aria-hidden="true" />
+      </button>
     </footer>
   </article>
 </template>
@@ -30,12 +30,13 @@ export default {
   methods: {
     deleteAnnotation() {
       const params = {
-        method: 'DELETE',
+        method: "DELETE",
         callback: () => {
-          this.$store.commit('alert', {
-            message: 'Successfully deleted freet!', status: 'success'
+          this.$store.commit("alert", {
+            message: "Successfully deleted freet!",
+            status: "success",
           });
-        }
+        },
       };
       this.request(params);
     },
@@ -47,14 +48,18 @@ export default {
        * @param params.callback - Function to run if the the request succeeds
        */
       const options = {
-        method: params.method, headers: {'Content-Type': 'application/json'}
+        method: params.method,
+        headers: { "Content-Type": "application/json" },
       };
       if (params.body) {
         options.body = params.body;
       }
 
       try {
-        const r = await fetch(`/api/annotations/${this.annotation._id}`, options);
+        const r = await fetch(
+          `/api/annotations/${this.annotation._id}`,
+          options
+        );
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
@@ -65,12 +70,12 @@ export default {
 
         // params.callback();
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
+        this.$set(this.alerts, e, "error");
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
       this.$root.$refs.ViewWorkPage.loadAnnotations();
     },
-  }
+  },
 };
 </script>
 
@@ -90,19 +95,18 @@ export default {
 button {
   background-color: #0d99ff;
   width: 2%;
-  height:2%;
-  border: 0
+  height: 2%;
+  border: 0;
   /* float: right; */
 }
 
 .b-icon {
   float: right;
   width: 20px;
-  height: 20px
+  height: 20px;
 }
 /* button:hover {
   background-color: #78c6fd;
 
 } */
-
 </style>
