@@ -10,14 +10,15 @@
     </router-link>
     <footer 
       class="workInfo"
-      v-if="showRemoveWork"
-    >
+      
+    > 
       <h1>{{ work.title }}</h1>
-      <button
-      @click="() => removeWork(work.harvardId)"
-      >
-        Remove Work
-      </button>
+      <b-icon 
+        icon="trash"
+        aria-hidden="true"
+        v-if="showRemoveWork"
+        @click="() => removeWork(work.harvardId)"
+      />
     </footer>
   </section>
 </template>
@@ -72,7 +73,19 @@ img {
   padding: 16px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
+h1 {
+  margin: 0px;
+  font-size: 18px;
+}
 footer {
   width: 300px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+.b-icon {
+  cursor: pointer;
+  width: 32px;
 }
 </style>
