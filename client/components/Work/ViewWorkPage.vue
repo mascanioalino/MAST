@@ -111,6 +111,7 @@ export default {
         this.pointSelected = null;
         this.annotationEntered = null;
         this.$refs.canvas.drawPoints();
+        this.loadAnnotations();
       }
     },
     async loadAnnotations() {
