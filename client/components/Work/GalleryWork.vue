@@ -10,7 +10,7 @@
     </router-link>
     <footer 
       class="workInfo"
-      v-if="this.showRemoveWork"
+      v-if="showRemoveWork"
     >
       <h1>{{ work.title }}</h1>
       <button
@@ -34,6 +34,11 @@ export default {
       type: Boolean,
       required: true
     }
+  },
+  data() {
+    return {
+      alerts: {}
+    };
   },
   methods: {
     async removeWork(harvardId) {

@@ -59,6 +59,7 @@ export default {
     // Clear alerts on page refresh
     this.$store.state.alerts = {};
     this.$store.commit("refreshVisitWorks");
+    this.$store.commit("refreshUserVisits");
   },
 };
 </script>
@@ -72,10 +73,13 @@ body {
 }
 .view {
   margin-top: 96px;
-  align-items: center ;
+  align-items: center;
 }
 .visitInProgress {
   margin-top: 134px;
-  align-items: center ;
+  align-items: center;
+}
+.status {
+  background-color: green;
 }
 </style>

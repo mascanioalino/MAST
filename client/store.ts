@@ -49,13 +49,18 @@ const store = new Vuex.Store({
        */
       state.visitId = visitId;
     },
-    setUserVisits(state, userVisits) {
+    async refreshUserVisits(state) {
       /**
        * Update the stored visitId to the specified one.
-       * @param visitId - new bio to set
        */
-      state.userVisits = userVisits;
-      console.log("user VISITs  SET", userVisits);
+       fetch(`/api/visits?curatorId=${state.curatorId}`, {
+        credentials: "same-origin"
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          state.userVisits = res;
+        });
+
     },
     async refreshVisitWorks(state) {
       const url = '/api/visits/current/session';
