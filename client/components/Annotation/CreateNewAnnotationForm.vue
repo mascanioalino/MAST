@@ -52,8 +52,8 @@ export default {
     };
   },
   methods: {
-    reload: function() {
-            this.$root.$refs.ViewWorkPage.loadAnnotations();
+    reload: function () {
+      this.$root.$refs.ViewWorkPage.loadAnnotations();
     },
     async addAnnotation() {
       const options = {
@@ -78,9 +78,8 @@ export default {
         this.$set(this.alerts, e, "error");
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
-      this.fields[0].value = ''
+      this.fields[0].value = "";
       this.$root.$refs.ViewWorkPage.loadAnnotations();
-
     },
     async createPoint() {
       const options = {
@@ -99,16 +98,16 @@ export default {
       try {
         const url = `/api/points`;
         const r = await fetch(url, options);
-        if (!r.ok) {
-          const res = await r.json;
+        const res = await r.json();
+        if (res.error) {
           throw new Error(res.error);
         }
+        this.$emit("creation", res.point);
       } catch (e) {
         this.$set(this.alerts, e, "error");
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
-      this.fields[0].value = ''
-      this.$root.$refs.ViewWorkPage.loadAnnotations();
+      this.fields[0].value = "";
     },
     async submit() {
       if (this.pointSelected && this.fields[0].value !== "") {

@@ -64,16 +64,12 @@ export default {
           const res = await r.json();
           throw new Error(res.error);
         }
-
-        // this.editing = false;
-        // this.$store.commit('refreshFreets');
-
-        // params.callback();
       } catch (e) {
         this.$set(this.alerts, e, "error");
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
       this.$root.$refs.ViewWorkPage.loadAnnotations();
+      this.$emit("deletion");
     },
   },
 };

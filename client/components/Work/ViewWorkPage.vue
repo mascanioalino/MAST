@@ -39,6 +39,7 @@
         <div class="contents">
           <AnnotationComponent
             v-for="annotation in displayedAnnotations"
+            v-on:deletion="() => annotationUpdate(null)"
             :key="annotation.id"
             :annotation="annotation"
           />
@@ -51,6 +52,7 @@
             :pointSelected="this.pointSelected"
             :annotationEntered="this.annotationEntered"
             :work="this.work"
+            v-on:creation="(f) => annotationUpdate(f)"
           />
         </footer>
       </div>
@@ -96,6 +98,13 @@ export default {
       this.pointSelected = f;
       this.loadAnnotations();
     },
+    annotationUpdate(f) {
+      this.$refs.canvas
+        .getPoints(this.work)
+        .then(() => this.$refs.canvas.drawPoints());
+      this.loadAnnotations();
+      this.pointSelected = f;
+    },
     toggleAnnotating() {
       this.annotating = !this.annotating;
       if (!this.annotating) {
@@ -131,6 +140,8 @@ export default {
           this.$router.push({ name: "Not Found" });
         }
         this.displayedAnnotations = res;
+      } else if (this.pointSelected) {
+        this.displayedAnnotations = {};
       }
     },
     toggleShow() {
