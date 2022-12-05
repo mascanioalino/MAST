@@ -192,6 +192,8 @@ img {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
+  align-self: center;
 }
 
 .image {

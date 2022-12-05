@@ -188,6 +188,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  width: 75%;
 }
 
 .image {
