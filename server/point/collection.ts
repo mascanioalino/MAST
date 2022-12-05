@@ -60,6 +60,20 @@ class PointCollection {
   }
 
   /**
+   * Find a Point by an annotation
+   *
+   * @param {string} annotationId - The annotation id of the annotation to look for
+   * @return {Promise<HydratedDocument<Point>> | Promise<null> } - The points with the given annotation
+   */
+  static async findOneByAnnotation(
+    annotationId: string
+  ): Promise<HydratedDocument<Point>> {
+    return (await PointModel.findOne({ annotations: annotationId })).populate(
+      "annotations"
+    );
+  }
+
+  /**
    * Update a Point with the new content
    *
    * @param {string} pointId - The id of the Point to be updated
