@@ -49,6 +49,7 @@ export default {
         const res = text ? JSON.parse(text) : { curator: null };
 
         this.$store.commit("setVisitId", res.visit ? res.visit._id : null);
+        this.$store.commit("refreshUserVisits");
         this.$router.push({name: "Current Visit"});
       } catch (e) {
         this.$set(this.alerts, e, "error");
@@ -78,6 +79,7 @@ export default {
         const res = text ? JSON.parse(text) : { curator: null };
         this.$store.commit("setVisitId", null);
         this.$store.commit('refreshVisitWorks');
+        this.$store.commit("refreshUserVisits");
         this.$router.push({name: 'Home'});
 
         this.$set(this.alerts, "Ended Visit", "success");

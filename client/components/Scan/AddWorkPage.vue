@@ -72,6 +72,7 @@ export default {
         this.$set(this.alerts, 'Successfully added work to visit!', 'success');
         setTimeout(() => this.$delete(this.alerts, 'Successfully added work to visit!'), 3000);
         this.$store.commit('refreshVisitWorks');
+        this.$store.commit("refreshUserVisits");
         this.$router.push({ name: 'Current Visit' });
       } catch (e) {
         this.$set(this.alerts, e, 'error');

@@ -57,6 +57,7 @@ export default {
         this.$set(this.alerts, 'Successfully removed work from visit!', 'success');
         setTimeout(() => this.$delete(this.alerts, 'Successfully removed work from visit!'), 3000);
         this.$store.commit('refreshVisitWorks');
+        this.$store.commit("refreshUserVisits");
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
