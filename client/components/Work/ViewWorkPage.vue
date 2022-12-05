@@ -126,7 +126,6 @@ export default {
           }
           if (res.length > 0) {
             // Some points don't have annotations right now
-            // console.log(res);
             for (var ann of res) {
               allAnnotations.push(ann);
             }

@@ -108,6 +108,7 @@ export default {
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
       this.fields[0].value = "";
+      await this.$root.$refs.ViewWorkPage.getWork(this.work.harvardId);
       this.$root.$refs.ViewWorkPage.loadAnnotations();
     },
     async submit() {
