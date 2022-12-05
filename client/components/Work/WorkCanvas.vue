@@ -26,7 +26,7 @@ export default {
     return {
       work: {},
       alerts: {},
-      points: [], // [{Point: Path2D}]
+      points: [],
       paths: [],
       canvas: {},
       height: {},
