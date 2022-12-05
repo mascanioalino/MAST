@@ -44,6 +44,13 @@ export default {
       return this.$store.state.visitId !== null;
     },
   },
+  beforeCreate() {
+    console.log(
+      "nav before create",
+      this.$store.state.visitId,
+      this.$store.state.username
+    );
+  },
 };
 </script>
 

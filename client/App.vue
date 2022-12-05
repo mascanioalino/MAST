@@ -72,10 +72,13 @@ body {
 }
 .view {
   margin-top: 96px;
-  align-items: center ;
+  align-items: center;
 }
 .visitInProgress {
   margin-top: 134px;
-  align-items: center ;
+  align-items: center;
+}
+.status {
+  background-color: green;
 }
 </style>
