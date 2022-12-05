@@ -50,6 +50,32 @@ const isVisitInSession = async (
 };
 
 /**
+ * Checks if the visit is ongoing
+ */
+ const isVisitCurrentVisit = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const inProgressVisit = await VisitCollection.findInProgressVisit(
+    req.session.curatorId
+  );
+
+  const paramVisit = await VisitCollection.findVisit(
+    req.params.visitId
+  );
+
+  if (inProgressVisit !== null && inProgressVisit._id.toString() === paramVisit._id.toString()) {
+    next();
+  } else {
+    res.status(403).json({
+      error: "Can't remove a work from an ended visit.",
+    });
+    return;
+  }
+};
+
+/**
  * Checks if there is no session active for a user that is currently logged in.
  */
 const isVisitExists = async (
@@ -118,4 +144,4 @@ const loggedInUserOwnsVisit = async (
   }
 };
 
-export { isNoVisitInSession, loggedInUserOwnsVisit, isVisitInSession, isWorkNotInCurrentVisit, isVisitExists };
+export { isNoVisitInSession, loggedInUserOwnsVisit, isVisitInSession, isWorkNotInCurrentVisit, isVisitExists, isVisitCurrentVisit };

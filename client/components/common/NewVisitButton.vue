@@ -9,7 +9,7 @@
   <div v-else>
     <div @click="endVisit" class="end-visit">End Visit</div>
     <div v-if="notOnScanPage" @click="$router.push({name: 'Scan'})" class="new-visit">Scan Code</div>
-    <div v-else @click="$router.go(-1)" class="new-visit">Back</div>
+    <div v-else @click="$router.push({name: 'Current Visit'})" class="new-visit">Back</div>
   </div>
 </template>
 

@@ -4,19 +4,19 @@
 <template>
   <section class="gallery-list">
     <header>
-      <h1 v-if="this.visitDate !== 'Current Visit'">Visit on <span>{{ this.visitDate }}</span> by <span>{{this.visitCurator}}</span></h1>
+      <h1 v-if="visitDate !== 'Current Visit'">Visit on <span>{{ visitDate }}</span> by <span>{{visitCurator}}</span></h1>
       <h1 v-else>{{ this.visitDate }}</h1>
       <div>
         {{  }}
       </div>
     </header>
     <masonry
-      v-if="(this.works.length > 0)"
+      v-if="(works.length > 0)"
       :cols="{default: 4, 1320: 3, 980: 2, 640: 1}"
       :gutter="{default: '40px'}"
     >
       <GalleryWork 
-        v-for="work in this.works" 
+        v-for="work in works" 
         :key="work.harvardId"
         :work="work" 
         :showRemoveWork="showRemoveWork"

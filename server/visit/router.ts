@@ -122,7 +122,10 @@ router.delete(
  */
  router.delete(
   "/:visitId/works/:harvardId",
-  [visitValidator.loggedInUserOwnsVisit],
+  [
+    visitValidator.loggedInUserOwnsVisit,
+    visitValidator.isVisitCurrentVisit
+  ],
   async (req: Request, res: Response) => {
     await VisitCollection.removeWork(req.params.visitId, req.params.harvardId);
     res.status(200).json({
