@@ -8,6 +8,7 @@
         <img class="img" :src="work.imageUrl" :alt="work.title" id="image" />
         <canvas
           class="coveringCanvas hover"
+          :class="{ hide: !this.showPoints }"
           v-on:click="checkPoint"
           id="canvas"
         ></canvas>
@@ -138,7 +139,7 @@ export default {
         this.$router.push({ name: "Not Found" });
       }
       this.work = res.work;
-      this.getPoints(this.work);
+      this.getPoints(this.work).then(() => this.drawPoints());
     },
     async getPoints(work) {
       const url = `/api/points/${work._id}`;
