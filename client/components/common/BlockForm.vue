@@ -59,8 +59,8 @@ export default {
       url: '', // Url to submit form to
       method: 'GET', // Form request method
       hasBody: false, // Whether or not form request has a body
-      setUsername: false, // Whether or not stored username should be updated after form submission
-      setDateJoined: false,
+      setCuratorDetails: false, // Whether or not stored username should be updated after form submission
+      setCurrentVisitDetails: false,
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: null // Function to run after successful form submission
     };
@@ -96,13 +96,17 @@ export default {
         const text = await r.text();
         const res = text ? JSON.parse(text) : {user: null};
 
-        if (this.setUsername) {
-          console.log(res)
+        console.log(res);
+
+        if (this.setCuratorDetails) {
           this.$store.commit('setUsername', res.curator ? res.curator.username : null);
+          this.$store.commit('setDateJoined', res.curator ? res.curator.dateJoined : null);
+          this.$store.commit("setCuratorId", res.curator ? res.curator._id : null);
+          this.$store.commit("refreshUserVisits");
         }
 
-        if (this.setDateJoined) {
-          this.$store.commit('setDateJoined', res.curator ? res.curator.dateJoined : null);
+        if (this.setCurrentVisitDetails) {
+          this.$store.commit("refreshCurrentVisit");
         }
 
         if (this.callback) {

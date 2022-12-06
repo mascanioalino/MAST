@@ -11,7 +11,7 @@ export default {
       url: '/api/curators',
       method: 'PUT',
       hasBody: true,
-      setUsername: true,
+      setCuratorDetails: true,
       fields: [
         {id: 'username', label: 'Username', value: ''}
       ],

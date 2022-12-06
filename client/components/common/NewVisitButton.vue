@@ -45,10 +45,7 @@ export default {
           throw new Error(res.error);
         }
 
-        const text = await r.text();
-        const res = text ? JSON.parse(text) : { curator: null };
-
-        this.$store.commit("setVisitId", res.visit ? res.visit._id : null);
+        this.$store.commit("refreshCurrentVisit");
         this.$store.commit("refreshUserVisits");
         this.$router.push({name: "Current Visit"});
       } catch (e) {
@@ -75,10 +72,7 @@ export default {
           throw new Error(res.error);
         }
 
-        const text = await r.text();
-        const res = text ? JSON.parse(text) : { curator: null };
-        this.$store.commit("setVisitId", null);
-        this.$store.commit('refreshVisitWorks');
+        this.$store.commit("refreshCurrentVisit");
         this.$store.commit("refreshUserVisits");
         this.$router.push({name: 'Home'});
 

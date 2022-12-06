@@ -53,21 +53,31 @@ const store = new Vuex.Store({
       /**
        * Update the stored visitId to the specified one.
        */
-       fetch(`/api/visits?curatorId=${state.curatorId}`, {
-        credentials: "same-origin"
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          state.userVisits = res;
-        });
-
-    },
-    async refreshVisitWorks(state) {
-      const url = '/api/visits/current/session';
-      const res = await fetch(url).then(async r => r.json());
-      if(res !== null) {
-        state.visitWorks = res.works;
+      if(state.curatorId) {
+        fetch(`/api/visits?curatorId=${state.curatorId}`, {
+          credentials: "same-origin"
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            state.userVisits = res;
+          });
       } else {
+        state.userVisits = [];
+      }
+    },
+    async refreshCurrentVisit(state) {
+      if(state.curatorId) {
+        const url = '/api/visits/current/session';
+        const res = await fetch(url).then(async r => r.json());
+        if(res !== null) {
+          state.visitId = res._id;
+          state.visitWorks = res.works;
+        } else {
+          state.visitId = null;
+          state.visitWorks = []
+        }
+      } else {
+        state.visitId = null;
         state.visitWorks = []
       }
     },

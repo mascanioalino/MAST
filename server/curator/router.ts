@@ -138,7 +138,7 @@ router.put(
     const curator = await CuratorCollection.updateOne(curatorId, req.body);
     res.status(200).json({
       message: 'Your profile was updated successfully.',
-      user: util.constructCuratorResponse(curator)
+      curator: util.constructCuratorResponse(curator)
     });
   }
 );

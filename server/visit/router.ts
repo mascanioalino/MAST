@@ -25,7 +25,6 @@ router.post(
   [curatorValidation.isCuratorLoggedIn, visitValidator.isNoVisitInSession],
   async (req: Request, res: Response) => {
     const visit = await VisitCollection.startVisit(req.session.curatorId);
-    req.session.visitId = visit._id.toString();
     res.status(201).json({
       message: `You started a new visit for ${visit.dateOfVisit.toString()}`,
       visit: util.constructVisitResponse(visit),

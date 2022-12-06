@@ -11,8 +11,8 @@ export default {
       url: '/api/curators',
       method: 'POST',
       hasBody: true,
-      setUsername: true,
-      setDateJoined: true,
+      setCuratorDetails: true,
+      setCurrentVisitDetails: true,
       fields: [
         {id: 'username', label: 'Username', value: ''},
         {id: 'password', label: 'Password', value: ''}

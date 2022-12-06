@@ -40,25 +40,9 @@ export default {
           curator ? curator.dateJoined : null
         );
       });
-
-    // Sync visit in progress
-    fetch("/api/visits/current/session", {
-      credentials: "same-origin", // Sends express-session credentials with request
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res from session", res);
-        if (res !== null) {
-          const visit = res._id;
-          this.$store.commit("setVisitId", visit);
-        } else {
-          this.$store.commit("setVisitId", null);
-        }
-      });
-
     // Clear alerts on page refresh
     this.$store.state.alerts = {};
-    this.$store.commit("refreshVisitWorks");
+    this.$store.commit("refreshCurrentVisit");
     this.$store.commit("refreshUserVisits");
   },
 };

@@ -11,8 +11,8 @@ export default {
       url: "/api/curators/session",
       method: "POST",
       hasBody: true,
-      setUsername: true,
-      setDateJoined: true,
+      setCuratorDetails: true,
+      setCurrentVisitDetails: true,
       fields: [
         { id: "username", label: "Username", value: "" },
         { id: "password", label: "Password", value: "" },
@@ -20,11 +20,10 @@ export default {
       title: "Log In",
       callback: () => {
         this.$router.push({ name: "Home" });
-        // this.$store.commit("alert", {
-        //   message: "You are now signed in!",
-        //   status: "success",
-        // });
-        this.$store.commit("setVisitId", null);
+        this.$store.commit("alert", {
+          message: "You are now signed in!",
+          status: "success",
+        });
       },
     };
   },

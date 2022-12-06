@@ -10,7 +10,8 @@ export default {
     return {
       url: "/api/curators/session",
       method: "DELETE",
-      setUsername: true,
+      setCuratorDetails: true,
+      setCurrentVisitDetails: true,
       title: "Sign out",
       fields: [],
       content: "Taking a break? See you later.",

@@ -105,8 +105,8 @@ const isVisitExists = async (
   res: Response,
   next: NextFunction
 ) => {
-  const inProgress = await VisitCollection.findVisit(
-    req.session.visitId
+  const inProgress = await VisitCollection.findInProgressVisit(
+    req.session.curatorId
   );
 
   console.log(inProgress);

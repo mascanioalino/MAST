@@ -10,8 +10,8 @@ export default {
     return {
       url: '/api/curators',
       method: 'DELETE',
-      setUsername: true,
-      
+      setCuratorDetails: true,
+      setCurrentVisitDetails: true,
       title: 'Delete account',
       fields: [],
       content: 'Deleting your account is permanent and irreversible. Proceed only if you understand these consequences.',
