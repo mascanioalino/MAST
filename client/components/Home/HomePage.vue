@@ -9,16 +9,29 @@
       </h1>
       <h1 v-else>Welcome to Curator Central.</h1>
     </header>
-    <div>
-      We can add some GIF or mini video showing how to scan / collect / annotate
-      works.
-    </div>
+    <Gallery 
+      :works="allWorks"
+      :showRemoveWork="false" 
+    />
   </main>
 </template>
 
 <script>
+import Gallery from "@/components/Visit/Gallery.vue";
+
 export default {
   name: "HomePage",
+  components: {
+    Gallery
+  },
+  computed: {
+    allWorks() {
+      const works = this.$store.state.userVisits.flatMap(visit => visit.works);
+      // remove duplicates: https://stackoverflow.com/a/56757215
+      return works.filter((v,i,a)=>a.findIndex(v2=>(v2._id===v._id))===i);
+;
+    },
+  }
 };
 </script>
 <style scoped>

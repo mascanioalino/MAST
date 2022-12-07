@@ -60,6 +60,7 @@ const store = new Vuex.Store({
           .then((res) => res.json())
           .then((res) => {
             state.userVisits = res;
+            console.log(res);
           });
       } else {
         state.userVisits = [];
@@ -74,11 +75,11 @@ const store = new Vuex.Store({
           state.visitWorks = res.works;
         } else {
           state.visitId = null;
-          state.visitWorks = []
+          state.visitWorks = [];
         }
       } else {
         state.visitId = null;
-        state.visitWorks = []
+        state.visitWorks = [];
       }
     },
   },

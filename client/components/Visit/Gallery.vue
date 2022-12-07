@@ -3,12 +3,9 @@
 
 <template>
   <section class="gallery-list">
-    <header>
+    <header v-if="(visitDate && visitCurator)">
       <h1 v-if="visitDate !== 'Current Visit'">Visit on <span>{{ visitDate }}</span> by <span>{{visitCurator}}</span></h1>
       <h1 v-else>{{ this.visitDate }}</h1>
-      <div>
-        {{  }}
-      </div>
     </header>
     <masonry
       v-if="(works.length > 0)"
@@ -23,7 +20,7 @@
       />
     </masonry>
     <section v-else>
-      <h1>No Works in Visit</h1>
+      <h1>No Works</h1>
       </section>
   </section>
 </template>
