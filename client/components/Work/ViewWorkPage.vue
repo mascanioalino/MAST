@@ -5,6 +5,37 @@
   <main class="mainPage">
     <section class="work">
       <section class="image">
+        <div class="top-tools">
+          <button class="back-button" v-on:click="this.goBack">
+            <b-icon icon="arrow-left" font-scale="1.5" aria-hidden="true" />
+          </button>
+          <div>
+            <h1>{{ work.title }}</h1>
+            <p class="guidance">
+              {{
+                this.annotating && this.pointSelected
+                  ? "You selected a point"
+                  : ""
+              }}
+              {{
+                this.annotating && !this.pointSelected
+                  ? "Select an existing point or create a new one"
+                  : ""
+              }}
+            </p>
+          </div>
+          <button class="back-button" v-on:click="this.goBack"></button>
+        </div>
+        <WorkCanvas
+          class="canvas"
+          :annotating="this.annotating"
+          ref="canvas"
+          v-on:pointSelected="(f) => reload(f)"
+          :showPoints="this.showPoints"
+        />
+      </section>
+      <!-- TODO ANNOTATIONS -->
+      <div class="annotations">
         <div class="details">
           <button
             class="button"
@@ -19,29 +50,6 @@
             {{ this.annotating ? "back" : "Add Annotation +" }}
           </button>
         </div>
-
-        <p class="guidance">
-          {{
-            this.annotating && this.pointSelected ? "You selected a point" : ""
-          }}
-          {{
-            this.annotating && !this.pointSelected
-              ? "Select an existing point or create a new one"
-              : ""
-          }}
-        </p>
-        <WorkCanvas
-          :annotating="this.annotating"
-          ref="canvas"
-          v-on:pointSelected="(f) => reload(f)"
-          :showPoints="this.showPoints"
-        />
-        <footer class="workInfo">
-          <h1>{{ work.title }}</h1>
-        </footer>
-      </section>
-      <!-- TODO ANNOTATIONS -->
-      <div class="annotations">
         <div class="contents">
           <AnnotationComponent
             v-for="annotation in displayedAnnotations"
@@ -100,6 +108,9 @@ export default {
     this.getWork(this.$route.params.harvardId);
   },
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
     reload(f) {
       this.pointSelected = f;
       this.loadAnnotations();
@@ -184,9 +195,16 @@ img {
 footer {
   max-width: 600px;
 }
+.top-tools {
+  max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+}
+
 h1 {
   text-align: center;
 }
+
 body {
   text-align: center;
   background: #f2f6f8;
@@ -209,7 +227,7 @@ body {
   display: flex;
   flex-direction: column;
   margin-left: 24px;
-  background-color: #ECECEC;
+  background-color: #ececec;
   border-radius: 10px;
   width: 50%;
   height: 80vh;
@@ -230,9 +248,23 @@ body {
   border-width: 1.5px;
 }
 
+.back-button {
+  cursor: pointer;
+  background-color: transparent;
+  color: black;
+  width: fit-content;
+  height: fit-content;
+  border-color: transparent;
+  margin-top: 0;
+  padding: 0;
+}
+
+.canvas {
+  width: 100%;
+}
 .guidance {
   align-self: center;
-  margin: 0px;
+  margin-top: 0px;
 }
 .details {
   display: flex;

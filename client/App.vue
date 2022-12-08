@@ -56,12 +56,12 @@ body {
   margin: 0px;
 }
 .view {
-  margin-top: 96px;
+  margin-top: 80px;
   align-items: center;
   margin-bottom: 64px;
 }
 .visitInProgress {
-  margin-top: 134px;
+  margin-top: 118px;
   align-items: center;
   margin-bottom: 64px;
 }
