@@ -6,17 +6,18 @@
     <section class="work">
       <section class="image">
         <div class="details">
-          <p
+          <button
             class="button"
             v-on:click="this.toggleShow"
             v-if="!this.annotating"
           >
-            {{ this.showPoints ? "[hide all points]" : "[show all points]" }}
-          </p>
+            {{ this.showPoints ? "Hide all points" : "Show all points" }}
+          </button>
           <p class="button" v-on:click="this.toggleShow" v-else></p>
-          <p class="button" v-on:click="this.toggleAnnotating">
-            {{ this.annotating ? "[back]" : "[+]" }}
-          </p>
+
+          <button class="button" v-on:click="this.toggleAnnotating">
+            {{ this.annotating ? "back" : "Add Annotation +" }}
+          </button>
         </div>
 
         <p class="guidance">
@@ -208,7 +209,7 @@ body {
   display: flex;
   flex-direction: column;
   margin-left: 24px;
-  background-color: #bde3ff;
+  background-color: #ECECEC;
   border-radius: 10px;
   width: 50%;
   height: 80vh;
@@ -220,13 +221,23 @@ body {
 }
 .button {
   cursor: pointer;
+  background-color: transparent;
+  color: black;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 20px;
+  border-color: black;
+  border-width: 1.5px;
 }
+
 .guidance {
   align-self: center;
   margin: 0px;
 }
 .details {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  width: 100%;
 }
 </style>

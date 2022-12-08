@@ -78,22 +78,21 @@ export default {
 <style scoped>
 .annotation {
   margin-bottom: 8px;
-  background-color: #0d99ff;
+  background-color: white;
   border-radius: 10px;
   padding: 8px;
-  color: rgb(255, 255, 255);
+  color: black;
 }
 .author {
   margin: 0px;
-  /* color: rgb(0, 0, 0) */
 }
 
 button {
-  background-color: #0d99ff;
+  background-color: transparent;
   width: 2%;
   height: 2%;
   border: 0;
-  /* float: right; */
+  color: black;
 }
 
 .b-icon {
