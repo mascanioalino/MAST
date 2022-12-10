@@ -4,28 +4,22 @@
 <template>
   <main class="mainPage">
     <section class="image">
-      <img 
-        :src="work.imageUrl"
-        :alt="work.title"
-      >
+      <img :src="work.imageUrl" :alt="work.title" />
     </section>
     <footer class="workInfo">
       <h1>{{ work.title }}</h1>
-      <button 
-        v-if="!$store.state.visitWorks.map(work => work.harvardId).includes(work.harvardId)"
+      <button
+        v-if="
+          !$store.state.visitWorks
+            .map((work) => work.harvardId)
+            .includes(work.harvardId)
+        "
         @click="() => addWork(work.harvardId)"
       >
         Collect Work
       </button>
-      <button 
-        v-else
-        disabled
-      >
-        Work is Already Collected
-      </button>
-      <button 
-        @click="$router.push({name: 'Current Visit'})"
-      >
+      <button v-else disabled>Work is Already Collected</button>
+      <button class="cancel" @click="$router.push({ name: 'Current Visit' })">
         Cancel
       </button>
     </footer>
@@ -34,9 +28,9 @@
 
 <script>
 export default {
-  name: 'AddWorkPage',
-  beforeRouteUpdate (to, from, next) {
-    this.getWork(to.params.harvardId)
+  name: "AddWorkPage",
+  beforeRouteUpdate(to, from, next) {
+    this.getWork(to.params.harvardId);
     next();
   },
   data() {
@@ -51,34 +45,42 @@ export default {
   methods: {
     async getWork(harvardId) {
       const url = `/api/works/${harvardId}`;
-      const res = await fetch(url).then(async r => r.json());
-      if(res.error) {
-        this.$router.push({name: "Not Found"});
+      const res = await fetch(url).then(async (r) => r.json());
+      if (res.error) {
+        this.$router.push({ name: "Not Found" });
       }
       this.work = res.work;
     },
     async addWork(harvardId) {
       const options = {
-        method: 'PATCH', headers: {'Content-Type': 'application/json'}, credentials: 'same-origin'
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
       };
 
       try {
-        const r = await fetch(`/api/visits/current/works/${harvardId}`, options);
+        const r = await fetch(
+          `/api/visits/current/works/${harvardId}`,
+          options
+        );
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
         }
 
-        this.$set(this.alerts, 'Successfully added work to visit!', 'success');
-        setTimeout(() => this.$delete(this.alerts, 'Successfully added work to visit!'), 3000);
+        this.$set(this.alerts, "Successfully added work to visit!", "success");
+        setTimeout(
+          () => this.$delete(this.alerts, "Successfully added work to visit!"),
+          3000
+        );
         this.$store.commit("refreshCurrentVisit");
-        this.$router.push({ name: 'Current Visit' });
+        this.$router.push({ name: "Current Visit" });
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
+        this.$set(this.alerts, e, "error");
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
-  }
+  },
 };
 </script>
 
@@ -97,12 +99,20 @@ footer {
   margin: auto;
   max-width: 600px;
 }
-h1{
+h1 {
   text-align: center;
 }
 button:disabled,
-button[disabled]{
+button[disabled] {
   cursor: auto;
   background-color: #b5b5b5;
+}
+button {
+  margin-top: 20px;
+  outline: none;
+  border: 0px solid black;
+}
+.cancel {
+  background-color: gray;
 }
 </style>

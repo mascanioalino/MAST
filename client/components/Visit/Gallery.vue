@@ -31,7 +31,14 @@
       </div>
       <section class="no-works" v-else>
         <h1>No Works Collected Yet</h1>
-        <div>
+        <div
+          v-if="
+            this.$store.state.visitId !== null && $store.state.username !== null
+          "
+        >
+          Scan works to add them to the current Visit
+        </div>
+        <div v-else>
           Start a new Visit and Scan Works to see them on your Home Page!
         </div>
       </section>

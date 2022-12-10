@@ -114,12 +114,11 @@ nav {
   cursor: pointer;
 }
 .main {
-  background-color: white;
   padding: 4px;
 }
 
 .actions {
-  background-color: white;
+  /* background-color: white; */
   padding: 0px 16px;
 }
 
