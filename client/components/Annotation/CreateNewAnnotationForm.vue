@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     reload: function () {
-      this.$root.$refs.ViewWorkPage.loadAnnotations();
+      this.$root.$refs.ViewWorkPage.submitClicked();
     },
     async addAnnotation() {
       const options = {
@@ -79,7 +79,7 @@ export default {
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
       this.fields[0].value = "";
-      this.$root.$refs.ViewWorkPage.loadAnnotations();
+      this.$root.$refs.ViewWorkPage.submitClicked();
     },
     async createPoint() {
       const options = {
@@ -109,7 +109,7 @@ export default {
       }
       this.fields[0].value = "";
       await this.$root.$refs.ViewWorkPage.getWork(this.work.harvardId);
-      this.$root.$refs.ViewWorkPage.loadAnnotations();
+      this.$root.$refs.ViewWorkPage.submitClicked();
     },
     async submit() {
       if (this.pointSelected && this.fields[0].value !== "") {

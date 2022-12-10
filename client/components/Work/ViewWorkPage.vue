@@ -34,7 +34,6 @@
           :showPoints="this.showPoints"
         />
       </section>
-      <!-- TODO ANNOTATIONS -->
       <div class="annotations">
         <div class="details">
           <button
@@ -50,7 +49,10 @@
             {{ this.annotating ? "back" : "Add Annotation +" }}
           </button>
         </div>
-        <div class="contents">
+
+        <div class="loading" v-if="loading">Loading Annotations...</div>
+
+        <div v-else class="contents">
           <AnnotationComponent
             v-for="annotation in displayedAnnotations"
             v-on:deletion="() => annotationUpdate(null)"
@@ -62,7 +64,7 @@
         <footer>
           <CreateNewAnnotationForm
             v-if="this.annotating"
-            @submit="loadAnnotations"
+            @submit="submitClicked"
             :pointSelected="this.pointSelected"
             :annotationEntered="this.annotationEntered"
             :work="this.work"
@@ -98,10 +100,13 @@ export default {
       work: {},
       alerts: {},
       annotating: false,
+      loading: false,
       annotationEntered: "",
       pointSelected: null,
-      displayedAnnotations: {},
+      displayedAnnotations: [],
       showPoints: true,
+      pointDict: {},
+      allAnnotations: [],
     };
   },
   mounted() {
@@ -113,30 +118,47 @@ export default {
     },
     reload(f) {
       this.pointSelected = f;
-      this.loadAnnotations();
+      this.updateDisplayedPoints();
+      console.log("reload....");
     },
     annotationUpdate(f) {
       this.$refs.canvas
         .getPoints(this.work)
         .then(() => this.$refs.canvas.drawPoints());
-      this.loadAnnotations();
+      // this.loadAnnotations();
       this.pointSelected = f;
     },
     toggleAnnotating() {
+      console.log("this.");
       this.annotating = !this.annotating;
       if (!this.annotating) {
         this.pointSelected = null;
         this.annotationEntered = null;
         this.$refs.canvas.drawPoints();
-        this.loadAnnotations();
       } else {
         this.showPoints = true;
       }
     },
+    updateDisplayedPoints() {
+      if (this.pointSelected !== null) {
+        this.displayedAnnotations = this.pointDict[this.pointSelected._id];
+      } else {
+        this.displayedAnnotations = this.allAnnotations;
+      }
+    },
+    async submitClicked() {
+      this.annotating = false;
+      await this.getWork(this.$route.params.harvardId);
+      this.loadAnnotations();
+    },
+
     async loadAnnotations() {
-      if (!this.annotating && this.pointSelected == null) {
-        // Load all annotations
-        var allAnnotations = [];
+      if (!this.loading) {
+        this.allAnnotations = [];
+        this.pointDict = {};
+        this.displayedAnnotations = [];
+        this.loading = true;
+
         for (var point of this.work.points) {
           const url = `/api/annotations/${point._id}`;
           const res = await fetch(url).then(async (r) => r.json());
@@ -145,22 +167,15 @@ export default {
           }
           if (res.length > 0) {
             // Some points don't have annotations right now
+            this.pointDict[point._id] = [];
             for (var ann of res) {
-              allAnnotations.push(ann);
+              this.pointDict[point._id].push(ann);
+              this.allAnnotations.push(ann);
             }
           }
         }
-        this.displayedAnnotations = allAnnotations;
-      } else if (this.pointSelected && this.pointSelected._id) {
-        // Loads annotations from that point only
-        const url = `/api/annotations/${this.pointSelected._id}`;
-        const res = await fetch(url).then(async (r) => r.json());
-        if (res.error) {
-          this.$router.push({ name: "Not Found" });
-        }
-        this.displayedAnnotations = res;
-      } else if (this.pointSelected) {
-        this.displayedAnnotations = {};
+        this.displayedAnnotations = this.allAnnotations;
+        this.loading = false;
       }
     },
     toggleShow() {
@@ -231,6 +246,13 @@ body {
   border-radius: 10px;
   width: 50%;
   height: 80vh;
+}
+
+.loading {
+  width: 100%;
+  text-align: center;
+  padding-top: 20px;
+  text-decoration: italic;
 }
 
 .contents {
