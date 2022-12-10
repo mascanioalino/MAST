@@ -61,8 +61,40 @@ nav {
   left: 0px;
   z-index: 1;
 }
+
+.success {
+  background-color: rgb(167, 247, 167, 0.5);
+  width: 300px;
+  padding: 2px;
+  border-radius: 10px;
+  text-align: center;
+
+  position: absolute;
+  top: 10px;
+  left: calc(50vw - 150px);
+}
+
+.error {
+  background-color: rgba(246, 98, 90, 0.5);
+  width: 300px;
+  padding: 8px;
+  border: 30px;
+  text-align: center;
+
+  position: absolute;
+  top: 0px;
+  left: calc(50vw - 150px);
+}
+
+.main a {
+  background-color: #ffdf29;
+  padding: 10px 14px;
+  border-radius: 90px;
+  border: 1px solid black;
+}
+
 .menu-container {
-  background-color: white;
+  background-color: transparent;
   height: 64px;
   width: 100vw;
   display: flex;
@@ -83,7 +115,7 @@ nav {
 }
 .main {
   background-color: white;
-  padding: 0px 16px;
+  padding: 4px;
 }
 
 .actions {

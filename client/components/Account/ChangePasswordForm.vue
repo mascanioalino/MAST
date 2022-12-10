@@ -1,26 +1,24 @@
 <!-- Form for changing password (block style) -->
 
 <script>
-import BlockForm from '@/components/common/BlockForm.vue';
+import BlockForm from "@/components/common/BlockForm.vue";
 
 export default {
-  name: 'ChangePasswordForm',
+  name: "ChangePasswordForm",
   mixins: [BlockForm],
   data() {
     return {
-      url: '/api/curators',
-      method: 'PUT',
+      url: "/api/curators",
+      method: "PUT",
       hasBody: true,
-      fields: [
-        {id: 'password', label: 'Password', value: ''}
-      ],
-      title: 'Change password',
+      fields: [{ id: "password", label: "Password", value: "" }],
+      title: "Change password",
       callback: () => {
-        const message = 'Successfully changed password!';
-        this.$set(this.alerts, message, 'success');
+        const message = "Successfully changed password!";
+        this.$set(this.alerts, message, "success");
         setTimeout(() => this.$delete(this.alerts, message), 3000);
-      }
+      },
     };
-  }
+  },
 };
 </script>

@@ -1,27 +1,25 @@
 <!-- Form for changing username (block style) -->
 
 <script>
-import BlockForm from '@/components/common/BlockForm.vue';
+import BlockForm from "@/components/common/BlockForm.vue";
 
 export default {
-  name: 'ChangeUsernameForm',
+  name: "ChangeUsernameForm",
   mixins: [BlockForm],
   data() {
     return {
-      url: '/api/curators',
-      method: 'PUT',
+      url: "/api/curators",
+      method: "PUT",
       hasBody: true,
       setCuratorDetails: true,
-      fields: [
-        {id: 'username', label: 'Username', value: ''}
-      ],
-      title: 'Change username',
+      fields: [{ id: "username", label: "Username", value: "" }],
+      title: "Change username",
       callback: () => {
-        const message = 'Successfully changed username!';
-        this.$set(this.alerts, message, 'success');
+        const message = "Successfully changed username!";
+        this.$set(this.alerts, message, "success");
         setTimeout(() => this.$delete(this.alerts, message), 3000);
-      }
+      },
     };
-  }
+  },
 };
 </script>

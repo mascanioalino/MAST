@@ -3,25 +3,39 @@
 
 <template>
   <section class="gallery-list">
-    <header v-if="(visitDate && visitCurator)">
-      <h1 v-if="visitDate !== 'Current Visit'">Visit on <span>{{ visitDate }}</span> by <span>{{visitCurator}}</span></h1>
-      <h1 v-else>{{ this.visitDate }}</h1>
-    </header>
-    <masonry
-      v-if="(works.length > 0)"
-      :cols="{default: 4, 1320: 3, 980: 2, 640: 1}"
-      :gutter="{default: '40px'}"
-    >
-      <GalleryWork 
-        v-for="work in works" 
-        :key="work.harvardId"
-        :work="work" 
-        :showRemoveWork="showRemoveWork"
-      />
-    </masonry>
-    <section v-else>
-      <h1>No Works</h1>
+    <div v-if="this.$store.state.curatorId !== null">
+      <header v-if="visitCurator && visitDate">
+        <h1 v-if="visitDate !== 'Current Visit'">
+          Visit on <span>{{ visitDate }}</span> by
+          <span>{{ visitCurator }}</span>
+        </h1>
+        <h1 v-else>{{ this.visitDate }}</h1>
+      </header>
+      <header class="all-works-info" v-else>
+        Below are all of your collected works
+      </header>
+      <masonry
+        v-if="works.length > 0"
+        :cols="{ default: 4, 1320: 3, 980: 2, 640: 1 }"
+        :gutter="{ default: '40px' }"
+      >
+        <GalleryWork
+          v-for="work in works"
+          :key="work.harvardId"
+          :work="work"
+          :showRemoveWork="showRemoveWork"
+        />
+      </masonry>
+      <section class="no-works" v-else>
+        <h1>No Works Collected Yet</h1>
+        <div>
+          Start a new Visit and Scan Works to see them on your Home Page!
+        </div>
       </section>
+    </div>
+    <div class="no-works" v-else>
+      <div>Sign in or create an account to start exploring works.</div>
+    </div>
   </section>
 </template>
 
@@ -31,32 +45,32 @@ import GalleryWork from "@/components/Work/GalleryWork.vue";
 export default {
   name: "Gallery",
   components: {
-    GalleryWork
-  }, 
+    GalleryWork,
+  },
   props: {
     works: {
       type: Array,
-      required: true
+      required: true,
     },
     showRemoveWork: {
       type: Boolean,
-      required: true
+      required: true,
     },
     visitDate: {
       type: String,
     },
     visitCurator: {
       type: String,
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
 .gallery-list {
-    width: 1320px;
-    margin-left: calc(50% - 660px);
-  }
+  width: 1320px;
+  margin-left: calc(50% - 660px);
+}
 @media screen and (max-width: 1320px) {
   .gallery-list {
     width: 980px;
@@ -96,5 +110,21 @@ header {
 span {
   color: black;
 }
-  
+
+.no-works {
+  margin: 60px auto;
+}
+.no-works div {
+  padding: 10px;
+  width: 440px;
+  text-align: center;
+  margin: auto;
+}
+
+.all-works-info {
+  width: fit-content;
+  margin: auto;
+  margin-bottom: 30px;
+  font-style: italic;
+}
 </style>
