@@ -6,26 +6,29 @@
     <div v-if="this.$store.state.curatorId !== null">
       <header v-if="visitCurator && visitDate">
         <h1 v-if="visitDate !== 'Current Visit'">
-          Visit on <span>{{ visitDate }}</span> by
-          <span>{{ visitCurator }}</span>
+          Visit on <span>{{ visitDate }}</span>
         </h1>
         <h1 v-else>{{ this.visitDate }}</h1>
+        <div>
+          by @<span>{{ visitCurator }}</span>
+        </div>
       </header>
-      <header class="all-works-info" v-else>
-        Below are all of your collected works
-      </header>
-      <masonry
-        v-if="works.length > 0"
-        :cols="{ default: 4, 1320: 3, 980: 2, 640: 1 }"
-        :gutter="{ default: '40px' }"
-      >
-        <GalleryWork
-          v-for="work in works"
-          :key="work.harvardId"
-          :work="work"
-          :showRemoveWork="showRemoveWork"
-        />
-      </masonry>
+      <div v-if="works.length > 0">
+        <header class="all-works-info">
+          Below are all of your collected works
+        </header>
+        <masonry
+          :cols="{ default: 4, 1320: 3, 980: 2, 640: 1 }"
+          :gutter="{ default: '40px' }"
+        >
+          <GalleryWork
+            v-for="work in works"
+            :key="work.harvardId"
+            :work="work"
+            :showRemoveWork="showRemoveWork"
+          />
+        </masonry>
+      </div>
       <section class="no-works" v-else>
         <h1>No Works Collected Yet</h1>
         <div>
@@ -95,16 +98,25 @@ export default {
 h1 {
   margin: auto;
   text-align: center;
+  color: black;
 }
 
 header {
   margin: auto;
   width: 100%;
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: space-between;
   color: rgb(100, 100, 100);
   margin-bottom: 32px;
+}
+
+header div {
+  width: fit-content;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-size: 1.1em;
 }
 
 span {

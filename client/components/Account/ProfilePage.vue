@@ -11,9 +11,14 @@
         >
       </div>
     </header>
-    <div class="visit-list">
-      <Visit v-for="visit in $store.state.userVisits" :key="visit._id" :visit="visit" />
+    <div v-if="$store.state.userVisits.length > 0" class="visit-list">
+      <Visit
+        v-for="visit in $store.state.userVisits"
+        :key="visit._id"
+        :visit="visit"
+      />
     </div>
+    <div class="none" v-else>No visits created yet</div>
   </main>
 </template>
 
@@ -32,7 +37,7 @@ export default {
     DeleteAccountForm,
     LogoutForm,
     Visit,
-  }
+  },
 };
 </script>
 <style scoped>
@@ -47,5 +52,12 @@ header {
   display: block;
   width: 600px;
   margin: auto;
+}
+.none {
+  text-align: center;
+  width: fit-content;
+  margin: auto;
+  font-style: italic;
+  margin-top: 40px;
 }
 </style>
