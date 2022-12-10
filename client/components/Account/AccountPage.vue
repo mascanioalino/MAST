@@ -10,14 +10,26 @@
       </header>
       <article class="accountSettings">
         <h2>Update Account</h2>
-        <ChangeUsernameForm />
-        <ChangePasswordForm />
+        <section>
+          <div>
+            <ChangeUsernameForm />
+          </div>
+          <div>
+            <ChangePasswordForm />
+          </div>
+        </section>
 
         <h2>Manage Account</h2>
-        <LogoutForm />
-        <DeleteAccountForm />
+        <section>
+          <div>
+            <LogoutForm />
+          </div>
+          <div>
+            <DeleteAccountForm />
+          </div>
+        </section>
       </article>
-   </section>
+    </section>
   </main>
 </template>
 
@@ -40,11 +52,23 @@ export default {
 <style scoped>
 section {
   display: block;
-  width: 600px;
+  width: 800px;
   margin: auto;
 }
-.accountSettings div {
-  width: 100vw;
+
+h2 {
+  margin-bottom: 6px;
+  margin-top: 48px;
+}
+.accountSettings section {
+  width: 100%;
   display: flex;
+}
+
+.accountSettings section div {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>

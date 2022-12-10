@@ -3,13 +3,8 @@
 
 <template>
   <form @submit.prevent="submit">
-    <article
-      v-if="fields.length"
-    >
-      <div
-        v-for="field in fields"
-        :key="field.id"
-      >
+    <article v-if="fields.length">
+      <div v-for="field in fields" :key="field.id">
         <textarea
           v-if="field.id === 'content' || field.id === 'bio'"
           :placeholder="field.label"
@@ -24,15 +19,13 @@
           :name="field.id"
           :value="field.value"
           @input="field.value = $event.target.value"
-        >
+        />
       </div>
     </article>
     <article v-else>
       <p>{{ content }}</p>
     </article>
-    <button
-      type="submit"
-    >
+    <button type="submit">
       {{ title }}
     </button>
     <section class="alerts">
@@ -48,41 +41,42 @@
 </template>
 
 <script>
-
 export default {
-  name: 'BlockForm',
+  name: "BlockForm",
   data() {
     /**
      * Options for submitting this form.
      */
     return {
-      url: '', // Url to submit form to
-      method: 'GET', // Form request method
+      url: "", // Url to submit form to
+      method: "GET", // Form request method
       hasBody: false, // Whether or not form request has a body
       setCuratorDetails: false, // Whether or not stored username should be updated after form submission
       setCurrentVisitDetails: false,
       alerts: {}, // Displays success/error messages encountered during form submission
-      callback: null // Function to run after successful form submission
+      callback: null, // Function to run after successful form submission
     };
   },
   methods: {
     async submit() {
       /**
-        * Submits a form with the specified options from data().
-        */
+       * Submits a form with the specified options from data().
+       */
       const options = {
         method: this.method,
-        headers: {'Content-Type': 'application/json'},
-        credentials: 'same-origin' // Sends express-session credentials with request
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin", // Sends express-session credentials with request
       };
       if (this.hasBody) {
-        options.body = JSON.stringify(Object.fromEntries(
-          this.fields.map(field => {
-            const {id, value} = field;
-            field.value = '';
-            return [id, value];
-          })
-        ));
+        options.body = JSON.stringify(
+          Object.fromEntries(
+            this.fields.map((field) => {
+              const { id, value } = field;
+              field.value = "";
+              return [id, value];
+            })
+          )
+        );
       }
 
       try {
@@ -94,14 +88,23 @@ export default {
         }
 
         const text = await r.text();
-        const res = text ? JSON.parse(text) : {user: null};
+        const res = text ? JSON.parse(text) : { user: null };
 
         console.log(res);
 
         if (this.setCuratorDetails) {
-          this.$store.commit('setUsername', res.curator ? res.curator.username : null);
-          this.$store.commit('setDateJoined', res.curator ? res.curator.dateJoined : null);
-          this.$store.commit("setCuratorId", res.curator ? res.curator._id : null);
+          this.$store.commit(
+            "setUsername",
+            res.curator ? res.curator.username : null
+          );
+          this.$store.commit(
+            "setDateJoined",
+            res.curator ? res.curator.dateJoined : null
+          );
+          this.$store.commit(
+            "setCuratorId",
+            res.curator ? res.curator._id : null
+          );
           this.$store.commit("refreshUserVisits");
         }
 
@@ -113,30 +116,29 @@ export default {
           this.callback();
         }
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
+        this.$set(this.alerts, e, "error");
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
-
 input {
   width: calc(100% - 16px);
   height: 64px;
-  border: 4px solid #BBBBBB;
+  border: 4px solid #bbbbbb;
   outline: none;
   background-color: white;
   border-radius: 4px;
   box-sizing: border-box;
   padding: 8px 16px;
-  margin: 8px;
+  margin: 10px 0px;
 }
 
 input::placeholder {
-   text-align: center; 
+  text-align: center;
 }
 
 button {
@@ -147,9 +149,12 @@ button {
   border-radius: 4px;
   box-sizing: border-box;
   padding: 8px 16px;
-  margin: 8px;
+  margin: 0px;
   color: white;
   cursor: pointer;
 }
 
+p {
+  margin: 10px 0px;
+}
 </style>

@@ -90,11 +90,6 @@ export default {
   padding: 20px;
 }
 
-.visit:hover {
-  cursor: pointer;
-  background-color: #f3f3f3;
-}
-
 span {
   cursor: pointer;
 }
@@ -105,7 +100,11 @@ span {
   font-size: 1.2em;
 }
 
-.b-icon {
+.title:hover {
+  cursor: pointer;
+}
+
+.b-icon:hover {
   cursor: pointer;
 }
 </style>

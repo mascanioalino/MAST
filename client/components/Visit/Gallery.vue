@@ -14,7 +14,7 @@
         </div>
       </header>
       <div v-if="works.length > 0">
-        <header class="all-works-info">
+        <header v-if="!visitDate" class="all-works-info">
           Below are all of your collected works
         </header>
         <masonry
@@ -50,6 +50,7 @@ export default {
   components: {
     GalleryWork,
   },
+
   props: {
     works: {
       type: Array,
