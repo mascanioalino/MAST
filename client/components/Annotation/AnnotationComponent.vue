@@ -1,19 +1,19 @@
 <template>
   <article class="annotation">
     <header>
-      <h4 class="author">written by @{{ annotation.curator }}</h4>
+      <h4 class="author">@{{ annotation.curator }}</h4>
     </header>
-    <p class="content">
-      {{ annotation.content }}
-    </p>
-    <footer>
+    <div class="content">
+      <div class="text">
+        {{ annotation.content }}
+      </div>
       <button
         v-if="annotation.curator === this.$store.state.username"
         @click="deleteAnnotation"
       >
         <b-icon icon="trash" aria-hidden="true" />
       </button>
-    </footer>
+    </div>
   </article>
 </template>
 
@@ -80,7 +80,7 @@ export default {
   margin-bottom: 8px;
   background-color: white;
   border-radius: 10px;
-  padding: 8px;
+  padding: 20px;
   color: black;
 }
 .author {
@@ -93,15 +93,25 @@ button {
   height: 2%;
   border: 0;
   color: black;
+  padding: 0;
+  margin: 0;
+}
+
+.text {
+  padding: 0px;
 }
 
 .b-icon {
   float: right;
-  width: 20px;
+  width: fit-content;
   height: 20px;
+  margin: 0;
+  padding: 0;
 }
-/* button:hover {
-  background-color: #78c6fd;
-
-} */
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 6px;
+}
 </style>

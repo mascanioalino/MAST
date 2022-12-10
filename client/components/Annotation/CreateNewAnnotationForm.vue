@@ -4,7 +4,7 @@
       <div v-for="field in fields" :key="field.id">
         <input
           :type="'text'"
-          :placeholder="'enter annotation text'"
+          :placeholder="'Enter annotation text'"
           :name="field.id"
           :value="field.value"
           @input="field.value = $event.target.value"
@@ -15,7 +15,7 @@
       <p>{{ content }}</p>
     </article>
     <button v-if="pointSelected == null" type="button" disabled>
-      select point for annotation
+      Select point for annotation
     </button>
 
     <button
@@ -25,7 +25,7 @@
       Submit
     </button>
 
-    <button v-else type="button" disabled>add annotation text</button>
+    <button v-else type="button" disabled>Add annotation text</button>
   </form>
 </template>
 
@@ -132,6 +132,8 @@ input {
 button {
   background: green;
   margin-top: 0;
+  outline: none;
+  border: 0px solid black;
 }
 
 button:disabled {

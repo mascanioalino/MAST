@@ -9,9 +9,9 @@
           <button class="back-button" v-on:click="this.goBack">
             <b-icon icon="arrow-left" font-scale="1.5" aria-hidden="true" />
           </button>
-          <div>
-            <h1>{{ work.title }}</h1>
-            <p class="guidance">
+          <!-- <div> -->
+          <h1>{{ work.title }}</h1>
+          <!-- <p class="guidance">
               {{
                 this.annotating && this.pointSelected
                   ? "You selected a point"
@@ -22,8 +22,8 @@
                   ? "Select an existing point or create a new one"
                   : ""
               }}
-            </p>
-          </div>
+            </p> -->
+          <!-- </div> -->
           <button class="back-button" v-on:click="this.goBack"></button>
         </div>
         <WorkCanvas
@@ -199,6 +199,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
 }
 img {
   width: 100%;
@@ -212,8 +213,10 @@ footer {
 }
 .top-tools {
   max-width: 600px;
+  height: 60px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 h1 {
@@ -225,9 +228,12 @@ body {
   background: #f2f6f8;
 }
 
+html {
+  overflow: hidden;
+}
+
 .work {
   display: flex;
-  flex-direction: row;
   justify-content: space-evenly;
   width: 75%;
 }
@@ -236,7 +242,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 50%;
+  width: 100%;
 }
 .annotations {
   display: flex;
@@ -244,8 +250,7 @@ body {
   margin-left: 24px;
   background-color: #ececec;
   border-radius: 10px;
-  width: 50%;
-  height: 80vh;
+  width: 100%;
 }
 
 .loading {
@@ -277,7 +282,7 @@ body {
   width: fit-content;
   height: fit-content;
   border-color: transparent;
-  margin-top: 0;
+  margin-top: 9px;
   padding: 0;
 }
 
@@ -292,6 +297,11 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
+}
+
+.details .button {
+  margin: 10px;
 }
 </style>
