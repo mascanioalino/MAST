@@ -9,7 +9,11 @@
       </h1>
       <h1 v-else>Welcome to Curator Central</h1>
     </header>
-    <Gallery :works="allWorks" :showRemoveWork="false" />
+    <Gallery 
+      v-if="$store.state.username"
+      :works="allWorks"
+      :showRemoveWork="false" 
+    />
   </main>
 </template>
 
@@ -36,7 +40,7 @@ export default {
 </script>
 <style scoped>
 header {
-  width: 600px;
+  max-width: 600px;
   margin: auto;
   text-align: center;
 }

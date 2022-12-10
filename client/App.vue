@@ -39,11 +39,11 @@ export default {
           "setDateJoined",
           curator ? curator.dateJoined : null
         );
+        this.$store.commit("refreshCurrentVisit");
+        this.$store.commit("refreshUserVisits");
       });
     // Clear alerts on page refresh
     this.$store.state.alerts = {};
-    this.$store.commit("refreshCurrentVisit");
-    this.$store.commit("refreshUserVisits");
   },
 };
 </script>
