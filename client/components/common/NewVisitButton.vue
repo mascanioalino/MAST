@@ -8,8 +8,20 @@
   </div>
   <div v-else>
     <div @click="endVisit" class="end-visit">End Visit</div>
-    <div v-if="notOnScanPage" @click="$router.push({name: 'Scan'})" class="new-visit">Scan Code</div>
-    <div v-else @click="$router.push({name: 'Current Visit'})" class="new-visit">Back</div>
+    <div
+      v-if="notOnScanPage"
+      @click="$router.push({ name: 'Scan' })"
+      class="new-visit"
+    >
+      Scan Code
+    </div>
+    <div
+      v-else
+      @click="$router.push({ name: 'Current Visit' })"
+      class="new-visit"
+    >
+      Back
+    </div>
   </div>
 </template>
 
@@ -23,7 +35,7 @@ export default {
     },
     notOnScanPage() {
       return this.$route.name !== "Scan";
-    }
+    },
   },
   methods: {
     async submit() {
@@ -47,7 +59,7 @@ export default {
 
         this.$store.commit("refreshCurrentVisit");
         this.$store.commit("refreshUserVisits");
-        this.$router.push({name: "Current Visit"});
+        this.$router.push({ name: "Current Visit" });
       } catch (e) {
         this.$set(this.alerts, e, "error");
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -74,7 +86,7 @@ export default {
 
         this.$store.commit("refreshCurrentVisit");
         this.$store.commit("refreshUserVisits");
-        this.$router.push({name: 'Home'});
+        this.$router.push({ name: "Home" });
 
         this.$set(this.alerts, "Ended Visit", "success");
         setTimeout(() => this.$delete(this.alerts, "Ended Visit"), 3000);
@@ -102,6 +114,7 @@ export default {
   text-align: center;
   border-radius: 80px;
   padding: 10px;
+  z-index: 999;
 }
 .new-visit:hover {
   cursor: pointer;

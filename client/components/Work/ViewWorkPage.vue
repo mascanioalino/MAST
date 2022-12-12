@@ -34,6 +34,7 @@
           :showPoints="this.showPoints"
         />
       </section>
+
       <div class="annotations">
         <div class="details">
           <button
@@ -200,6 +201,7 @@ main {
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  position: relative;
 }
 img {
   width: 100%;
@@ -209,7 +211,9 @@ img {
   left: 0px;
 }
 footer {
-  max-width: 600px;
+  padding: 10px;
+  width: calc(100%);
+  background-color: #ececec;
 }
 .top-tools {
   max-width: 600px;
@@ -233,9 +237,11 @@ html {
 }
 
 .work {
+  max-width: 1200px;
   display: flex;
   justify-content: space-evenly;
   width: 75%;
+  position: relative;
 }
 
 .image {
@@ -246,11 +252,14 @@ html {
 }
 .annotations {
   display: flex;
+  height: calc(100vh - 140px);
+  position: relative;
   flex-direction: column;
   margin-left: 24px;
   background-color: #ececec;
   border-radius: 10px;
   width: 100%;
+  overflow-y: scroll;
 }
 
 .loading {
@@ -262,8 +271,8 @@ html {
 
 .contents {
   padding: 8px;
-  overflow-y: scroll;
 }
+
 .button {
   cursor: pointer;
   background-color: transparent;
@@ -294,6 +303,11 @@ html {
   margin-top: 0px;
 }
 .details {
+  position: sticky;
+  top: 0px;
+  left: 0px;
+  padding: 10px;
+  background-color: #ececec;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -302,6 +316,6 @@ html {
 }
 
 .details .button {
-  margin: 10px;
+  margin-right: 20px;
 }
 </style>
