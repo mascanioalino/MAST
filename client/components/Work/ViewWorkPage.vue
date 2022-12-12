@@ -9,21 +9,7 @@
           <button class="back-button" v-on:click="this.goBack">
             <b-icon icon="arrow-left" font-scale="1.5" aria-hidden="true" />
           </button>
-          <!-- <div> -->
           <h1>{{ work.title }}</h1>
-          <!-- <p class="guidance">
-              {{
-                this.annotating && this.pointSelected
-                  ? "You selected a point"
-                  : ""
-              }}
-              {{
-                this.annotating && !this.pointSelected
-                  ? "Select an existing point or create a new one"
-                  : ""
-              }}
-            </p> -->
-          <!-- </div> -->
           <button class="back-button" v-on:click="this.goBack"></button>
         </div>
         <WorkCanvas
@@ -62,7 +48,7 @@
           />
         </div>
 
-        <footer>
+        <footer class="annotationForm">
           <CreateNewAnnotationForm
             v-if="this.annotating"
             @submit="submitClicked"
@@ -210,14 +196,13 @@ img {
   top: 0px;
   left: 0px;
 }
-footer {
-  padding: 10px;
-  width: calc(100%);
-  background-color: #ececec;
+.annotationForm {
+  margin-top: auto;
+  padding: 8px;
 }
 .top-tools {
   max-width: 600px;
-  height: 60px;
+  min-height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;

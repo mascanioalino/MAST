@@ -44,7 +44,7 @@ export default {
     work: {
       type: Object,
       required: true,
-    },
+    }
   },
   data() {
     return {
@@ -128,12 +128,14 @@ export default {
 <style scoped>
 input {
   border-color: transparent;
+  width: 100%;
 }
 button {
-  background: green;
+  background: #61a957;
   margin-top: 0;
   outline: none;
   border: 0px solid black;
+  width: 100%;
 }
 
 button:disabled {

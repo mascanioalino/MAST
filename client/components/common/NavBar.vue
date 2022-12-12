@@ -9,7 +9,8 @@
       class="progress-container"
       @click="$router.push({ name: 'Current Visit' })"
     >
-      <div>Visit in Progress</div>
+      <div class="progressText">Visit in Progress</div>
+      <b-icon icon="arrow-right" font-scale="1.25" aria-hidden="true" />
     </div>
     <div class="menu-container">
       <section class="main">
@@ -102,7 +103,7 @@ nav {
   align-items: center;
 }
 .progress-container {
-  background-color: grey;
+  background-color: #61a957;
   font-style: italic;
   color: white;
   height: 38px;
@@ -110,8 +111,9 @@ nav {
   display: flex;
   align-items: center;
   text-align: center;
-  justify-content: space-around;
+  justify-content: center;
   cursor: pointer;
+  gap: 12px;
 }
 .main {
   padding: 4px;
@@ -130,4 +132,8 @@ a {
 .action {
   margin: 8px;
 }
+.b-icon {
+  height: 38px;
+}
+
 </style>

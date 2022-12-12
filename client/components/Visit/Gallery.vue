@@ -36,7 +36,7 @@
             this.$store.state.visitId !== null && $store.state.username !== null
           "
         >
-          Scan works to add them to the current Visit
+          Scan works to add them to the Current Visit
         </div>
         <div v-else>
           Start a new Visit and Scan Works to see them on your Home Page!

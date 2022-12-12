@@ -55,6 +55,7 @@ html {
 body {
   margin: 0px;
 }
+
 .view {
   margin-top: 80px;
   align-items: center;
@@ -66,6 +67,6 @@ body {
   margin-bottom: 64px;
 }
 .status {
-  background-color: green;
+  background-color: #61a957;
 }
 </style>
