@@ -237,7 +237,7 @@ html {
 }
 .annotations {
   display: flex;
-  height: calc(100vh - 140px);
+  min-height: calc(100vh - 200px);
   position: relative;
   flex-direction: column;
   margin-left: 24px;
@@ -256,6 +256,7 @@ html {
 
 .contents {
   padding: 8px;
+  overflow-y: auto;
 }
 
 .button {

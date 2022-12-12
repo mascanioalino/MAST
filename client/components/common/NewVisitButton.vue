@@ -134,6 +134,7 @@ export default {
   text-align: center;
   border-radius: 80px;
   padding: 10px;
+  z-index: 999;
 }
 .end-visit:hover {
   cursor: pointer;
