@@ -224,16 +224,18 @@ html {
 .work {
   max-width: 1200px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   width: 75%;
   position: relative;
+  max-width: 1200px;
 }
 
 .image {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 100%;
+  width: calc(50% - 10px);
 }
 .annotations {
   display: flex;
@@ -243,7 +245,7 @@ html {
   margin-left: 24px;
   background-color: #ececec;
   border-radius: 10px;
-  width: 100%;
+  width: calc(50% - 20px);
   overflow-y: scroll;
 }
 
@@ -303,5 +305,21 @@ html {
 
 .details .button {
   margin-right: 20px;
+}
+
+@media only screen and (max-width: 840px) {
+  .work {
+    display: block;
+  }
+  .image {
+    width: calc(100% - 20px);
+    margin: auto;
+  }
+  .annotations {
+    width: calc(100% - 20px);
+    margin: auto;
+    max-height: 600px;
+    margin-top: 30px;
+  }
 }
 </style>
