@@ -16,8 +16,12 @@ type VisitResponse = {
  * @param {Date} date - A date object
  * @returns {string} - formatted date as string
  */
-const formatDate = (date: Date): string =>
-  moment(date).format("MMMM Do[,] YYYY [at] h:mm:ss a");
+const formatDate = (date: Date): string => {
+  let tzDate = date.toLocaleString("en-US", {
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  });
+  return moment(tzDate).format("MMMM Do[,] YYYY [at] h:mm:ss a");
+};
 
 /**
  * Transform a raw User object from the database into an object
