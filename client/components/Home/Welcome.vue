@@ -5,6 +5,12 @@
   <main>
     <h1>Welcome to Curator Central</h1>
 
+    <div class="headerimg">
+      <img
+        src="https://d2w9rnfcy7mm78.cloudfront.net/19403458/original_9155ad6d72f88b58ad287e38e8922cc5.png?1670957537?bc=0"
+      />
+    </div>
+
     <div class="description">
       Museums are in need of our help. Many people feel that museums are
       antiquated and aren’t geared towards younger generations. Museums are
@@ -38,7 +44,7 @@
         >Andrew Stoddard</a
       >,
       <a href="https://61040-fa22.github.io/portfolio-mascanioalino/">
-        Maria Ascanio </a
+        Maria Ascanio</a
       >, and
       <a href="https://61040-fa22.github.io/portfolio-spkhowe/"
         >Stephanie Howe</a
@@ -79,7 +85,7 @@ h1 {
   width: 90%;
   max-width: 600px;
   margin: auto;
-  margin-top: 80px;
+  margin-top: 30px;
   line-height: 1.2rem;
   color: #4a4a4a;
 }
@@ -104,5 +110,18 @@ a:hover {
   text-align: center;
   font-size: 0.8rem;
   color: gray;
+}
+
+.headerimg {
+  width: 90%;
+  max-width: 600px;
+  padding: 20px 60px;
+  margin: auto;
+  margin-top: 30px;
+  background-color: #f3f3f3;
+}
+
+.headerimg img {
+  width: 100%;
 }
 </style>
