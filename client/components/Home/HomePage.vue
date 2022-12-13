@@ -3,27 +3,27 @@
 
 <template>
   <main>
-    <header>
-      <h1 v-if="$store.state.username">
-        Welcome to Curator Central, @{{ $store.state.username }}!
-      </h1>
-      <h1 v-else>Welcome to Curator Central</h1>
+    <header v-if="$store.state.username">
+      <h1>Welcome to Curator Central, @{{ $store.state.username }}!</h1>
     </header>
-    <Gallery 
+    <Welcome v-else />
+    <Gallery
       v-if="$store.state.username"
       :works="allWorks"
-      :showRemoveWork="false" 
+      :showRemoveWork="false"
     />
   </main>
 </template>
 
 <script>
 import Gallery from "@/components/Visit/Gallery.vue";
+import Welcome from "@/components/Home/Welcome.vue";
 
 export default {
   name: "HomePage",
   components: {
     Gallery,
+    Welcome,
   },
   computed: {
     allWorks() {
