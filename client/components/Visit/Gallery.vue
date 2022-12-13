@@ -29,19 +29,7 @@
           />
         </masonry>
       </div>
-      <section class="no-works" v-else>
-        <h1>No Works Collected Yet</h1>
-        <div
-          v-if="
-            this.$store.state.visitId !== null && $store.state.username !== null
-          "
-        >
-          Scan works to add them to the Current Visit
-        </div>
-        <div v-else>
-          Start a new Visit and Scan Works to see them on your Home Page!
-        </div>
-      </section>
+      <NoWorks v-else />
     </div>
     <div class="no-works" v-else>
       <div>Sign in or create an account to start exploring works.</div>
@@ -51,11 +39,13 @@
 
 <script>
 import GalleryWork from "@/components/Work/GalleryWork.vue";
+import NoWorks from "@/components/Visit/NoWorks.vue";
 
 export default {
   name: "Gallery",
   components: {
     GalleryWork,
+    NoWorks,
   },
 
   props: {
