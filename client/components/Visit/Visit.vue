@@ -12,7 +12,7 @@
     "
   >
     <div>
-      <div class="title">Visit on {{ this.visit.dateOfVisit }}</div>
+      <div class="title">Visit on {{ this.visit.dateOfVisit }} EST</div>
       <div>
         {{ this.visit.works.length }} work{{
           this.visit.works.length !== 1 ? "s" : ""

@@ -6,7 +6,7 @@
     <div v-if="this.$store.state.curatorId !== null">
       <header v-if="visitCurator && visitDate">
         <h1 v-if="visitDate !== 'Current Visit'">
-          Visit on <span>{{ visitDate }}</span>
+          Visit on <span>{{ visitDate }}</span> EST
         </h1>
         <h1 v-else>{{ this.visitDate }}</h1>
         <div>
