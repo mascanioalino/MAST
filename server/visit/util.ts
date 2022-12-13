@@ -18,7 +18,7 @@ type VisitResponse = {
  */
 const formatDate = (date: Date): string => {
   let tzDate = date.toLocaleString("en-US", {
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    timeZone: "America/New_York",
   });
   return moment(tzDate).format("MMMM Do[,] YYYY [at] h:mm:ss a");
 };
